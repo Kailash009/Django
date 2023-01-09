@@ -1,0 +1,94 @@
+Relationship between Models:-
+----------------------------------------------------------------
+1. One to One.
+2. One to Many or Many to One.
+3, Many to Many.
+-----------------------------------------------------------------------------------
+Student   -- 100 Student
+Course  --- 10
+------------------------------------------------------------------
+1 S => Many Course
+1 Course => Many Student
+------------------------------------------------------------------
+Student - PersonalDetails - One to One
+------------------------------------------------------------------
+Student - PaymentDetails -> One to Many.
+-------------------------------------------------------------------
+1S -> Many Payment Details.
+-----------------------------------------------------
+Create a New App -
+-----------------------------------------------
+1. python manage.py startapp app_name
+2. Register
+3. URL Mapping
+--------------------------------------------------------------------
+Database Connectivitiy in Django:-
+-----------------------------------------------------
+>> In Django you can directly connect with any database.
+How to connect with PostGreSql :-
+-----------------------------------------------------------------------
+1. Install PostGreSql -> https://www.postgresql.org/download/
+2. Go to settings.py and write settings for PostGreSql.
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Batch10AM',                      
+        'USER': 'postgres',
+        'PASSWORD': 'joshi',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+3. pip install postgres
+4. Run Migration Commands.
+------------------------------------------------------
+Assignment Task:-
+-----------------------------------------------------------------------
+Connnect Django Models with MySql.
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

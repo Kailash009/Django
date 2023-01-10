@@ -1,0 +1,208 @@
+Relationship between Models:-
+------------------------------------------------------------
+1. One to One.
+2. One to Many or Many to One.
+3. Many to Many.
+------------------------------------------------------------------
+Student -Course - Many to Many.
+Student-PaymentDetails -> One to Many.
+-------------------------------------------------------------------
+choices:-
+----------------------------------
+Field.choices
+--------------------------------------------
+A sequence consisting itself of iterables of exactly two items (e.g. [(A, B), (A, B) ...]) to use as choices for this field. If choices are given, they’re enforced by model validation and the default form widget will be a select box with these choices instead of the standard text field.
+The first element in each tuple is the actual value to be set on the model, and the second element is the human-readable name. For example:
+
+YEAR_IN_SCHOOL_CHOICES = [
+    ('FR', 'Freshman'),
+    ('SO', 'Sophomore'),
+    ('JR', 'Junior'),
+    ('SR', 'Senior'),
+    ('GR', 'Graduate'),
+]
+-----------------------------------------------------------------------------------------------------------------------------------------------
+One To Many ----  Student -- PaymentDetails
+------------------------------------------------------------------------------------------
+Note :-  To manage relationship in Django we have predefined Classes, these classess are-
+1. OnetoOneField.
+2. ForeignKey.  (one to many or many to one)
+3. ManytoManyField.
+----------------------------------------------------------------------------------------------
+student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)
+on_delete=models.CASCADE -> if you delete any student record then its payment details entry automatically gets deleted.
+--------------------------------------------------------------------
+1  jeewan 19 
+----------------------------------------
+    2000    paytm
+    4000    cash
+-------------------------------------------
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=18)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_modifed_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+----------------------------------------------------------------------------------
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Debit Card','Debit Card'),('Credit Card','Credit Card'),('Cash','Cash'),('PayTM','PayTM')])
+    payment_date=models.DateTimeField(null=True,blank=True,auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.amount
+--------------------------------------------------------------------------------------------------------
+stu=Student()
+stu.name='nikhil'
+stu.age=18
+stu.mobileno='8978979'
+stu.save()  ->> nikhil record save.
+----------------------------------------------------------------------------------------
+pd=PaymetDetails()
+pd.amount=5000
+pd.payment_mode='Cash'
+pd.student=stu
+pd.save() -> 5000 payment done by Nikhil.
+------------------------------------------------------------------------------------------------------
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=18)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_modifed_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+----------------------------------------------------------------------------------
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Debit Card','Debit Card'),('Credit Card','Credit Card'),('Cash','Cash'),('PayTM','PayTM')])
+    payment_date=models.DateTimeField(null=True,blank=True,auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.amount
+----------------------------------------------------------------------------------------
+PaymentDetails - Student
+waq to show the student name who has done 8000.
+--------------------------------------------------------------------------------------------------
+pd=PaymentDetails.objects.get(amount=8000)
+pd.amount -> 8000
+pd.payment_mode -> Debit Card
+pd.student.name -> 'Nikhil'
+pd.student.age -> 19
+--------------------------------------------------
+Student - PaymentDetails
+--------------------------------------------------------------
+waq to get all the payment done by Nikhil student.
+-------------------------------------------------------------------------
+stu=Student.objects.get(name='nikhil')
+stu.name -> 'nikhil'
+stu.age -> 19
+stu.mobileno -> '979798'
+allp=stu.paymentdetails_set.all()                   (due to Relationship)
+allp -> Query Set.
+---------------------------------------------------
+>>> from SMS.models import *
+>>> stu=Student.objects.get(id=2) 
+>>> stu.name
+'nikhil'
+>>> stu.age
+19
+>>> allp=stu.paymentdetails_set.all()
+>>> allp
+<QuerySet [<PaymentDetails: PaymentDetails object (1)>, <PaymentDetails: PaymentDetails object (3)>]>
+>>> len(allp) 
+2
+>>> for e in allp:
+...     print(e.amount,e.payment_mode)
+... 
+5000 Cash
+8000 Debit Card
+>>> stu=Student.objects.get(id=4) 
+>>> stu.name
+'amit'
+>>> allp=stu.paymentdetails_set.all()
+>>> allp
+<QuerySet [<PaymentDetails: PaymentDetails object (5)>]>
+>>> len(allp) 
+1
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

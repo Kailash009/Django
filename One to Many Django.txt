@@ -1,0 +1,210 @@
+One to Many Relationship in Django:-
+------------------------------------------------------------------------
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=18)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_modifed_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+------------------------------------------
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Debit Card','Debit Card'),('Credit Card','Credit Card'),('Cash','Cash'),('PayTM','PayTM')])
+    payment_date=models.DateTimeField(null=True,blank=True,auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+s1=Student()
+s1.name='anirudh'
+s1.age=20
+s1.mobileno='897979'
+s1.save() -> anirudh save.
+--------------------------------------------------------------------------------------------------
+p1=PaymentDetails()
+p1.amount=3500
+p1.payment_mode='Cash'
+p1.student=s1
+p1.save() ->   anirudh.
+---------------------------------------------------
+s1=Student.objects.get(id=5)
+s1.name ->>> anirudh.
+allp= s1.paymentdetails_set.all()
+allp -> Queryset.
+------------------------------------------------------------------------
+d1={1:'apple',2:'mango','hark':'graphes'}
+d1['hark']='graphes'
+------------------------------------------------------------------------
+Many to many:-
+--------------------------------------
+Student - Course
+-----------------------------------------------------
+1S= Many Course
+1 C = Many Student
+---------------------------------------------------------
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=18)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_modifed_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+
+class Course(models.Model):
+    name=models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
+-------------------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from SMS.models import Student
+# Create your views here.
+def view_payment_details(request):
+    d1={}
+    if request.method=='GET':
+        resp=render(request,'SMS/payment.html')
+        return resp
+    elif request.method=='POST':
+        try:
+            sid=int(request.POST.get('txtid',0))
+            stu=Student.objects.get(id=sid)
+            allp=stu.paymentdetails_set.all()
+            d1={'payments':allp,'stu':stu}
+            resp=render(request,'SMS/payment.html',context=d1)
+            return resp
+        except Student.DoesNotExist:
+            d1['msg']="Payment Doesn't Exist"
+            resp=render(request,'SMS/payment.html',context=d1)
+            return resp
+------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Details</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1>****Student Wise Payment Details****</h1>
+    Enter Student ID:
+    <input type="text" name="txtid"> 
+    <button type="submit">Show Payment Details</button>
+    <br/>
+    <br/>
+    <table border="3" bgcolor="pink">
+        <tr>
+            <th>S.No.</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Payment_Mode</th>
+            <th>Payment_Date</th>
+        </tr>
+        {% for pay in payments %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{stu.name}}</td>
+            <td>{{pay.amount}}</td>
+            <td>{{pay.payment_mode}}</td>
+            <td>{{pay.payment_date}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <th colspan="5" style="color:blue;font-size:40px;">{{msg}}</th>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+</body>
+</html>
+--------------------------------------------------------------------------------------------
+from django.db import models
+
+# Create your models here.
+
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=18)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_modifed_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+
+class Course(models.Model):
+    name=models.CharField(max_length=50)
+    students=models.ManyToManyField(Student,null=True,blank=True)
+    def __str__(self):
+        return self.name
+
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Debit Card','Debit Card'),('Credit Card','Credit Card'),('Cash','Cash'),('PayTM','PayTM')])
+    payment_date=models.DateTimeField(null=True,blank=True,auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+#Base URL => http://127.0.0.1:8000/sms/
+
+
+urlpatterns = [
+
+    path('payment/',view_payment_details)   
+]
+-----------------------------------------------------------------------------------------------------
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

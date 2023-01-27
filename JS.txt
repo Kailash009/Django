@@ -1,0 +1,368 @@
+Java Script:-
+----------------------------
+>> It was originally named Mocha, but quickly became known as LiveScript and, later, JavaScript.
+>> It was develped by 'Brendan Eich'. (Netscape Navigator)
+>> It is used to make your web page dynamic.
+>> It is a client side scripting language.
+>> we write js code inside  <script></script> tag.
+>> JS is a case sensitive language.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+Variable -
+----------------
+>> we use var keyword to declare variable in js.
+var a=4; // initialization.
+---------------------------------
+var a,b,c;    // Declaration.
+a=34;
+b=23.45;
+c="hello";
+----------------------------------------------------------------------------------
+Display Output -
+--------------------------------
+1. document.write()
+2. console.log()
+--------------------------------------------
+  <script>
+       var a=45;
+       var b="hello";
+       document.write(a+"<br/>");
+       document.write(typeof(a)+"<br/>");
+       document.write(b+"<br/>");
+       document.write(typeof(b)+"<br/>");
+    </script>
+--------------------------------------------------------------------------------
+Boxes in js-
+------------------------
+1. alert() -> To display any message.
+2. prompt() -> To take input from the User.
+>> wap to input two no. and find sum.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO JS</title>
+</head>
+<body>
+
+    <script>
+    var a,b,c;
+    a=parseInt(prompt("Enter First Number","First Number"))
+    b=parseInt(prompt("Enter Second Number","Second Number"))
+    c=a+b;
+    document.write("<h1> Sum="+c+"</h1>");
+    </script>
+</body>
+    
+</html>
+--------------------------------------------------------------------------------------
+3. confirm()
+-----------------------------------------------------------------------
+Function in JS-
+----------------------------
+>> we use function keyword to create a function in js.
+function function_name()
+{
+// logic of code.
+}
+--------------------------------------------------------
+Events in JS-
+----------------------------
+onclick,onmouseover,onmouseout,onkeyup,onkeypress,onkeydown,onsubmit,onchange and so on.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO JS</title>
+</head>
+<body>
+
+    <script>
+        function aryan()  // Function Defination
+        {
+        alert('Hello JS');
+        }
+ </script>
+</body>
+    <button onclick="aryan()"> Show Message </button>
+</html>
+--------------------------------------------------------------------------------------------------------------------
+Confirm Box:-
+--------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO JS</title>
+</head>
+<body>
+
+    <script>
+        function aryan()  // Function Defination
+        {
+        msg=confirm('Are you Sure you want to Delete this Item(Y/N)?')
+        if(msg==true)
+        {
+            alert('Item Deleted SuccessFully!!')
+        }
+        else
+        {
+            alert('No Item Deleted!!')
+        }
+        }
+ </script>
+</body>
+    <button onclick="aryan()"> Delete Item </button>
+</html>
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Conditional Statements in JS:-
+-------------------------------------------
+1. if
+2. if-else
+3. if-else-if
+4. switch.
+---------------------------------------------
+wap to check no. is greater or not.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO JS</title>
+</head>
+<body>
+
+    <script>
+        function check()
+        {
+        var a=900,b=100;
+        if(a>b)
+        {
+            alert('A is Greater')
+        }
+        else
+        {
+            alert('B is Greater')
+        }
+    }
+ </script>
+</body>
+    <button onclick="check()"> Show Greater </button>
+</html>
+--------------------------------------------------------------------------------------------------------------------------------------------
+Loop-
+------------------
+1. while.
+2. do-while.
+3. for
+-------------------------------------------------------------------
+wap to find the factorial of a given no. using while,do-while,for.
+----------------------------------------------------------------------------------------------------------
+5!= 120
+4! = 24
+-------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO JS</title>
+</head>
+<body>
+Enter a Number:
+<input type="text" id="t1">
+    <script>
+        function factorial()
+        {
+        let a,f=1;
+        a=parseInt(document.getElementById("t1").value);
+        while(a>0) // 4>0 3>0 2>0 1>0 0>0
+        {
+            f=f*a;  // f=5  // f=20  f=60  f=120 f=120
+            a--;
+        }
+        document.write("<h1>Factorial="+f+"</h1>")
+    }
+ </script>
+</body>
+    <button onclick="factorial()"> Find factorial </button>
+</html>
+---------------------------------------------------------------------------------------------------------------------------
+Assignment Question in JS:-
+--------------------------------------------------
+1. wap to input five no. and find sum and avg.
+2. wap to input a no. and print the table.
+3. wap to input a no. and check no. is even or odd.
+4. wap to input a year and check its leap year or not.
+5. wap to make calculator program in js.
+6. wap to input a no. and find the sum of its digit.
+n=1234 -> 10
+7. wap to input a no. and check prime no. or not.
+8. wap to input a no. and check no. is armstrong or not.
+9. wap to input a character and check vowel or consonant.
+10. wap to input a string and count total no. of vowel and consonant.
+str - aryan
+vw = 2
+const = 3
+-----------------------------------------------------------------------------------------------
+How to post form data to the server without submit button:-
+------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    <script>
+     function submit_data_to_server()  // Function Defination
+     {
+        var frm_data=document.getElementById("frm")
+        frm_data.submit()  
+     }       
+    </script>
+</head>
+<body  bgcolor="yellow">
+    <form method="post" id="frm">
+        {% csrf_token %}
+    <h1>****Course Wise Student Details****</h1>
+    <label>Courses:</label>
+    <select name="courseslc" onchange="submit_data_to_server()">  
+        {% for course in courses %}
+        {% if  course.id ==  cid %}
+     <option value="{{course.id}}" selected>{{course.name}}</option>
+     {% else %}
+     <option value="{{course.id}}">{{course.name}}</option>
+     {% endif %}
+     {% endfor %}
+    </select>
+    <!-- <button type="submit"> Show Student</button> -->
+    <br/><br/>
+    <h1>We Have Following Student of {{cname}} Given Below:</h1>
+    <table border="3" bgcolor="pink">
+        <tr>
+            <th>S.No.</th>
+            <th>Name</th>
+            <th>Mobile No.</th>
+            <th>Registration Date</th>
+        </tr>
+        {% for stu in students %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{stu.name}}</td>
+            <td>{{stu.mobileno}}</td>
+            <td>{{stu.created_date}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4"><h1 style="color:red;"> No Student Found !! </h1></td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

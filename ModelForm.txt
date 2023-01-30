@@ -1,0 +1,257 @@
+Model - Done
+Relationship between Models -  Done
+-----------------------------------------------------------------------------------------
+Model Form:-
+---------------------------------------------
+15 records in your database using Model
+name
+age
+adderss
+mobileno
+pincode
+email
+city
+hobbies
+gender
+password and so on. -> Model is lengthy process to perform CRUD operation.
+--------------------------------------------------------------------------------------------------------------------------------
+Model Form:-
+--------------------------------- 
+>> In model Form no need to write html code.
+>> It generate dynamic HTML for you.
+-------------------------------------------------------------------------------------
+Model -> ModelForm -> It generate automatically html for you.
+-------------------------------------------------------------------------------------
+Right click on your app create new python file give name as "forms.py" .
+Model Form:-
+------------------------------
+from django import forms
+from SMS.models import Student
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields='__all__'
+-----------------------------------------------
+Model Form ->
+>> with the help of model form we can perform both client and server side validation.
+1. Client Side Validation.  -> A validation that runs at client Machine.
+2. Server Side Validation. -> A validation that runs at Server Machine.
+------------------------------------------------------------------------------------------------------------------------------------------
+Validation -> To check all the necessary fields before submitting to the server.
+------------------------------------------------------------------------------------------------------------------------------------------
+Note :->  Client Side Validation can be break by Browser.
+-------------------------------------------------------------------------------------------------------------------------------
+Model:-
+-----------------
+from django.db import models
+
+# Create your models here.
+
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=18)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_modifed_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+
+class Course(models.Model):
+    name=models.CharField(max_length=50)
+    students=models.ManyToManyField(Student,null=True,blank=True)
+    def __str__(self):
+        return self.name
+
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Debit Card','Debit Card'),('Credit Card','Credit Card'),('Cash','Cash'),('PayTM','PayTM')])
+    payment_date=models.DateTimeField(null=True,blank=True,auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ModelForm:-
+------------------------
+from django import forms
+from SMS.models import *
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields='__all__'     #['name','age'
+
+class PaymentDetailsForm(forms.ModelForm):
+    class Meta:
+        model=PaymentDetails
+        fields='__all__'
+------------------------------------------------------------------------------------------
+Views.py :-
+----------------------
+def view_student_frm(request):
+    if request.method=='GET':
+        frm_unbound=StudentForm()
+        d1={'forms':frm_unbound}
+        resp=render(request,'SMS/stufrm.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        frm_bound=StudentForm(request.POST)
+        if frm_bound.is_valid():   # Server Side Validation
+            frm_bound.save()
+            resp=HttpResponse("<h1>Student Added SuccessFully!!</h1>")
+            return resp
+        else:
+            d1={'forms':frm_bound}
+            resp=render(request,'SMS/stufrm.html',context=d1)
+            return resp
+        
+
+def view_paymentdetails_frm(request):
+    if request.method=='GET':
+        frm_unbound=PaymentDetailsForm()
+        d1={'forms':frm_unbound}
+        resp=render(request,'SMS/payfrm.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        frm_bound=PaymentDetailsForm(request.POST)
+        if frm_bound.is_valid():  # Server Side Validation
+            frm_bound.save()
+            resp=HttpResponse("<h1>Payment Added SuccessFully!!</h1>")
+            return resp
+        else:
+            d1={'forms':frm_bound}
+            resp=render(request,'SMS/payfrm.html',context=d1)
+            return resp
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+stufrm.html:-
+-------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1>Student Form</h1>
+    <table border="3"  bgcolor="pink">
+    {{forms}}
+    <tr>
+        <td>
+            <button type="submit">Register</button>
+        </td>
+    </tr>
+</table>
+</form>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------
+payfrm.html:-
+--------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Details</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1>Payment Details Form  </h1>
+    <table border="3" bgcolor="pink">
+        {{forms}}
+        <tr>
+            <td>
+                <button type="submit"> Pay </button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------------
+urls.py:-
+---------------------
+from django.urls import path
+from .views import *
+#Base URL => http://127.0.0.1:8000/sms/
+
+
+urlpatterns = [
+
+    path('payment/',view_payment_details),
+    path('course/',view_course_wise_student_details),
+    path('stufrm/',view_student_frm),
+    path('payfrm/',view_paymentdetails_frm),
+]
+----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

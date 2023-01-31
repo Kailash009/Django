@@ -1,0 +1,96 @@
+Model Form -> it is used to generate dynamic html.
+-----------------------------------------------------------------------------------------------
+How to add dynamic attribute in Model Form:-
+------------------------------------------------------------------------------------------
+<input type="text" name="name" maxlength="50" required id="id_name">
+>> when you use model form then you will get some attributes by default.
+type,name,maxlength,required,id -> But some of the attributes are missing.
+--------------------------------------------------------------------------------------------------------
+def __init__(self,*args,**kwargs):
+        super().__init__(*args,*kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class']='form-control'
+            field.widget.attrs['placeholder']='Your Name *'
+--------------------------------------------------------------------------------------------------------
+   def __init__(self,*args,**kwargs):
+        super().__init__(*args,*kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class']='form-control'
+            field.widget.attrs['placeholder']='Your '+field.label + '*'
+------------------------------------------------------------------------------------------------------------
+Static File in Django -
+------------------------------------
+>> it is the collection of css,js,images and fonts.
+----------------------------------------------------------------------------------------
+Steps to create Static Files:-
+------------------------------------------------
+1. Create a Folder name as 'static' in your app.
+2. Create another Folder name as your app name inside static Folder.
+3. Create another Folder name as css in your app name Folder. -> Now you can Create N number of css File.
+4. Create another Folder name as js in your app name Folder. ->  Now you can Create N number of js File.
+5. Create another Folder name as images in your app name Folder. ->  Now you can Create N number of images.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+STATIC_URL = 'static/'   # http://127.0.0.1:8000/static/
+Note: -> When you run static file in django then it create default static path in project settings.py.
+so when you run django server it provide default path like -> http://127.0.0.1:8000/static/
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+{% static 'path' %}
+{% static 'SMS/images/ganesh.jpg' %} 
+---------------------------------------------------------------
+Invalid block tag on line 13: 'static'. Did you forget to register or load this tag?
+>> You have register this tag. 
+{% load static %} -> this line always write in the above html file.
+---------------------------------------------------------------------------------------------------------------------------------------
+def view_static_file_demo(request):
+    resp=render(request,'SMS/staticdemo.html')
+    return resp
+-----------------------------------------------------------------------------
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static Files in Django </title>
+    <link href="{% static 'SMS/css/aryan.css' %}" rel="stylesheet">
+    <script src="{% static 'SMS/js/jeevan.js' %}"></script>
+</head>
+<body>
+    <h1> Example of Static Files in Django - css , js ,images, fonts </h1>
+    <!-- <img src="http://127.0.0.1:8000/static/SMS/images/ganesh.jpg" alt="GOD" width="300px" height="300px"/>
+    <img src="http://127.0.0.1:8000/static/SMS/images/kris.jpg" alt="GOD" width="300px" height="300px"/> -->
+    <img src="{% static 'SMS/images/ganesh.jpg' %}" alt="GOD" width="300px" height="300px"/>
+    <img src="{% static 'SMS/images/kris.jpg' %}" alt="GOD" width="300px" height="300px"/>
+    <button onclick="display()">Click</button>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,276 +1,232 @@
+Website:-
+-------------------
+>> It is a collection of web pages.
+It can be two types:
+1. Static. -> A website whose content can't be changed.(ReadOnly) ->  html,css,js,query,bootstrap.
+2. Dynamic. ->  A website whose content can be changed. -> java,dotnet,php,python.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Java Script:-
-----------------------------
->> It was originally named Mocha, but quickly became known as LiveScript and, later, JavaScript.
->> It was develped by 'Brendan Eich'. (Netscape Navigator)
->> It is used to make your web page dynamic.
->> It is a client side scripting language.
->> we write js code inside  <script></script> tag.
->> JS is a case sensitive language.
-------------------------------------------------------------------------------------------------------------------------------------------------------
-Variable -
-----------------
->> we use var keyword to declare variable in js.
-var a=4; // initialization.
----------------------------------
-var a,b,c;    // Declaration.
-a=34;
-b=23.45;
-c="hello";
-----------------------------------------------------------------------------------
-Display Output -
---------------------------------
-1. document.write()
-2. console.log()
---------------------------------------------
-  <script>
-       var a=45;
-       var b="hello";
-       document.write(a+"<br/>");
-       document.write(typeof(a)+"<br/>");
-       document.write(b+"<br/>");
-       document.write(typeof(b)+"<br/>");
-    </script>
---------------------------------------------------------------------------------
-Boxes in js-
-------------------------
-1. alert() -> To display any message.
-2. prompt() -> To take input from the User.
->> wap to input two no. and find sum.
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEMO JS</title>
-</head>
-<body>
-
-    <script>
-    var a,b,c;
-    a=parseInt(prompt("Enter First Number","First Number"))
-    b=parseInt(prompt("Enter Second Number","Second Number"))
-    c=a+b;
-    document.write("<h1> Sum="+c+"</h1>");
-    </script>
-</body>
-    
-</html>
---------------------------------------------------------------------------------------
-3. confirm()
------------------------------------------------------------------------
-Function in JS-
-----------------------------
->> we use function keyword to create a function in js.
-function function_name()
-{
-// logic of code.
-}
---------------------------------------------------------
-Events in JS-
-----------------------------
-onclick,onmouseover,onmouseout,onkeyup,onkeypress,onkeydown,onsubmit,onchange and so on.
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEMO JS</title>
-</head>
-<body>
-
-    <script>
-        function aryan()  // Function Defination
-        {
-        alert('Hello JS');
-        }
- </script>
-</body>
-    <button onclick="aryan()"> Show Message </button>
-</html>
---------------------------------------------------------------------------------------------------------------------
-Confirm Box:-
---------------------------------------
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEMO JS</title>
-</head>
-<body>
-
-    <script>
-        function aryan()  // Function Defination
-        {
-        msg=confirm('Are you Sure you want to Delete this Item(Y/N)?')
-        if(msg==true)
-        {
-            alert('Item Deleted SuccessFully!!')
-        }
-        else
-        {
-            alert('No Item Deleted!!')
-        }
-        }
- </script>
-</body>
-    <button onclick="aryan()"> Delete Item </button>
-</html>
-----------------------------------------------------------------------------------------------------------------------------------------------------------
-Conditional Statements in JS:-
--------------------------------------------
-1. if
-2. if-else
-3. if-else-if
-4. switch.
----------------------------------------------
-wap to check no. is greater or not.
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEMO JS</title>
-</head>
-<body>
-
-    <script>
-        function check()
-        {
-        var a=900,b=100;
-        if(a>b)
-        {
-            alert('A is Greater')
-        }
-        else
-        {
-            alert('B is Greater')
-        }
-    }
- </script>
-</body>
-    <button onclick="check()"> Show Greater </button>
-</html>
---------------------------------------------------------------------------------------------------------------------------------------------
-Loop-
-------------------
-1. while.
-2. do-while.
-3. for
--------------------------------------------------------------------
-wap to find the factorial of a given no. using while,do-while,for.
+--------------------------
+>> js is a client side scripting language i.e. used to make your html pages dynamically.
+>> Js initially named was 'Mocha'. and quickly it named was 'Live Script' and later on it become Java script.  (1995).
+>> Js was developed by 'Brendan Eich'.
+>> JS is used to make your html page dynamic.
+>> JS is used with html and css.
+>> we write js code inside <script></script> tag.
+>> Js is a case sensitive language.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Variable:- ?????? 
+------------------------------
+>> It is a name ie. used to hold a particular value.
+a=34;  -->>> number  // js is dynamic type language.
+a="hello" -> string
+a=34.56 -> number
+------------------------------------------------------------------------------
+console.log() -> it is used to print the output in console window.
 ----------------------------------------------------------------------------------------------------------
-5!= 120
-4! = 24
--------------------------------------------------------
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEMO JS</title>
+    <title>JS DEMO</title>
 </head>
 <body>
-Enter a Number:
-<input type="text" id="t1">
-    <script>
-        function factorial()
-        {
-        let a,f=1;
-        a=parseInt(document.getElementById("t1").value);
-        while(a>0) // 4>0 3>0 2>0 1>0 0>0
-        {
-            f=f*a;  // f=5  // f=20  f=60  f=120 f=120
-            a--;
-        }
-        document.write("<h1>Factorial="+f+"</h1>")
-    }
- </script>
+<script>
+a=34;
+console.log(a);
+console.log(typeof(a));
+a="Hello"
+console.log(a)
+console.log(typeof(a))
+a=34.56
+console.log(a)
+console.log(typeof(a))
+a=false
+console.log(a)
+console.log(typeof(a))
+</script>
 </body>
-    <button onclick="factorial()"> Find factorial </button>
 </html>
----------------------------------------------------------------------------------------------------------------------------
-Assignment Question in JS:-
---------------------------------------------------
-1. wap to input five no. and find sum and avg.
-2. wap to input a no. and print the table.
-3. wap to input a no. and check no. is even or odd.
-4. wap to input a year and check its leap year or not.
-5. wap to make calculator program in js.
-6. wap to input a no. and find the sum of its digit.
-n=1234 -> 10
-7. wap to input a no. and check prime no. or not.
-8. wap to input a no. and check no. is armstrong or not.
-9. wap to input a character and check vowel or consonant.
-10. wap to input a string and count total no. of vowel and consonant.
-str - aryan
-vw = 2
-const = 3
------------------------------------------------------------------------------------------------
-How to post form data to the server without submit button:-
-------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
+Variable Initialization -> To assign a value into a variable.
+a=10,b=30,c=100;
+Variable Declaration ->  don't provide any value.
+a,b,c -> provide value at Runtime.
+----------------------------------------------------------------------------------------------------------------------------------
+Rules of variable-
+-------------------------------
+1a -> wrong
+ab23  -> right
+ab   bc -> wrong
+ab-df -> wrong
+ab_de -> right.
+while -> wrong.
+------------------------------------------------------------------------------------
+Boxes in JS:-
+-----------------------------
+1. alert(). ->  To show any message.
+2. prompt(). -> To take input from the User.
+3. confirm(). -> When you are going to delete something.
+-------------------------------------------------------------------------------------------------
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses</title>
-    <script>
-     function submit_data_to_server()  // Function Defination
-     {
-        var frm_data=document.getElementById("frm")
-        frm_data.submit()  
-     }       
-    </script>
+    <title>JS DEMO</title>
 </head>
-<body  bgcolor="yellow">
-    <form method="post" id="frm">
-        {% csrf_token %}
-    <h1>****Course Wise Student Details****</h1>
-    <label>Courses:</label>
-    <select name="courseslc" onchange="submit_data_to_server()">  
-        {% for course in courses %}
-        {% if  course.id ==  cid %}
-     <option value="{{course.id}}" selected>{{course.name}}</option>
-     {% else %}
-     <option value="{{course.id}}">{{course.name}}</option>
-     {% endif %}
-     {% endfor %}
-    </select>
-    <!-- <button type="submit"> Show Student</button> -->
-    <br/><br/>
-    <h1>We Have Following Student of {{cname}} Given Below:</h1>
-    <table border="3" bgcolor="pink">
-        <tr>
-            <th>S.No.</th>
-            <th>Name</th>
-            <th>Mobile No.</th>
-            <th>Registration Date</th>
-        </tr>
-        {% for stu in students %}
-        <tr>
-            <td>{{forloop.counter}}</td>
-            <td>{{stu.name}}</td>
-            <td>{{stu.mobileno}}</td>
-            <td>{{stu.created_date}}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4"><h1 style="color:red;"> No Student Found !! </h1></td>
-        </tr>
-        {% endfor %}
-    </table>
-</form>
+<body>
+<script>
+alert('Welcome to J.S.')
+confirm('Are you sure you want to Delete this Item(Y/N)?')
+prompt("Enter First Number","First Number")
+</script>
 </body>
 </html>
-----------------------------------------------------------------------------------------------------------------
+-----------------------
+wap to add two no. using Prompt.
+------------------------------------------------------------------------------
+prompt() -> it returns by default string.
+a="10"
+b="30" -> "1030"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DEMO</title>
+</head>
+<body>
+<script>
+a=parseInt(prompt("Enter First Number","First Number"))
+console.log(typeof(a))
+b=parseInt(prompt("Enter Second Number","Second Number"))
+console.log(typeof(b))
+c=a+b
+alert("Sum="+c);
+</script>
+</body>
+</html>
+--------------------------------------------------------------------
+wap to input 5 no. and find sum and avg using prompt.
+---------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DEMO</title>
+</head>
+<body>
+<script>
+  a=parseInt(prompt("enteryour number"))
+        b=parseInt(prompt("enteryour number"))
+        c=parseInt(prompt("enteryour number"))
+        d=parseInt(prompt("enteryour number"))
+        e=parseInt(prompt("enteryour number"))
+        f=a+b+c+d+e
+        avg=f/5;
+        alert("Sum="+f)
+        alert("Average="+avg)
+</script>
+</body>
+</html>
+-------------------------------------------------------------------------------
+Assignment Question:- prompt()   alert()
+---------------------------------------------------------------------------------
+1. wap to input two no. and swap using third var.
+hint:-
+a=10
+b=20
+--------------------
+output
+-------------------
+a=20
+b=10
+-------------------
+2. wap to input two no. and swap without using third var.
+3. wap to input the radius of circle and find the area and circumference.
+4. wap to input the length and breath of rectange and find its area,perimeter and diagonal.
+5. wap to input the temparature in celcuis and covert them into farehite and vice-versa.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

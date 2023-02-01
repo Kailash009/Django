@@ -1,0 +1,456 @@
+Media File:-
+-------------------------------------
+>> Media files consist of audio,video,images.
+>> It is heavy weight.
+-----------------------------------------------------------------------------------------------
+How to upload images path in database:-
+---------------------------------------------------------------
+Step-1-
+---------------
+<form method="post" enctype="multipart/form-data">
+</form>
+-----------------------------------------------------------------------------
+Step-2:-
+-------------------
+elif request.method=='POST':
+        frm_bound=StudentForm(request.POST,request.FILES)
+-----------------------------------------------------------------------------------------------------
+wap to show Student record with image.
+-------------------------------------------------------------------------------------------------------------
+Media File Setting:-
+------------------------------------------------------------
+Step-1:-
+----------------
+Settings.py -> Project.
+--------------------------------------------
+STATIC_URL = 'static/'   # http://127.0.0.1:8000/static/
+STATIC_ROOT= BASE_DIR / 'static'
+MEDIA_URL = 'media/'   # http://127.0.0.1:8000/media/
+MEDIA_ROOT= BASE_DIR / 'media'
+------------------------------------------------------------------------------------
+Step-2: Go to urls.py -> Project.
+----------------------------------------------------------------
+from .import settings
+from django.conf.urls.static import static
+------------------------------------------------------------------
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/<int:a>/<int:b>/',view_sum),
+    path('sub/',view_sub),
+    path('mult/',view_mult),
+    path('div/',view_div),
+    path('calc/',view_Calc),  #http://127.0.0.1:8000/calc/
+    path('simple/',view_simple_calc),
+    path('ems/',include('EMS.urls')),  #http://127.0.0.1:8000/ems/
+    path('sms/',include('SMS.urls')),  #http://127.0.0.1:8000/sms/
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)  # Add this Line
+------------------------------------------------------------------------------------------------------------------------------------------------
+def view_show_student_image(request,sid):
+    stu=Student.objects.get(id=sid)
+    d1={'student':stu}
+    resp=render(request,'SMS/showstudentimg.html',context=d1)
+    return resp
+-------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Student Image</title>
+</head>
+<body>
+    <h1> SHOW STUDENT RECORD WITH IMAGE </h1>
+    <table border="3" bgcolor="yellow">
+        <tr>
+            <th>Name</th>
+            <th>{{student.name}}</th>
+        </tr>
+        <tr>
+            <th>Age</th>
+            <th>{{student.age}}</th>
+        </tr>
+        <tr>
+            <th>Mobile No</th>
+            <th>{{student.mobileno}}</th>
+        </tr>
+        <tr>
+            <th>DOB</th>
+            <th>{{student.dob}}</th>
+        </tr>
+        <tr>
+            <th>Image</th>
+            <th> <img src="{{student.pic.url}}" alt="Image"></th>
+        </tr>
+    </table>
+</body>
+</html>
+---------------------
+path('stuimg/<int:sid>/',view_show_student_image),
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Web Security - Login Management:-
+--------------------------------------------------------------------
+1. Unsecure Pages. -> It can be directly access without Authentication.
+2. Secure Pages. -> It can be  access with Authentication.
+---------------------------------------------------------------------------------------------------------------------------
+Home -> http://127.0.0.1:8000/lms/home
+Registration -> http://127.0.0.1:8000/lms/register/
+Login -> http://127.0.0.1:8000/lms/login
+Secure1 -> http://127.0.0.1:8000/lms/secure1/
+Secure2 -> http://127.0.0.1:8000/lms/secure2/
+Unsecure1 -> http://127.0.0.1:8000/lms/unsecure1/
+Unsecure2 -> http://127.0.0.1:8000/lms/unsecure2/
+------------------------------------------------------------------------------------------------------------------
+Create New app:
+-------------------------------------------
+python manage.py startapp app_Name
+---------------------------------------------------------------------
+Url Tag in Django:-
+------------------------------------------------------------
+>> url tag is used to provide dynamic url.
+{% url  'reference' %}
+----------------------------------------------------------
+{% url 'name' %} -> name -> it holds the view reference.
+path('home/',view_home,name='home'),  #home => http://127.0.0.1:8000/lms/home/
+path('register/',view_register,name='register'), #register => #home => http://127.0.0.1:8000/lms/register/
+{% url 'home' %}    home -> 
+--------------------------------------------------------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+
+# Create your views here.
+
+def view_home(request):
+    resp=render(request,'LMS/home.html')
+    return resp
+
+def view_register(request):
+    resp=render(request,'LMS/register.html')
+    return resp
+
+def view_login(request):
+    resp=render(request,'LMS/login.html')
+    return resp
+
+def view_secure1(request):
+    resp=render(request,'LMS/secure1.html')
+    return resp
+
+def view_secure2(request):
+    resp=render(request,'LMS/secure2.html')
+    return resp
+
+def view_unsecure1(request):
+    resp=render(request,'LMS/unsecure1.html')
+    return resp
+
+def view_unsecure2(request):
+    resp=render(request,'LMS/unsecure2.html')
+    return resp
+--------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS - Home Page</title>
+</head>
+<body bgcolor="yellow">
+    <h1 align="center"> *Home Page of LMS*  </h1>
+    <table border="3" bgcolor="pink" align="center">
+        <tr>
+            <th>Page Name</th>
+            <th>Reference</th>
+        </tr>
+        <tr>
+            <th>Home</th>
+            <th> <a href="{% url 'home' %}" > Home</a> </th>
+        </tr>
+        <tr>
+            <th> Registraion</th>
+            <th><a href="{% url 'register' %}" target="_blank"> Register</a> </th>
+        </tr>
+        <tr>
+            <th>Login</th>
+            <th><a href="{% url 'login' %}" target="_blank"> Login</a></th>
+        </tr>
+        <tr>
+            <th>Secure1</th>
+            <th><a href="{% url 'secure1' %}" target="_blank"> Secure1</a></th>
+        </tr>
+        <tr>
+            <th>Secure2</th>
+            <th><a href="{% url 'secure2' %}" target="_blank"> Secure2</a></th>
+        </tr>
+        <tr>
+            <th>Unsecure1</th>
+            <th><a href="{% url 'unsecure1' %}" target="_blank"> UnSecure1</a></th>
+        </tr>
+        <tr>
+            <th>Unsecure2</th>
+            <th><a href="{% url 'unsecure2' %}" target="_blank"> UnSecure2</a></th>
+        </tr>
+    </table>
+</body>
+</html>
+--------------------
+from django.urls import path
+from .views import *
+#Base URL => http://127.0.0.1:8000/lms/
+
+
+urlpatterns = [
+    path('home/',view_home,name='home'),  #neeraj => http://127.0.0.1:8000/lms/home/
+    path('register/',view_register,name='register'), #aryan => http://127.0.0.1:8000/lms/registeration/
+    path('login/',view_login,name='login'),
+    path('secure1/',view_secure1,name='secure1'),
+    path('secure2/',view_secure2,name='secure2'),
+    path('unsecure1/',view_unsecure1,name='unsecure1'),
+    path('unsecure2/',view_unsecure2,name='unsecure2'),
+]
+----------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body>
+    <h1> Login Page of LMS </h1>
+    <h3> <a href="{% url 'home' %}" > Back to Home Page </a> </h3>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+</head>
+<body>
+    <h1> Registration Page of LMS </h1>
+    <h3> <a href="{% url 'home' %}" > Back to Home Page </a> </h3>
+</body>
+</html>
+-------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure1 Page</title>
+</head>
+<body>
+    <h1> Secure1 Page of LMS </h1>
+    <h3> <a href="{% url 'home' %}" > Back to Home Page </a> </h3>
+    <h4> This Page only access when you Provide Authentication </h4>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure2 Page</title>
+</head>
+<body>
+    <h1> Secure2 Page of LMS </h1>
+    <h3> <a href="{% url 'home' %}" > Back to Home Page </a> </h3>
+    <h4> This Page only access when you Provide Authentication </h4>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnSecure1 Page</title>
+</head>
+<body>
+    <h1> UnSecure1 Page of LMS </h1>
+    <h3> <a href="{% url 'home' %}" > Back to Home Page </a> </h3>
+    <h4> This Page don't Provide Authentication. It can be directly access by the User. </h4>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnSecure2 Page</title>
+</head>
+<body>
+    <h1> UnSecure2 Page of LMS </h1>
+    <h3> <a href="{% url 'home' %}" > Back to Home Page </a> </h3>
+    <h4> This Page don't Provide Authentication. It can be directly access by the User. </h4>
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

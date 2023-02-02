@@ -1,0 +1,269 @@
+JAVA SCRIPT:-
+-------------------------------------------------------
+Operators in JS:-
+---------------------------------
+1. Inc/Dec Operator - 
+---------------------------------------------
+>> It is used to inc/dec a value.
+-----------------------------------------------------
+It has two types-
+1. Pre Inc/Dec. -> Operator comes before Operand/Var. -> at a time it inc/dec the value of a variable.
+ ++a;
+--a; 
+2. Post Inc/Dec. -> Operator comes after Operand/Var. -> It will not inc/dec value of a variable at a time. It perform inc/dec after taking the value of a variable.
+a++;
+a--;
+------------------------------------------
+let a=5;
+console.log(a++); 5      // 5 (subh,nitish,gaurv,santosh,vicky)    -->>> 6  6 8 9 10 ->amit    ->   5 7 7 9 9 (taj)  5 6 6 6 6 (nikhil)
+console.log(++a);7    // 7
+console.log(a++); 7  // 7
+console.log(a++); 8  // 8
+console.log(a++); 9   // 9
+-----------------------------------------------
+let a=6;
+console.log(a++); // 6
+console.log(++a); // 8
+console.log(a++); // 8
+console.log(++a); // 10
+console.log(a++); // 10
+console.log(a++); // 11
+console.log(++a); // 13
+-----------------------------------------------------
+6 8 8 10 10 11 13 -> prad
+6 8 8 10 10 11 13 -> vashu , raju,taj,mut,insha,shivam,aryan
+----------------------------------------------------
+let a=10;
+console.log(a++); 10
+console.log(a--); 11
+console.log(a++); 10
+console.log(--a); 10  
+console.log(a++); 10
+console.log(a++); 11
+console.log(a++); 12
+console.log(++a); 14
+console.log(--a); 13
+console.log(a++); 13
+console.log(a); 14
+-----------------------------------------------
+10 11 10 10 10 11 12 14 13 13 14 -> nikhil,raju,taj,aman,ishan,santosh,vasu,prad,pshnat
+10 11 10 10 9 10 11 13 13 12 12 -> shivam.
+10,11,10,10,10,11,13,12,12,13 -> subhajit
+10,11,10,10,10,11,12,14,13,13 -> gunjan
+10 11 10 10 10 11 12 14 13 13 14 14  ->nitish
+10 11 11 10 10 12 14 15 14 14 15 -> amir
+-------------------------------------------------------------------
+Conditional Statments:-
+-------------------------------------------
+>> To provide condition in your program.
+1. if. -> it is used to check single condition.
+syntax -
+------------------
+if(condition)
+{
+statement;
+}
+-------------------------------------------
+wap to check string is equal to java or not.
+------------------------------------------------------------------------- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DEMO</title>
+</head>
+<body>
+<script>
+a="java"
+if(a=="php")
+{
+    console.log("Hello Java!!");
+}
+</script>
+</body>
+</html>
+---------------------------------------------------
+2. if-else
+>> This statement is used to test the condition and take one of the two possible action.
+Syntax:-
+--------------------
+if(condition)
+{
+statement1;
+}
+else
+{
+statement2;
+}
+---------------------------------------------------------------------------------------------------------------------
+>> wap to input two no. and find the greatest among them.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DEMO</title>
+</head>
+<body>
+<script>
+a=parseInt(prompt("Enter First Number","First Number"))  // 10
+b=parseInt(prompt("Enter Second Number","Second Number"))// 20
+if(a>b)  // 10>20
+{
+console.log("A is Greater than B")
+}
+else
+{
+    console.log("B is Greater than A")
+}
+</script>
+</body>
+</html>
+---------------------------------------------------------------------------------------------
+Ternary Operator -> it is the alternate of if-else.
+Syntax:-
+------------------
+(Condition)?True:False;
+For ex:-
+-----------------
+let a=500,b=200,res;
+res=(a>b)?a:b;  
+console.log("Greatest Number="+res); // 500
+----------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DEMO</title>
+</head>
+<body>
+<script>
+a=parseInt(prompt("Enter First Number","First Number"))  // 10
+b=parseInt(prompt("Enter Second Number","Second Number"))// 20
+res=(a>b)?a:b;
+console.log("Greatest="+res);
+</script>
+</body>
+</html>
+------------------------------------------------------------------------------------------
+3. if-else-if ladder.
+>> It is used to provide mutiple condition in a program.
+Syntax:-
+-----------------------------------
+if(condition1)
+{
+statement1;
+}
+else if(condition2)
+{
+statement2;
+}
+else if(condition3)
+{
+statement3;
+}
+else if(condition4)
+{
+statement4;
+}
+else
+{
+statement5;
+}
+------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DEMO</title>
+</head>
+<body>
+<script>
+let a=5,b=7,c=10;
+if(a<b)
+{
+    console.log("Hello Java")
+}
+else if(c>a)
+{
+console.log("Hello PHP")    
+}
+else if(b>c)
+{
+console.log("Hello Dot Net")    
+}
+else
+{
+console.log("Program Exit")    
+}
+</script>
+</body>
+</html>
+-----------------------------------------------------------------------------
+wap to input three no. and find the greatest number among them.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DEMO</title>
+</head>
+<body>
+<script>
+a=parseInt(prompt("Enter First Number","First Number"))  // 10
+b=parseInt(prompt("Enter Second Number","Second Number")) // 3
+c=parseInt(prompt("Enter Third Number","Third Number")) // 50
+if(a>b && a>c)  // 10>3 T && 10>50 (F) -> F 
+{
+    console.log("A is Greatest")
+}
+else if(b>a && b>c)  // 10>3 (T) && 3>50 (F) T F => F
+{
+console.log("B is Greatest")    
+}
+else
+{
+console.log("C is Greatest")    
+}
+</script>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------
+4. switch.  -->> Pending.
+-------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

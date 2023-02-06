@@ -1,0 +1,275 @@
+Conditional Statements:-
+-------------------------------------------------
+1. if
+2. if-else
+3. if-else- if
+4. switch
+>> It is menu based program.
+-------------------------------------------------------
+Syntax:-
+---------------------------
+switch(expression)
+{
+case 1:
+statement1;
+break;
+case 2:
+statement2;
+break;
+case 3:
+statement3;
+break;
+default: // Optional
+statement4;
+break;
+}
+---------------------------------------------------------------------------------------------------------------------------
+1 -> GM
+2 -> GFN
+3-> GE.
+4 -> GN.
+--------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        ch=parseInt(prompt("Enter your Choice","Your Choice"))
+        switch(ch)
+        {
+            case 1:
+            console.log("GM");
+            break;
+            case 2:
+            console.log("GFN");
+            break;
+            case 3:
+            console.log("GE");
+            break;
+            case 4:
+            console.log("GNT");
+            break;
+            default:  // Optional
+            console.log("Wrong Input Choice");
+            break;
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    var ch="mango";
+    switch(ch)
+    {
+            case "mango":
+            console.log("Hello I am Mango");
+            break;
+            case "graphes":
+            console.log("Hello I am Graphes");
+            break;
+            case "apple":
+            console.log("Hello I am Apple");
+            break;
+            default:
+            console.log("Wrong Input Choice");
+            break;
+    }
+    </script>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------
+Fall through -> when you don't provide break in switch then this condition is known as 'Fall through' in swtich.
+-------------------------------------------------------------------------------------------------------------------------------------------------
+wap to input a character and check whether input character is Vowel or Consonant. -> if-else or switch. -> 5 Min.
+---------------------------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    let ch=prompt("Enter a character","Enter Character")
+    switch(ch)
+    {
+            case 'a':
+            case 'e':
+            case 'i':
+            case 'o':
+            case 'u':
+            case 'A':
+            case 'E':
+            case 'I':
+            case 'O':
+            case 'U':
+            console.log("Input Character is Vowel");
+            break;
+            default:
+            console.log("Input Character is Consonant");
+            break;
+    }
+    </script>
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------
+if-else
+----------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    let ch=prompt("Enter a character","Enter Character")
+        if(ch=='a' || ch=='e' || ch=='i' || ch=='o' || ch=='u')
+        {
+            console.log("Vowel");
+        }
+        else
+        {
+            console.log("Consonant");
+        }
+    </script>
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------------------------------
+Confirm Box:-
+----------------------------
+>> The return type of this box is boolean. (True/False)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    let ch=confirm("Are you Sure You want to Delete this Item(Y/N)?");
+    if(ch==true)
+    {
+        console.log("Item Deleted SuccessFully!!");
+    }
+    else
+    {
+        console.log("Item Deleted Failed!!");
+    }
+    </script>
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------------
+Assignment Question:-
+---------------------------------------------------
+1. wap to input a no. and check its even or odd.
+2. wap to  input a year and check its leap year or not.
+3. wap to make temprature calculator program.  (Farenhite to Celcuis) and vice-versa.
+4. wap to input five subject marks and find its sum and percentage and according to the percentage get the following grade -
+100%-90% -> S
+90%-80% -> A
+80%-70% -> B
+70%-60% -> C
+60%-50% -> D
+< 50%       -> F
+5. wap to create a calculator in js using prompt box.
+--------------------------------------------------------------------------------------------------------------------------------------
+wap to input two and find the sum. using textbox.
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

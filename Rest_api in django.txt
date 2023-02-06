@@ -1,0 +1,148 @@
+Rest_API:-
+-----------------------------------------
+API ->   >>> api is nothing just a function.
+---------------
+>> Api is not a technology(it is a concept)  that is used to communicate having different platforms.
+>> API always return JSON (Java Script Object Notation) data.
+JSON Format:-  Json is very light weight.
+-------------------------
+{
+"name":"aryan",
+"age":12,
+"Address":"New Ashok Nagar"
+}  ->> JSON FORMAT.
+{"id":1,"title":"iPhone 9","description":"An apple mobile which is nothing like apple","price":549,"discountPercentage":12.96,"rating":4.69,"stock":94,"brand":"Apple","category":"smartphones","thumbnail":"https://i.dummyjson.com/data/products/1/thumbnail.jpg","images":["https://i.dummyjson.com/data/products/1/1.jpg","https://i.dummyjson.com/data/products/1/2.jpg","https://i.dummyjson.com/data/products/1/3.jpg","https://i.dummyjson.com/data/products/1/4.jpg","https://i.dummyjson.com/data/products/1/thumbnail.jpg"]}
+----------------------------------------------------------------------------------------------------------------------------
+REST - 
+-----------------
+>> It stands for Representational State Transfer.
+>> Rest is a communication protocol under which our api will run.
+--------------------------------------------------------------------------------------------------------------------------
+In api you need to learn three things:-
+1. How to Create API.
+2. How to test API.  ->> To test api we use POSTMAN tool.  -> https://www.postman.com/downloads/
+3. How to consume API.
+	a) Console App -> Python
+	b) Desktop App -> Tkinter
+	c) Web App -> Django
+	d) Java Script.
+	e) JQuery.
+	f) AJAX.
+-------------------------------------------------------------------------------------------------------------------------
+1. How to create API .
+-----------------------------------
+1. Create new app
+Note:-> in django if you want to implement rest api then we have default app.
+'demoapi'
+'rest_framework'  -> you need to register this predefined app also.
+ModuleNotFoundError: No module named 'rest_framework'  -> This error will come after running server. To solve this issue type this below command:-
+pip install djangorestframework
+2. register.
+3. url mapping.
+-----------------------------------------
+C -> Create -> api -> POST  
+R -> Read -> api ->  GET
+U -> Update -> api -> PUT
+D -> Delete -> api -> DELETE
+-----------------------------------------------------------------
+To Consume API  we need one package -
+pip install requests
+-----------------------------------------
+import requests
+resp=requests.get(url="http://127.0.0.1:8000/demoapi/first/")
+print(resp.json())
+print(resp.content)
+print(resp.text)
+--------------------------------------------------------------
+Note:
+-----------------
+>> Response() constructor directly converted all primitive data types(int,tuple,dict,list,set) in JSON Format,But when you pass
+any Model class Object inside it then it will not directly converted into JSON. To overcome this problem you need to make "Serializer".
+It will show an error - 
+"Object of type Student is not JSON serializable". -> To Solve this error create Serializer.
+--------------------------------------------------------------
+wap to create an api that returns student by id.
+--------------------------------------------------------------
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from SMS.models import Student
+from demoapi.serializer import StudentSerializer 
+# Create your views here.
+
+@api_view(['GET','POST'])
+def view_first_api(request):
+    msg="This is my First API"
+    msg=1234
+    msg=["hello",34,36.567,True]
+    msg=(12,45.67,"Java")
+    msg={1:"apple",2:"Mango","result":34.56}
+    resp=Response(data=msg)
+    return resp
+
+
+@api_view(['GET'])
+def view_getStudent(request,sid):
+    stu=Student.objects.get(id=sid)
+    stu_serliazer=StudentSerializer(stu)
+    resp=Response(data=stu_serliazer.data)
+    return resp
+----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

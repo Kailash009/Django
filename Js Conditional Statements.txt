@@ -1,0 +1,255 @@
+How to read Text Box Data.
+----------------------------------------------
+Java Script -- Function --
+------------------------------------
+function function_name()
+{
+// Block of Code.
+}
+ <button onclick="function_name()">SUM</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sum of two No</title>
+</head>
+<body>
+    <h1 id="hello" onclick="msg()">Sum of two Number</h1>
+
+    <table border="3">
+        <tr>
+            <td>First Number:</td>
+            <td><input type="text" id="t1"> </td>
+        </tr>
+        <tr>
+            <td>Second Number:</td>
+            <td><input type="text" id="t2"> </td>
+        </tr>
+        <tr>
+            <td>Result:</td>
+            <td><input type="text" id="res"> </td>
+        </tr>
+        <tr>
+            <td>
+            <button onclick="addition()">SUM</button>
+        </td>
+        </tr>
+    </table>
+<script>
+    function msg()
+    {
+        document.getElementById("hello").innerHTML=Date()
+    }
+    function addition()  // Function Defination
+    {
+    var a=parseInt(document.getElementById("t1").value);
+    console.log(a); // "10"
+    console.log(typeof(a));
+    var b=parseInt(document.getElementById("t2").value);
+    console.log(b); //"20"
+    console.log(typeof(b));
+    var c=a+b; // "10"+"20" => 1020 
+    document.getElementById("res").value=c;
+    }
+</script>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------------------------------
+JS Calculator:-
+-----------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sum of two No</title>
+</head>
+<body>
+    <h1 id="hello" onclick="msg()">Sum of two Number</h1>
+
+    <table border="3">
+        <tr>
+            <td>First Number:</td>
+            <td><input type="text" id="t1"> </td>
+        </tr>
+        <tr>
+            <td>Second Number:</td>
+            <td><input type="text" id="t2"> </td>
+        </tr>
+        <tr>
+            <td>Result:</td>
+            <td><input type="text" id="res"> </td>
+        </tr>
+        <tr>
+            <td>
+            <button onclick="addition()">SUM</button>
+        </td>
+        <td>
+            <button onclick="subtraction()">SUB</button>
+        </td>
+        <td>
+            <button onclick="multiplicaiton()">MULT</button>
+        </td>
+        <td>
+            <button onclick="division()">DIV</button>
+        </td>
+        </tr>
+    </table>
+<script>
+    function msg()
+    {
+        document.getElementById("hello").innerHTML=Date()
+    }
+    function addition()  // Function Defination
+    {
+    var a=parseInt(document.getElementById("t1").value);
+    console.log(a); // "10"
+    console.log(typeof(a));
+    var b=parseInt(document.getElementById("t2").value);
+    console.log(b); //"20"
+    console.log(typeof(b));
+    var c=a+b; // "10"+"20" => 1020 
+    document.getElementById("res").value=c;
+    }
+    function subtraction()  // Function Defination
+    {
+    var a=parseInt(document.getElementById("t1").value);
+    console.log(a); // "10"
+    console.log(typeof(a));
+    var b=parseInt(document.getElementById("t2").value);
+    console.log(b); //"20"
+    console.log(typeof(b));
+    var c=a-b; // "10"+"20" => 1020 
+    document.getElementById("res").value=c;
+    }
+    function multiplicaiton()  // Function Defination
+    {
+    var a=parseInt(document.getElementById("t1").value);
+    console.log(a); // "10"
+    console.log(typeof(a));
+    var b=parseInt(document.getElementById("t2").value);
+    console.log(b); //"20"
+    console.log(typeof(b));
+    var c=a*b; // "10"+"20" => 1020 
+    document.getElementById("res").value=c;
+    }
+    function division()  // Function Defination
+    {
+    var a=parseInt(document.getElementById("t1").value);
+    console.log(a); // "10"
+    console.log(typeof(a));
+    var b=parseInt(document.getElementById("t2").value);
+    console.log(b); //"20"
+    console.log(typeof(b));
+    var c=a/b; // "10"+"20" => 1020 
+    document.getElementById("res").value=c;
+    }
+</script>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------------
+Total Marks and Grade:-
+-----------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRADE</title>
+</head>
+<body>
+    <h2>Calculate Grade</h2>
+    <table border="3">
+        <tr>
+            <td>Hindi</td>
+            <td><input type="text" id="hin">  </td>
+        </tr>
+        <tr>
+            <td>English</td>
+            <td><input type="text" id="eng">  </td>
+        </tr>
+        <tr>
+            <td>Maths</td>
+            <td><input type="text" id="mat">  </td>
+        </tr>
+        <tr>
+            <td>Physics</td>
+            <td><input type="text" id="phy">  </td>
+        </tr>
+        <tr>
+            <td>Chemistry</td>
+            <td><input type="text" id="chm">  </td>
+        </tr>
+        <tr>
+            <td> <button onclick="total_marks()"> Total Marks  </button> </td>
+        </tr>
+    
+        <tr>
+            <td><label id="tm" style="color:red;font-size:20px;"></label></td>
+        </tr>
+         
+        <tr>
+            <td><label id="per" style="color:red;font-size:20px;"></label></td>
+        </tr>
+        <tr>
+            <td><label id="gd" style="color:red;font-size:20px;"></label></td>
+        </tr>
+    </table>
+    <script>
+        function total_marks()
+        {
+        let hin=parseInt(document.getElementById("hin").value);
+        let eng=parseInt(document.getElementById("eng").value);
+        let mat=parseInt(document.getElementById("mat").value);
+        let phy=parseInt(document.getElementById("phy").value);
+        let chm=parseInt(document.getElementById("chm").value);
+        let total_marks=hin+eng+mat+phy+chm;
+        let percentage=total_marks/5;
+        document.getElementById("tm").innerHTML=total_marks;
+        document.getElementById("per").innerHTML=percentage+'%';
+        if(percentage>=90 && percentage<=100)
+        {
+            document.getElementById("gd").innerHTML="Your Grade is S";
+        }
+        else if(percentage>=80 && percentage<90)
+        {
+            document.getElementById("gd").innerHTML="Your Grade is A";
+        }
+        else if(percentage>=70 && percentage<80)
+        {
+            document.getElementById("gd").innerHTML="Your Grade is B";
+        }
+        else if(percentage>=60 && percentage<70)
+        {
+            document.getElementById("gd").innerHTML="Your Grade is C";
+        }
+        else if(percentage>=50 && percentage<60)
+        {
+            document.getElementById("gd").innerHTML="Your Grade is D";
+        }
+        else
+        {
+            document.getElementById("gd").innerHTML="You Failed!!";   
+        }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

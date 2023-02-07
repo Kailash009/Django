@@ -1,0 +1,247 @@
+Consume API:-
+---------------------------------
+import requests
+while(True):
+    sid=int(input("Enter Student Id="))
+    try:
+        resp=requests.get(url="http://127.0.0.1:8000/demoapi/stu/{0}/".format(sid))
+        stu_dict=resp.json()
+        for stu in stu_dict.items():
+            print(stu[0],'=',stu[1])
+    except Exception as ex:
+        print("Student Not Found!!")
+    
+------------------------------------------------------------------------------------------------------------------------------------
+Consume API using Ajax:-
+------------------------------------------------
+>> ajax stands for asynchronous java script and XML.
+>> with the help of ajax we can post or fetch the data from the server without reloading the whole page again and again.
+>> AJAX increases the response time of an application.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+The keystone of AJAX is the XMLHttpRequest object.
+1. Create an XMLHttpRequest object.
+variable = new XMLHttpRequest();
+2. Define a callback function.
+xhttp.onload = function() {
+  // What to do when the response is ready
+}
+3. Open the XMLHttpRequest object. 
+open(method, url, async, user, psw)
+4. Send a Request to a server.
+xhttp.send();
+----------------------------------------------------------------------------------------------------------
+readyState -> Holds the status of the XMLHttpRequest.
+0: request not initialized
+1: server connection established
+2: request received
+3: processing request
+4: request finished and response is ready
+-----------------------------------------------------------------------------------------
+status ->Returns the status-number of a request
+200: "OK"
+403: "Forbidden"
+404: "Not Found"
+------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS</title>
+    <script>
+        function call_student_api()
+        {
+        let sid=document.getElementById("t1").value;
+        callapi("http://127.0.0.1:8000/demoapi/stu/"+sid+"/");
+        }
+        function callapi(url)
+        {
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+            alert(this.responseText);
+    }
+  };
+  xmlhttp.open("GET",url,true);
+  xmlhttp.send();
+        }
+    </script>
+</head>
+<body>
+    Enter Student ID:<input type="text" id="t1">
+    <button onclick="call_student_api()">Get Student</button>
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------------------------------------------
+State Management:-
+-----------------------------------------------
+>> Web application uses http protocol.  -> https://www.amazon.in/
+>> Http is a stateless protocol.
+>> it doesn't maintain the information between client and server.
+--------------------------------------------------------------------------------------------------------------------
+1. Client side state Management.  ->  Cookies.
+2. Server Side State Management. -> Session.
+--------------------------------------------------------------------------------------------------------------------
+Session :-
+-------------------
+>> It is a Global Management protocol.
+>> we can access session value through out the application.
+>> Session can store any type of value.
+>> session is a heavy weight.
+>> The default time of session is 20 Min.
+------------------------------------------------------------------------------------------------------------------------------------
+Syntax:-
+------------------
+request.session.get('key','value');
+--------------------------------------------------------------------------------------------------------------------
+>> wap to count total no. of visitor.
+------------------------------------------------------------------------------
+from django.shortcuts import render
+
+# Create your views here.
+def view_visit_count(request):
+    if request.method=='GET':
+        resp=render(request,'statemgt/state.html')
+        return resp
+    elif request.method=='POST':
+        count=request.session.get('count','NA')
+        if count=='NA':
+            count=1
+        else:
+            count=count+1
+        request.session['count']=count
+        request.session.set_expiry(3)
+        d1={'count':count}
+        resp=render(request,'statemgt/state.html',context=d1)
+        return resp
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SESSION DEMO</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+    <h1> WAP TO FIND TOTAL NUMBER OF VISITOR:</h1>
+    <button>Total Visit</button>
+    <h3> Total Visitor = {{count}} </h3>
+</form>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

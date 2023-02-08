@@ -1,0 +1,270 @@
+Control Statements / Iterative Statement / Loop in JS :-   ?????????
+---------------------------------------------------------------------------------------------
+>> When a programmer need to print one statement several times then we use the concept of Loop.
+---------------------------------------------------------------------------------------------------------------------------------------------
+Types of Control Statements-
+-------------
+1. while.  "Entry Controlled Loop".
+-----------------------
+Syntax:-
+-----------------
+while(condition)
+{
+statement;
+inc/dec;
+}
+-----------------------------------------------------------------------------------------------------------------------
+2. do-while.  -> "Exit Controlled Loop."
+>> In do-while loop statement will be printed at "ONCE" whether the condition is tue or false.
+Syntax:-
+------------------
+do
+{
+statement;
+inc/dec;
+}
+while(condition)
+--------------------------------------------------------------------
+3. for
+>> This loop is very fast. 
+>> It has three expression -
+1. Initialization.
+2. Condition.
+3. inc/dec.
+Syntax:-
+---------------------
+for(initialization;cond;inc/dec)
+{
+// statements;
+}
+------------------------------------------------------------------------------------------
+1. wap to print welcome to js 10 times using while,do-while and for.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>LOOP EXAMPLE IN JS</title>
+</head>
+<body>
+    <script>
+        let i=1;   // Initialization
+        while(i<=10) // Condition   1<=10 2<=10  10<=10  11<=10 False
+        {
+            document.write("<h1>Welcome to JS<br/></h1>"+i)
+            i++;  // Inc   i=i+1
+        }
+    </script>
+</body>
+</html>
+-------------------------
+do-while:-
+----------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>LOOP EXAMPLE IN JS</title>
+</head>
+<body>
+    <script>
+        let i=1;    // Initialization
+        do
+        {
+            document.write("<h1>Welcome to JS<br/></h1>"+i)
+            i++;  // Inc   i=i+1
+        }
+     while(i<=10) // Condition   1<=10 2<=10  10<=10  11<=10 False
+
+    </script>
+</body>
+</html>
+--------------------------------------------------------------------
+for:-
+----------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>LOOP EXAMPLE IN JS</title>
+</head>
+<body>
+    <script>
+        for(let i=1;i<=10;i++)
+        {
+            document.write("<h1>Welcome to JS<br/></h1>"+i);
+        }
+    </script>
+</body>
+</html>
+------------------------------------------------------------------------------
+>> wap to input a number and find the sum and avg of 10 no.
+-----------------------------------------------------------------------------
+sum=55 -> 1+2+3+   ...10 => 55
+avg => 55/10 => 5.5
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>LOOP EXAMPLE IN JS</title>
+</head>
+<body>
+    <script>
+        let n=parseInt(prompt("Enter a Number","Enter Number"))
+        let sum=0,avg;
+        for(let i=1;i<=n;i++)
+        {
+            sum=sum+i;
+        }
+        avg=sum/n;
+        document.write("<h1>Sum="+sum+"</h1></br>");
+        document.write("<h1>Average="+avg+"</h1></br>");
+    </script>
+</body>
+</html>
+----------------------------------------------------------------------------
+1. wap to print the no. between 15 to 1.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>LOOP EXAMPLE IN JS</title>
+</head>
+<body>
+    <script>
+        for(let i=15;i>0;i--)
+        {
+            document.write(i+"<br/>");
+        }
+    </script>
+</body>
+</html>
+-----------------------------------------------------------------------------------
+wap to input a no. and find the factorial.
+n=5;
+5! => 5*4*3*2*1 => 120
+4! => 4*3*2*1 => 24
+-------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>LOOP EXAMPLE IN JS</title>
+</head>
+<body>
+    <script>
+       let n=parseInt(prompt("Enter a Number","Enter Number"));
+       let f=1;
+       for(let i=1;i<=n;i++)
+       {
+        f=f*i;
+       }
+       document.write("<h1>The Factorial is="+f+"</h1><br/>")
+    </script>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------------
+Assignment Question of Loop:-
+-------------------------------------------------
+1. wap to input a no. and check no. is armstrong or not.
+n=153
+1   5    3  
+1*1*1  +  5*5*5  + 3*3*3
+1+125+27 => 153  -> arsmtrong no.
+n=134
+1+27+64 => 92 ==134 (Not Armstrong No.)
+-----------------------------------------------------------------------------------
+2. wap to input a no. and check prime or not.
+3. wap to input a no. and print the table.
+4. wap to input a no. and find sum of its digit.
+5. wap to input a no. and reverse them.
+------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

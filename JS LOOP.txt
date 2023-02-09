@@ -1,0 +1,235 @@
+JAVA SCRIPT:  LOOP :-
+--------------------------------------------------------
+1. WAP TO INPUT A NO. AND CHECK ITS ARMSTRONG OR NOT.
+-----------------------------------------------------------------------------------------------------------
+N=153
+1*1*1   5*5*5   3*3*3
+1+125+27 => 153 == 153 -> armstrong no.
+----------------------
+n=123
+1+8+27 => 36==123 (Not arsmtrong no.)
+--------------------------------------------------------------------------------------------------------------------------
+3456 
+%  ->6
+/  -> 345
+8764 
+----------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArmsTrong</title>
+</head>
+<body>
+    <script>
+        let sm=0;
+        let n=parseInt(prompt("Enter a Number","Enter Number"))
+        let temp=n;
+        for(let i=n;i>0;i=parseInt(i/10))
+        {
+            let a=i%10;
+            let b=a*a*a;
+            sm=sm+b;
+        }
+        if(sm==temp)
+        {
+            console.log("Number is Armstrong")            
+        }
+        else
+        {
+            console.log("Number is not Armstrong")
+        }
+    </script>
+</body>
+</html>
+-----------------------------
+while:-
+----------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArmsTrong</title>
+</head>
+<body>
+    <script>
+        let sm=0;
+        let n=parseInt(prompt("Enter a Number","Enter Number"))
+        let temp=n;
+        while(n>0)
+        {
+            let a=n%10;
+            let b=a*a*a;
+            sm=sm+b;
+            n=parseInt(n/10);
+        }
+        if(sm==temp)
+        {
+            console.log("Number is Armstrong")            
+        }
+        else
+        {
+            console.log("Number is not Armstrong")
+        }
+    </script>
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------------------------
+Jump Statement:-
+---------------------------------------
+1. break.
+>> This statement is used to terminate the current execution of loop and transfer control to the next statement.
+2. continue.
+>> This statement  is used to transfer the control to the begining of the loop.
+3. return. -> Pending (dicusss in function).
+------------------------------------------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArmsTrong</title>
+</head>
+<body>
+    <script>
+       for(let i=1;i<=10;i++)
+       {
+            if(i==4 && i==8 && i==10)  // 
+            {
+                break;
+            }        
+            console.log(i); // 1 2 3
+       }
+       console.log("End of Loop");
+    </script>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArmsTrong</title>
+</head>
+<body>
+    <script>
+       for(let i=1;i<=10;i++)
+       {
+            if(i==3 || i==2 || i==10) // 1==3 2==3 3==3
+            {
+                continue;
+            }        
+            console.log(i); // 1 
+       }
+       console.log("End of Loop");
+    </script>
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------------------------------------
+Assignment in JS:-
+-----------------------------------------------------------------------------------------------
+1. wap to input two no. and find the lcm and gcd.
+2. wap to input a no. and check its DUCK no. or not. -> 2033  34343
+3. wap to input a no. and check it BUZZ no. or not.
+BUZZ -> A no. which is divisible by 7 and ends with 7.
+147 ,357
+234 not buzz
+4. wap to input a no. and find the fibonacci series.
+5. wap to find the series of prime no. between 1 to 100.
+6. wap to  print the even no. between 1 to 100.
+7. wap to print the odd no. between 1 to 100.
+8. wap to input two no. and find the table between them.
+9. wap to input a string and count total no. of vowel or consonant.
+input -> vikas
+Output
+-----------------
+vw= 2
+cn= 3
+----------------------------------------------------------------------------------------------------------------------------
+Pattern Programming:-
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

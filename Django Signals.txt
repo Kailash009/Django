@@ -1,0 +1,172 @@
+Django Admin Customization:-
+-------------------------------------------------------
+1. User.
+2. Group. 
+3. Permission.
+-------------------------------------------------------------------------
+User - Group  -> Many to Many.
+-----------------------------------------------------------
+auth_user :-
+------------------------------------------
+>>> from django.contrib.auth.models import User,Group
+>>> u=User.objects.get(id=2) 
+>>> u.username
+>>> u.is_staff
+True
+>>> g1=Group.objects.get(id=1) 
+>>> g1.name
+'StudentGroup'
+>>> u.groups.add(g1)
+>>> u=User.objects.get(id=3) 
+>>> u.username
+'jeevan'
+>>> u.is_staff
+False
+>>> u.is_staff=True
+>>> u.save()
+>>> u.groups.add(g1) 
+---------------------------------------------------------------
+@check_authenticate
+def view_register(request):
+    if request.method=='GET':
+        frm_unbound=UserCreationForm()
+        d1={'forms':frm_unbound}
+        resp=render(request,'LMS/register.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        frm_bound=UserCreationForm(request.POST)
+        if frm_bound.is_valid():
+            u=frm_bound.save()
+            u.is_staff=True
+            u.save()
+            g1=Group.objects.get(id=1)
+            u.groups.add(g1)
+            return HttpResponse("<h1>User Created SuccessFully!!</h1>")
+        else:
+            d1={'forms':frm_bound}
+            resp=render(request,'LMS/register.html',context=d1)
+            return resp
+-------------------------------------------------------------------------------------------------------------------
+Django Signals:-
+---------------------------------------
+>> it works on Models or database.
+>> Signal is also known as Trigger.(Other Programming).
+>> It is a database objects that automatically fired or executed when an event has occured.
+Database Event -> create,update,delete,drop etc.
+pre_save,post_save
+pre_delete,post_delete
+-------------------------------------------------------
+For Example:-
+----------------------------
+Student -> As soon as insert the record of student in another table personal detail will be filled automatically.
+name =
+age=
+mobileno=
+===============================
+Personal Details -> One to One
+address=
+pic=
+dob=
+student=models.OnetoOneField(Student,on_delete=Models.CASCADE)
+------------------------------------------------------------
+s1=Student()
+s1.name='aryan'
+s1.age=19
+s1.mobileno='897979'
+s1.save()  -> aryan record inserted.
+p1=PersonalDetails()
+p1.address='fdsf'
+p1.student=s1  ->> aryan  (I want to avoid these lines.)
+p1.save()
+------------------------------------------------------------------------------------------------
+Create New app-
+----------------------------
+@receiver(signal=post_save,sender=Student)
+def view_after_save_student(sender,instance,created,**kwargs):  #Signal
+    pass
+sender => Model Class.  (<class 'demosignal.models.Student'>)
+instance => object of Model Class.  (jeevan)
+created => True/False  -> (True)
+True -> when you insert new record of student.
+False -> when you update record of student.
+----------------------------------------------------------------------------------------------------------------------
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+# Create your models here.
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=19)
+    def __str__(self):
+        return self.name
+    
+class PersonalDetails(models.Model):
+    address=models.CharField(max_length=100,null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    dob=models.DateField(null=True,blank=True)
+    student=models.OneToOneField(Student,on_delete=models.CASCADE,null=True,blank=True)
+
+@receiver(signal=post_save,sender=Student)
+def view_after_save_student(sender,instance,created,**kwargs):  #Signal
+    if created:
+        pd=PersonalDetails()
+        pd.student=instance
+        pd.save()
+
+     # print('Post Save Signal Received')
+    # print('Sender=',sender)
+    # print('Instance=',instance)
+    # print('Created=',created)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

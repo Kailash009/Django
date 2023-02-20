@@ -1,0 +1,102 @@
+Python:-
+-------------------------
+>> python is a general purpose,high level,interpreted,object oriented and dynamic type programming language.
+>> Python was developed by 'Guido Van Rossum' in 1989.
+>> The first version was released in 1991.
+int a=45; static type like C 
+------------------------------------------------------------
+a=45; -> int  -> In python is dynamic type.
+a="lfjdslf" -> string
+a=34.45 -> float
+------------------------------------------------------------------------------------------------------------------------------------------
+Programming Language:-
+--------------------------------------------
+>> Python is a programming Language by which we can develop different kind of application.
+Types of Application:-
+----------------------------------------------------
+1. CUI.(Command User Interface). 
+>> Console Application. -> CMD (Command Prompt)  -> you must know commands.
+2. GUI. (Graphical User Interface).
+	a) Desktop App -  Windows Based App ->>>>  Tkinter.
+>> An application that runs with the help of O.S.   --->> It must be installed on O.S.
+Heavy --- i7 8 gb 2 tb hardisk -> i3 4 gb ram 1 tb hardisk ->   Tally,office package,calc.
+	b) WebApplication ->    Django / Flask
+>> An application that runs with the help of Web Browser.
+>> It follows client-server architecture.
+	c) Machine Language -> pandas,numpy.
+	d) AI -> tensor flow.
+	e) Data Science -> numpy,pandas
+	f) Mobile App/Android App -> Kivy.
+-----------------------------------------------------------------------------------------------------------------------------------------
+Django:-
+--------------------------
+>> Django is not a programming language, it is a framework to build web application only.
+>>  client -server based.
+>> Django support MVT Model.
+M  => MODEL  -> DAL(Data Access Layer) (Database related operation performed here.)
+V => VIEW        -> BLL(Business Logic Layer) (Python Code)
+T => TEMPLATES  -> PLL(Presentation Logic Layer) (Html,css,js)
+------------------------------------------------------------------------------------------------------------------------------
+Client-Server Architecture:-
+-------------------------------------------------------------------------------------
+>> client sends the request to the server and server response accordingly to the client.
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

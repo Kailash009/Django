@@ -1,0 +1,67 @@
+How to create Django Projects?
+What is the need of VE?
+How to create VE?
+----------------------------------------------------------------------------------------------------------
+How to work in Django Projects:-
+-----------------------------------------------------------------
+1. python 3.10
+2. python 3.9
+3. python 3.11  ->> I am working with this python version - It installed Globally.  when you work with django so don't install every package globally.
+
+1. Project-1
+     >> python, django,pillow,requests
+2. Project-2 
+        >> python,django,djangorestframework,numpy.   +    pillow,requests
+3. Project-3
+	>> python ,django,scipy,pandas. + djangorestframework,numpy.   +    pillow,requests
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Project-4 -
+             Create VE ->  VE is just like a Folder. -> venv  -> Any Folder Name   
+	venv -> python 
+ 	              pip  -> It comes from Global python Folder. (pip) -> Empty.
+
+Virtual Enviornment ->  VE provide isolation for your project.
+-------------------------------------------------------------------------------------------------------------------------------
+Steps to create VE for Your Project:-
+---------------------------------------------------
+1, Create one folder name as -> Batch 10 AMdjango -> another folder -> myallprojects -> inside create another project 1-> project-1 -> open this project1 path with CMD.
+2. First of all, Install VE 
+         		pip install virtualenv
+How to check virtualenv version -> virtualenv --version
+3. Create VE:-
+          virtualenv anyFolderName 
+           virtualenv venv
+4. Activate your VE:-
+         virtualenvFoldername/scripts/activate
+	venv\scripts\activate
+5. Now check whether your project has connected Locally or Globally -
+	pip freeze
+6. Command to disconnect your project with VE-
+     >> deactivate
+
+
+---------------------------------------------------------------------------------------------------------------------------
+pip ->
+p -> pip
+i -> installed
+p- > package.
+-----------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

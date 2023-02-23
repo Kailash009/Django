@@ -1,0 +1,18 @@
+How to create Project in Django:-
+---------------------------------------------------------
+django-admin startproject project_Name
+---------------------------------------------------------
+https://code.visualstudio.com/download  -> Download vs code from here.
+--------------------------------------------------------------------------------------------------
+IDE ->
+1. Vs Code.
+---------------------------------------------------------------------
+Two ways to open project in django-
+1. vscode -> new folder ->open root folder of your project.
+2. 
+JSON -> JAVA SCRIPT OBJECT NOTATION -> H.W.
+------------------------------------------------------------------------------------------------------------
+Command to Run Django Development Server-
+python manage.py runserver   -> http://127.0.0.1:8000/
+-------------------------------------------------------------------
+

@@ -1,0 +1,160 @@
+View(Function)-> View is a special type of function, that always accept httprequest class object as an argument and always return httpResponse class object.
+--------------------------------------------------------------------------------------------------------------------
+def view_sum(request):
+        return HttpResonse("Hello I am Sum")
+---------------------------------------------------------------------------------------------------------
+
+urlpatterns = [
+    path('admin/', admin.site.urls),   
+]
+Syntax:-
+------------------------------------------------------------
+path('urlMapping',ViewName/FunctionName)
+-------------------------------------------------------------
+Debugging:-
+-------------------------
+>> it is a technique by which you can check your code line by line or understand the flow of code.
+Debugging Shortcuts:-
+-----------------------------------
+1. Step Over -> F10
+2. Step Into -> F11
+3. Step Out -> Shift+ F11
+4. Continue -> F5.
+------------------------------------
+How to Render Templates(HTML) in Django:-
+-----------------------------------------------------------
+step-1 : Create one Folder name as 'templates' in your project.
+step-2: Inside this Folder now you can create N number of HTML File.
+render() -> it is used to render/run html file.
+from django.shortcuts import render
+render(request,'filename with extension')
+--------------------------------------------------------------------------------------
+TemplateDoesNotExist at /calc/
+calc.html   ->>>>>   Go to settings.py -> 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['templates'],   // Provide your Folder Name. to solve this error template doesn't exist.
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+------------------------------------------------------------------------------------------------------------------------------------------------
+"""CetpaLive_Project URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/4.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from django.http import HttpResponse
+from django.shortcuts import render
+
+def view_sum(request):
+    return HttpResponse("<h1>Hello! I am Calling SUM</h1>")
+
+def view_sub(request):
+    resp=HttpResponse("<h1>Hii ! I am Calling Sub</h1>")
+    return resp
+
+def view_mult(request):
+    resp=HttpResponse("<h1>Hii! I am Calling Mult</h1>")
+    return resp
+
+def view_div(request):
+    resp=HttpResponse("<h1>Hii!  I am Calling Div </h1>")
+    return resp
+
+def view_calculator(request):
+    resp=render(request,'calc.html')
+    return resp
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/',view_sum),  #http://127.0.0.1:8000/sum/
+    path('sub/',view_sub),
+    path('mult/',view_mult),
+    path('div/',view_div),
+    path('calc/',view_calculator),
+]
+------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body bgcolor="yellow">
+    <h1 align="center">***WELCOME TO MY CALCULATOR PROGRAM***</h1>
+    <table border="3" align="center" bgcolor="pink">
+        <tr>
+            <td>First Number:</td>
+            <td><input type="text" name="t1">  </td>
+        </tr>
+        <tr>
+            <td>Second Number:</td>
+            <td><input type="text" name="t2">  </td>
+        </tr>
+        <tr>
+            <td>Result:</td>
+            <td><input type="text" name="res">  </td>
+        </tr>
+        <tr>
+            <td> <button type="submit">SUM</button> </td>
+        </tr>
+    </table>
+</body>
+</html>
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

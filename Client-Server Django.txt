@@ -1,0 +1,103 @@
+1. How to read client data at Server Machine:-
+------------------------------------------------------------------------
+step-1:-
+-----------------------
+We have following method to post data to the server -  Get, Post, Patch,Option,Put etc.
+<form method="get">
+</form>
+Note: -> if you don't use method attribute in form tag then by default it take Get Request.
+In Get request whatever the value you pass into textbox all information will be show in URL.
+Syntax:-
+-----------------
+http://127.0.0.1:8000/foldername/?keyname=value&keyname=value&keyname=value
+---------------------------------------------------------------------------------------------------------------------
+http://127.0.0.1:8000/calc/?t1=10&t2=30&res=890  ->> Query String or URL-rewriting.
+------------------------------------------------------------------------------------------------------------------------
+2. How to transfer server data to the Client Machine.
+step-1 : Create a dictonary and pass all the data inside this dict.
+d1={'a':a,'b':b,'res':res}
+step:2:-
+--------------------
+Pass this Dictionary into Context.
+resp=render(request,'calc.html',context=d1)
+        return resp
+----------------------------------------
+Now pass dictionary key into html file using this symbol- {{}}
+{{ -> Open Variable.
+}} -> Close Variable.
+{{Key_name/Var_Name}}
+--------------------------------------------------------------------------------------------------
+"""CetpaLive_Project URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/4.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from django.http import HttpResponse
+from django.shortcuts import render
+
+def view_sum(request):
+    return HttpResponse("<h1>Hello! I am Calling SUM</h1>")
+
+def view_sub(request):
+    resp=HttpResponse("<h1>Hii ! I am Calling Sub</h1>")
+    return resp
+
+def view_mult(request):
+    resp=HttpResponse("<h1>Hii! I am Calling Mult</h1>")
+    return resp
+
+def view_div(request):
+    resp=HttpResponse("<h1>Hii!  I am Calling Div </h1>")
+    return resp
+
+def view_calculator(request):
+    if request.method=='GET':
+        a=int(request.GET.get("t1",0))
+        b=int(request.GET.get("t2",0))
+        #res=request.GET.get("res","NA")
+        res=a+b
+        d1={'a':a,'b':b,'res':res}
+        print("a=",a,"b=",b,"res=",res)
+        resp=render(request,'calc.html',context=d1)
+        return resp
+       
+    
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/',view_sum),  #http://127.0.0.1:8000/sum/
+    path('sub/',view_sub),
+    path('mult/',view_mult),
+    path('div/',view_div),
+    path('calc/',view_calculator),
+]
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

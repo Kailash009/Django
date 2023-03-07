@@ -1,0 +1,211 @@
+request.GET  -> Dictionary.
+              .POST
+-----------------------------------------------------------------------------------------
+Forbidden (403)
+CSRF verification failed. Request aborted.
+----------------------------------------------------------------------
+Note:->   To solve this error write {% csrf_token %} inside <form> tag.
+------------------------------------------------------------------------------------------------------------
+CSRF:-
+-----------------------------
+>> It stands for Cross Site Request Forgery.
+>> It doesn't allow to perform POST request from other sites to your site.
+-----------------------------------------------------------------------------------------------------
+How to send POST request from different buttons:-
+------------------------------------------------------------------------
+1. Provide name attribute to all buttons.
+-----------------------------------------------------------------------------------
+"""CetpaLive_Project URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/4.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from django.http import HttpResponse
+from django.shortcuts import render
+
+def view_sum(request):
+    return HttpResponse("<h1>Hello! I am Calling SUM</h1>")
+
+def view_sub(request):
+    resp=HttpResponse("<h1>Hii ! I am Calling Sub</h1>")
+    return resp
+
+def view_mult(request):
+    resp=HttpResponse("<h1>Hii! I am Calling Mult</h1>")
+    return resp
+
+def view_div(request):
+    resp=HttpResponse("<h1>Hii!  I am Calling Div </h1>")
+    return resp
+
+def view_calculator(request):
+    a=int(request.POST.get("t1",0))
+    b=int(request.POST.get("t2",0))
+    if request.method=='GET':
+        resp=render(request,'calc.html')
+        return resp
+    elif request.method=='POST': 
+        if 'btnsum' in request.POST:       
+            #res=request.GET.get("res","NA")
+            res=a+b
+        elif 'btnsub' in request.POST:
+            #res=request.GET.get("res","NA")
+            res=a-b
+        elif 'btnmult' in request.POST:
+            res=a*b
+        elif 'btndiv' in request.POST:
+            res=a/b
+        d1={'a':a,'b':b,'res':res}
+        #print("a=",a,"b=",b,"res=",res)
+        resp=render(request,'calc.html',context=d1)
+        return resp
+    
+def check_NumericButton(request):
+    list_button=['btn1','btn2','btn3','btn4','btn5','btn6','btn7','btn8','btn9','btn0']
+    for b in list_button:
+        if b in request.POST:
+            return b[3] #6  btn6
+    return b[-2]
+
+
+def view_simpleCalc(request):
+    if request.method=='GET':
+        resp=render(request,'simplecalc.html')
+        return resp
+    elif request.method=='POST':
+        numeric=check_NumericButton(request)
+        if(numeric!="-2"):    # 6!=-1  // True
+            output=request.POST.get('res','NA') # output =''
+            output+=numeric  # output=''+6 
+            d1={'res':output}
+            resp=render(request,'simplecalc.html',context=d1)
+            return resp
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/',view_sum),  #http://127.0.0.1:8000/sum/
+    path('sub/',view_sub),
+    path('mult/',view_mult),
+    path('div/',view_div),
+    path('calc/',view_calculator),
+    path('simplecalc/',view_simpleCalc),
+]
+------------------------------------------------------------------------------------------------------------
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body class="bg-light">
+    <form method="post">
+        {% csrf_token %}
+    <h1 class="bg-dark text-white text-center">WELCOME TO MY SIMPLE CALCULATOR</h1>
+    <table align="center" border="3">
+        <thead>
+          <tr>
+            <td colspan="4"> <input type="text" name="res" value="{{res}}"> </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><button class="btn btn-info" name="btn1">1</button> </th>
+            <th><button class="btn btn-primary" name="btn2">2</button></th>
+            <th><button class="btn btn-success" name="btn3">3</button></th>
+            <th><button class="btn btn-danger" name="btn4">4</button></th>
+          </tr>
+          
+            <tr>
+                <th> <button class="btn btn-danger" name="btn5">5</button> </th>
+                <th><button class="btn btn-dark" name="btn6">6</button></th>
+                <th><button class="btn btn-info" name="btn7">7</button></th>
+                <th><button class="btn btn-success" name="btn8">8</button></th>
+              </tr>
+          
+          <tr>
+            <th> <button class="btn btn-dark" name="btn9">9</button> </th>
+                <th><button class="btn btn-primary" name="btn0">0</button></th>
+                <th><button class="btn btn-secondary" name="btn+">+</button></th>
+                <th><button class="btn btn-warning" name="btn-">-</button></th>
+          </tr>
+          <tr>
+            <th> <button class="btn btn-danger" name="btn*">*</button> </th>
+                <th><button class="btn btn-dark" name="btn/">/</button></th>
+                <th><button class="btn btn-info" name="btnC">C</button></th>
+                <th><button class="btn btn-success" name="btn=">=</button></th>
+          </tr>
+
+        </tbody>
+      </table>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    </form>
+  </body>
+</html>
+---------------------------------------------------------------------------------------------------------
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body>
+    <form method="post">
+      {% csrf_token %}
+    <h1 class="text-center bg-dark text-white">**WELCOME TO MY CALCULATOR**</h1>
+    <div class="container">
+        <div class="form-group">
+            <label>Enter First Number:</label>
+            <input type="text" class="form-control" name="t1" value="{{a}}">
+        </div>
+        <div class="form-group">
+            <label>Enter Second Number:</label>
+            <input type="text" class="form-control" name="t2" value="{{b}}">
+        </div>
+        <div class="form-group">
+            <label>Result:</label>
+            <input type="text" class="form-control" name="res" value="{{res}}">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-success form-control mt-3" name="btnsum">SUM </button>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-info form-control mt-3" name="btnsub">SUB </button>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-danger form-control mt-3" name="btnmult">MULT </button>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-warning form-control mt-3" name="btndiv">DIV </button>
+  </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</form>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

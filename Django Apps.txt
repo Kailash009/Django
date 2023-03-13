@@ -1,0 +1,130 @@
+How to create an App inside Django Projects:-
+------------------------------------------------------------------------------
+>> In django we can create multiple apps inside one project.
+>> Creating an app provide flexibility in your project.
+-----------------------------------------------------------------------------------------------------------
+Command to create an app:-
+---------------------------------------------------------------------
+python manage.py startapp appName
+---------------------------------------------------------------------
+Register your App:-
+-------------------------------------
+Go to settings.py  -> Installed_App
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'EMS',   ->>> In this way you can register your app.
+]
+-----------------------------------------------------------------------------------------------------------------------------
+3. URL Mapping:-
+----------------------------------------------------
+Mapping Project URLs to your App Urls:-
+------------------------------------------------------------
+Project URLS:-  urls.py
+-------------------------------------
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/',view_sum),  #http://127.0.0.1:8000/sum/
+    path('sub/',view_sub),
+    path('mult/',view_mult),
+    path('div/',view_div),
+    path('calc/',view_calculator),
+    path('simplecalc/',view_simpleCalc),
+    path('anchal/',include('EMS.urls')),  #http://127.0.0.1:8000/anchal/   ->>>
+]
+-------------------------------------------------------------------------------------------------------------------------------------
+EMS -> App ->  When you newly create an app then you will not get any urls.py file inside it.
+>> First of all,, Create  a python file name as urls.py in your App.
+--------------------------------------------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from django.http import HttpResponse
+# Create your views here.   // BLL
+
+def view_home(request):
+    resp=HttpResponse("<h1>WELCOME TO MY EMS HOME PAGE</h1>")
+    return resp
+
+def view_show(request):
+    resp=HttpResponse("<h1>SHOW ALL EMPLOYEES</h1>")
+    return resp
+
+def view_addition(request,a,b):
+    resp=HttpResponse("<h1>Hii I Am Calling SUM="+str(a+b)+"</h1>")
+    return resp
+-----------------------------------------
+from django.urls import path
+from .views import *
+
+#Base URL  => http://127.0.0.1:8000/ems/
+
+urlpatterns = [
+path('home/',view_home),
+path('show/',view_show),
+path('add/<int:a>/<int:b>/',view_addition),
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

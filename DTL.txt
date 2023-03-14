@@ -1,0 +1,122 @@
+How to Render/Run Templates in your App:-
+------------------------------------------------------------------------
+step-1 : Create one Folder in your app name as 'templates'.
+step-2: Create another folder name as your app name inside templates folder.
+step-3: Now you can Create N number of Html File Inside it.
+-----------------------------------------------------------------------------------------------------------
+DTL :-
+-------------------
+>> DTL stands for Django Template Language.
+>> it works at Server Side.
+>> It is used to make your html pages dynamically.
+-------------------------------------------------------------------------------------
+Comparision between Python and DTL:-
+------------------------------------------------------------------------------------------------
+Python                                                                                          DTL
+------------------------------------------------------------------------------------------------
+1. In python we use the concept                                      1.  In dtl we can also implement the concept of variable.
+of variable.
+2. In python we can use data types.                                 2. In Dtl there is no concept of data type.
+3. In python we use operators.                                         3.  In DTL we also use operator but only Boolean Operator.
+4. In python we use the concept of                                   4. In DTL instead of function we use 'Tags' and 'Filters'.
+     Functions.
+5. In python we use Conditional                                         5. In DTL we also use the concept of Conditional Statements. 
+ Statements.
+6. In python we use Loops.                                                 6. In DTL we don't use for-range and while here we only use
+while,                                                                                                              for-element.
+for -
+range()
+for - element. 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DTL:-
+-------------------
+Variable:-
+--------------------
+{{var/keyname}}
+---------------------------------
+templatetag:-
+-------------------------
+Outputs one of the syntax characters used to compose template tags.
+The template system has no concept of “escaping” individual characters. However, you can use the {% templatetag %} tag to display one of the template tag character combinations.
+The argument tells which template bit to output:
+Argument	Outputs
+openblock	{%
+closeblock	%}
+openvariable	{{
+closevariable	}}
+openbrace	{
+closebrace	}
+opencomment	{#
+closecomment	#}
+------------------------------------------------------
+{% tags or Filter %}
+{{ variable/key }}
+-----------------------------------------------------
+Boolean Operator in DTL:-
+-------------------------------------
+==
+!=
+<
+>
+<=
+>=
+in
+not in
+is
+is not
+---------------------------------------------------------------------------------------
+Conditional Statements:-
+---------------------------------------
+if-else:-
+-----------------
+{% if condition %}
+    statement1
+{% else %}
+    statement2
+{% endif %}
+-----------------------------------------
+wap to find the greatest of two no.
+-------------------------------------------------------------
+Assignment:-
+------------------------------------------------------
+wap to find the greatest in three no.
+-----------------------------------------------------------
+Syntax
+if-elif-else:-
+----------------------
+{% if condition1 %}
+statement1
+{% elif condition2 %}
+statement2
+{% elif condition3 %}
+statement3
+{% elif condition4 %}
+statement4
+{% else %}
+{% endif %}
+----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

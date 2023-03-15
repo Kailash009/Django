@@ -1,0 +1,357 @@
+DTL:-
+----------------------
+Conditional Statements:-
+---------------------------------------
+if-else
+----------------
+Syntax:-
+---------------
+{% if condition %}
+statement1
+{% else %}
+statement2
+{% endif %}
+-----------------------------------------
+if-elif-else:-
+------------------------------------------------
+{% if condition1 %}
+statement1
+{% elif condition2 %}
+statement2
+{% elif condition3 %}
+statement3
+{% elif condition4 %}
+statement4
+{% else %}
+statement5
+{% endif %}
+-----------------------------------------------------------------------
+wap to find greatest among three no.
+---------------------------------------------------------
+Loop:-
+----------------
+For-Element loop is support in DTL.
+----------------------------------------------------------------------------------------
+Syntax:-
+-------------------
+{% for element in collection %}
+statement
+{% endfor %}
+---------------------------------------------------------------------------------
+wap to show 10 dummy record o f Employee.
+---------------------------------------------------------------------------------
+class Employee:
+    def __init__(self):
+        self.name=""
+        self.age=0
+        self.mobileno=""
+        self.city=""
+def get_N_Employee(n):
+    empList=[]
+    for i in range(n):
+        emp=Employee()
+        emp.name="Ayush"
+        emp.age=19
+        emp.mobileno="98790868"
+        emp.city="Noida"
+        empList.append(emp)
+    return empList
+-------------------------------------------------------------------------------------
+The for loop sets a number of variables available within the loop:
+---------------------------------------------------------------------------------------
+Variable	Description
+forloop.counter	The current iteration of the loop (1-indexed)
+forloop.counter0	The current iteration of the loop (0-indexed)
+forloop.revcounter	The number of iterations from the end of the loop (1-indexed)
+forloop.revcounter0	The number of iterations from the end of the loop (0-indexed)
+forloop.first	True if this is the first time through the loop
+forloop.last	True if this is the last time through the loop
+forloop.parentloop	For nested loops, this is the loop surrounding the current one
+---------------------------------------------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from django.http import HttpResponse
+# Create your views here.   // BLL
+
+class Employee:
+    def __init__(self):
+        self.name=""
+        self.age=0
+        self.mobileno=""
+        self.city=""
+def get_N_Employee(n):
+    empList=[]
+    for i in range(1,n+1):
+        emp=Employee()
+        emp.name="Ayush"+str(i)
+        emp.age=19+i
+        emp.mobileno="98790868"+str(i)
+        emp.city="Noida"+str(i)
+        empList.append(emp)
+    return empList
+
+
+def view_home(request):
+    resp=render(request,'EMS/home.html')
+    #resp=HttpResponse("<h1>WELCOME TO MY EMS HOME PAGE</h1>")
+    return resp
+
+def view_show(request):
+    resp=render(request,'EMS/show.html')
+    #resp=HttpResponse("<h1>SHOW ALL EMPLOYEES</h1>")
+    return resp
+
+def view_addition(request,a,b):
+    resp=HttpResponse("<h1>Hii I Am Calling SUM="+str(a+b)+"</h1>")
+    return resp
+
+def view_dtl(request):
+    no=int(request.POST.get('t1',0))
+    employees=get_N_Employee(no)
+    d1={'a':2000,'b':500,'c':100,'employees':employees}
+    resp=render(request,'EMS/dtl.html',context=d1)
+    return resp
+-------------------------------------------------------------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+
+#Base URL  => http://127.0.0.1:8000/ems/
+
+urlpatterns = [
+path('home/',view_home),
+path('show/',view_show),
+path('dtl/',view_dtl),
+path('add/<int:a>/<int:b>/',view_addition),
+]
+--------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTL</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1 align="center">****WELCOME TO DTL - (DJANGO TEMPLATE LANGUAGE)*****</h1>
+Enter No. of Employee you want :  <input type="text" name="t1">
+<button type="submit"> Get Employee </button>
+
+    <h2 align="center">Show Dummy Record of Employee</h2>
+    <table border="3" align="center" bgcolor="pink" width="50%" height="60%">
+        <tr>
+            <th>S.No.</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>MobileNo</th>
+            <th>City</th>
+        </tr>
+        {% for emp in employees %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{emp.name}}</td>
+            <td>{{emp.age}}</td>
+            <td>{{emp.mobileno}}</td>
+            <td>{{emp.city}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td align="center" colspan="5">
+            <h2>No Employee Found!!</h2>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+   {% comment %} {% if a > b and a > c %}
+   <h1>{{a}} is Greater than {{b}} and {{c}} </h1>
+   {% elif b > a and b > c %}
+   <h1>{{b}} is Greater than {{a}} and {{c}} </h1>
+   {% else %}
+   <h1>{{c}} is Greater than {{a}} and {{b}} </h1>
+   {% endif %} {% endcomment %}
+    {% comment %} {% if a > b %}
+    <h1>{{a}} is Greater than {{b}} </h1>  
+    {% else %}
+    <h1>{{b}} is Greater than {{a}}</h1>
+    {% endif %}
+     {% endcomment %}
+    
+    <!-- {% if a == 100 %}
+        <h1>A is Equal to 100</h1>
+        {% else %}
+        <h1>A is not Equal to 100</h1>
+        {% endif %} -->
+    </form>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+Database Connectivity in Django:-
+----------------------------------------------------------------
+Database -> it is collection of table.
+--------------------------------------------------------
+DBMS - Database Management System.
+>> Ms-Access,MySQL,SQLServer,SQLite, PostGres, Oracle,MongoDb,Sybase,DB2 and many more.
+------------------------------------------------------------------------------------------------------------------------------------------------
+Sqlite,
+PostGre
+-------------------------------------------------
+>> In Django we can directly connect with any Database.
+>> No Need to Learn Boaring command of Databases.
+>> Django support ORM (Object Relational Mapping) Model to write commands to interact with database.
+--------------------------------------------------------------------------------------------------------------------------------------------------
+Model :-
+------------------------------
+>> It is the part of database.
+>> Models are the special classes that is used to create table and perform database operations.
+---------------------------------------------------------------------------------------------------------------------------------------------
+MySql :-
+-----------------------
+Create a table having following fields of Employee - eid , name,age, address,mobileno,post.
+create table Employee
+(
+eid int,
+name varchar(50),
+age int,
+address varchar(100),
+mobileno varchar(15),
+post varchar(40)
+);    -> This command is used to create table in MYSQL.  But In Django we don't follow this Query.
+----------------------------------------------------------------------------------------------------------------------------------------
+ORM :-
+------------------
+Note:- > In Django we Create Model Classes to perform database related operations. All model classes are defined into its Parent Class called 'Fields'.
+class Employee(models.Model):   // Model Class
+    eid=models.IntegerField()
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    address=models.CharField(max_length=100)
+    mobileno=models.CharField(max_length=20)
+    post = models.CharField(max_length=50)  -> This command is used for ORM.
+-------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

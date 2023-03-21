@@ -1,0 +1,347 @@
+Update:-
+-----------------------------------
+>> save() is used to perform both update and insert.
+insert -> With New ID.
+update -> Existing ID. (With Existing ID)
+---------------------------------------------------------------------------------------------------------------------------
+Employee.objects.filter()
+
+filter(comma separated keyword argument)
+------------------------------------------------------------------------------------
+How to show all record from database:-
+-----------------------------------------------------------------------
+mysql -> select * from tablename
+-----------------------------------------------
+ORM -> Employee.objects.all()  ->>> return type QuerySet
+----------------------------------------------------------------------------------------------------------------------
+python manage.py shell
+(InteractiveConsole)
+>>> from EMS.models import Employee
+>>> allemp=Employee.objects.all()
+>>> allemp
+<QuerySet [<Employee: Ashish Kumar>, <Employee: ayush>, <Employee: arun singh>, <Employee: ayush>]>
+>>> len(allemp)
+4   
+>>> for emp in allemp:
+...     print(emp.id,emp.name,emp.age,emp.mobileno,emp.eaddress)
+... 
+1 Ashish Kumar 29 9897979 New Ashok Nagar    
+2 ayush 10 876786868 Patel Nagar
+3 arun singh 21 111220033 mayur vihar phase-3
+5 ayush 14 97897979 Pratap Nagar
+>>> allemp
+<QuerySet [<Employee: Ashish Kumar>, <Employee: ayush>, <Employee: arun singh>, <Employee: ayush>]>
+>>> em=allemp[0::2]
+>>> em
+[<Employee: Ashish Kumar>, <Employee: arun singh>]
+>>> em[-2]
+<Employee: Ashish Kumar>
+>>> em[1]
+<Employee: arun singh>
+>>> em[900]
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+IndexError: list index out of range
+>>> em=allemp[0:2:400]
+>>> em
+[<Employee: Ashish Kumar>]
+>>> exit()
+----------------------------------------------------------------------------------------
+CRUD EMployee:-
+--------------------------
+from django.shortcuts import render
+from django.http import HttpResponse
+from EMS.models import Employee
+# Create your views here.   // BLL
+
+# class Employee:
+#     def __init__(self):
+#         self.name=""
+#         self.age=0
+#         self.mobileno=""
+#         self.city=""
+# def get_N_Employee(n):
+#     empList=[]
+#     for i in range(1,n+1):
+#         emp=Employee()
+#         emp.name="Ayush"+str(i)
+#         emp.age=19+i
+#         emp.mobileno="98790868"+str(i)
+#         emp.city="Noida"+str(i)
+#         empList.append(emp)
+#     return empList
+
+def view_home(request):
+   if request.method=='GET':
+        resp=render(request,'EMS/home.html')
+        return resp
+   elif request.method=='POST':
+       if 'btnadd' in request.POST:
+        emp=Employee()
+        emp.name=request.POST.get('txtname','NA')
+        emp.age=int(request.POST.get('txtage',0))
+        emp.mobileno=request.POST.get('txtmobile','NA')
+        emp.eaddress=request.POST.get('txtaddress','NA')
+        emp.save()
+        return HttpResponse("<h1>Employee Added SuccessFully!!!</h1>")
+       elif 'btnsearch' in request.POST:
+           eid=int(request.POST.get('txteid',0))
+           emp=Employee.objects.get(id=eid)
+           d1={'emp':emp}
+           resp=render(request,'EMS/home.html',context=d1)
+           return resp
+       elif 'btnupdate' in request.POST:
+           emp=Employee()
+           emp.id=int(request.POST.get('txteid',0))
+           if Employee.objects.filter(id=emp.id).exists():
+               emp.name=request.POST.get('txtname','NA')
+               emp.age=int(request.POST.get('txtage',0))
+               emp.mobileno=request.POST.get('txtmobile','NA')
+               emp.eaddress=request.POST.get('txtaddress','NA')
+               emp.save()
+               return HttpResponse("<h1>Employee Updated SuccessFully!!!</h1>")
+       elif 'btndelete' in request.POST:
+           eid=int(request.POST.get('txteid',0))
+           Employee.objects.filter(id=eid).delete()
+           return HttpResponse("<h1>Employee Deleted SuccessFully!!!</h1>")
+       elif 'btnshow' in request.POST:
+           allemp=Employee.objects.all()
+           d1={'employees':allemp}
+           resp=render(request,'EMS/home.html',context=d1)
+           return resp
+               
+           
+       
+def view_show(request):
+    resp=render(request,'EMS/show.html')
+    #resp=HttpResponse("<h1>SHOW ALL EMPLOYEES</h1>")
+    return resp
+
+def view_addition(request,a,b):
+    resp=HttpResponse("<h1>Hii I Am Calling SUM="+str(a+b)+"</h1>")
+    return resp
+
+def view_dtl(request):
+    no=int(request.POST.get('t1',0))
+    employees=get_N_Employee(no)
+    d1={'a':2000,'b':500,'c':100,'employees':employees}
+    resp=render(request,'EMS/dtl.html',context=d1)
+    return resp
+-------------------------------------------------------------------------
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body class="bg-light">
+    <form method="post">
+        {% csrf_token %}
+    <h1 class="text-center bg-dark text-white">WELCOME TO MY EMPLOYEE MANAGEMENT SYSTEM</h1>
+    <div class="container">
+    <div class="form-group">
+        <div class="form-group">
+            <label>Enter Employee ID:</label>
+            <input type="text" name="txteid" value="{{emp.id}}" class="form-control">
+        </div>
+        <label>Name:</label>
+        <input type="text" name="txtname" value="{{emp.name}}" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Age:</label>
+        <input type="text" name="txtage" class="form-control" value="{{emp.age}}">
+    </div>
+    <div class="form-group">
+        <label>Mobile No:</label>
+        <input type="number" name="txtmobile" class="form-control" value="{{emp.mobileno}}">
+    </div>
+    <div class="form-group">
+        <label>Address:</label>
+        <input type="text" name="txtaddress" class="form-control" value="{{emp.eaddress}}">
+    </div>
+    <div class="form-group">
+       <button type="submit" class="btn btn-success form-control mt-3" name="btnadd">Add Employee</button>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-warning form-control mt-3" name="btnsearch">Search Employee</button>
+     </div>
+     <div class="form-group">
+        <button type="submit" class="btn btn-primary form-control mt-3" name="btnupdate">Update Employee</button>
+     </div>
+     <div class="form-group">
+        <button type="submit" class="btn btn-danger form-control mt-3" name="btndelete">Delete Employee</button>
+     </div>
+     <div class="form-group">
+        <button type="submit" class="btn btn-dark form-control mt-3" name="btnshow">Show ALL Employee</button>
+     </div>
+     <br/>
+     <br/>
+     <h1 class="bg-dark text-white text-center">SHOW ALL EMPLOYEE</h1>
+     <table class="table table-bordered">
+        <tr>
+            <th>S.NO.</th>
+            <th>NAME</th>
+            <th>AGE</th>
+            <th>MOBILE NO</th>
+            <th>ADDRESS</th>
+        </tr>
+    {% for emp in employees %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{emp.name}}</td>
+            <td>{{emp.age}}</td>
+            <td>{{emp.mobileno}}</td>
+            <td>{{emp.eaddress}}</td>
+        </tr>
+        {% endfor %}
+     </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</form>
+  </body>
+</html>
+----------------------------------------------------------------
+from django.db import models
+
+# Create your models here.
+
+class Employee(models.Model):
+    #id=models.IntegerField() this field automatically generated by Django.
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=19)
+    eaddress=models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
+    
+---------------------------------------
+from django.urls import path
+from .views import *
+
+#Base URL  => http://127.0.0.1:8000/ems/
+
+urlpatterns = [
+path('home/',view_home),
+path('show/',view_show),
+path('dtl/',view_dtl),
+path('add/<int:a>/<int:b>/',view_addition),
+]
+---------------------------------------------------------------------------------------
+Comparison Between MySQL and ORM Query:-
+---------------------------------------------------------------------------------------
+Insert Record in MY Sql:-
+-----------------------------------------
+insert into tablename values(value1,value2,value3.......valueN)
+-----------------------------------------------------------------------------------------
+ORM:-
+------------------------
+Insert:-
+-----------------------
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from EMS.models import Customer
+>>> cus=Customer()
+>>> cus.name='ashish' 
+>>> cus.age=10
+>>> cus.address='Mayur vihar' 
+>>> cus.salary=30000
+>>> cus.mobileno='779708687' 
+>>> cus.save()
+>>> 
+------------------------------------------------------------------------------
+or  :-
+------------------------
+Note: -> In Django to perform any query we have "ManagerObject".
+ManagerObject is like a Model Class. -> Employee,Customer,Department,Inventory,paymentdetails,Student.
+Employee.objects  ->>> ManagerObject.
+Customer.objects.
+Department.objects
+------------------------------------------------------------
+ModelClass.Objects  ->>>> Mangerobject
+ModelClass.objects.
+===============================================
+a) create()
+b) get()  ->>> Pending
+c) filter()
+d) all()
+e) exclude()
+---------------------------------------------------------------------------------------------------
+a) create() :-
+--------------------------------
+>>> cu=Customer.objects.create(name='prateek',age=17,address='New Ashok Nagar',salary=33000,mobileno='3034343')
+>>> cu=Customer.objects.create(name='bhanu',age=15,address='rajendra nagar',salary=10000,mobileno='87934343')
+>>> cu=Customer.objects.create(name='khushi',age=17,address='patel nagar',salary=20000,mobileno='47934343')
+>>> cu=Customer.objects.create(name='sagar',age=24,address='laxmi nagar',salary=7292,mobileno='83934343')
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

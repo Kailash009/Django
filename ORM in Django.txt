@@ -1,0 +1,363 @@
+MYSQL VS ORM Query:-
+-----------------------------------------------------
+TO perform ORM query we have Manager Object by which we can ORM Query.
+ModelClass.Objects.
+Customer.objects.
+1. create()    ->>> Done.
+2. get():-
+>> It return unique value from the table.
+>> if any duplicate value found then it show an error-- 'Multiple record found.'
+>> It is a case sensitive.  ->>> age,  Age, AGE
+MYSQL:-
+----------------
+waq to get the customer whose id is 3.
+select * from customer where id=3       ->>> it returns  only customer 3 record.
+ORM:-
+-----------------
+Customer.objects.get(id=3)   ->>>> ORM Query.
+--------------------------------------------------------------------------------------
+3. filter()
+---------------------------
+>> filter(comma separated keyword argument)
+>> it is also case - sensitive.
+--------------------------------------------------------------------
+>> it is used to fetch more then one record from the table based on the condition.
+-----------------------------------------------------------------------------------------------------------------------------------
+Customer.objects.filter(name='ashish')  ->>>  QuerySet.
+--------------------------------------------------------------------------------------
+MYSQL:-
+----------------
+waq to get all the customer whose salary is less than 30000.
+select * from customer where salary<30000
+----------------------------------------------------------------------------------
+ORM:-
+---------------
+cu=Customer.objects.filter(salary__lt=30000)
+---------------------------------------------------------------------------
+lt  --->>   Less than
+lte -->>   Less than or equal to
+gt --->>  Greater than
+gte -->> Greater than or equal to
+---------------------------------------
+MYSQL:-
+----------------------
+waq to get all the customer whose salary is less than 40000 and greater than 10000.
+select * from customer where salary>10000 and salary<40000
+----------------------------------------------------------------
+ORM :-
+--------------------
+cu=Customer.objects.filter(salary__gt=10000,salary__lt=40000)
+-----------------------------------------------------------------------------------------------
+MYSQL:-
+---------------------------
+waq to get the all customer details whose name contains a.
+select * from customer where name like '%a%'
+---------------------------------------------------------------------------------
+ORM:-
+---------------------
+contains:- It is case not a case sensitive.
+---------------------
+c=Customer.objects.filter(name__contains='a')
+---------------------------------------------------------------------------------
+MYSQL:-
+----------------------
+waq to get all the customer details whose name starts with t.
+select * from customer where name like 't%'
+---------------------------------------------------------------------------------------
+ORM:-
+--------------------
+startswith:- it is not a case sensitive.
+-------------------
+c=Customer.objects.filter(name__startswith='t')
+----------------------------------------------------------------------------------
+MYSQL:-
+--------------------
+waq to get all the customer details whose name ends with i.
+select * from customer where name like '%i'
+------------------------------------------------------------------------------------
+ORM:-
+-------------
+endswith:-
+-----------------
+Customer.objects.filter(name__endswith='i')
+------------------------------------------------------------------------------------------
+4. all():-
+-----------------
+>> The return type of all is 'Query Set'.
+>> It returns all records from the table.
+-----------------------------------------------------------------------------------------------
+MYSQL:-
+---------------------
+waq to get all the customer.
+select * from customer
+------------------------------------
+ORM:-
+--------------
+Customer.objects.all()
+----------------------------------------------
+5. exclude().  ->> It is also a case-sensitive.
+waq to show all the employee except ashish.
+not, <>
+ORM :
+Customer.objects.exclude(name='ashish')
+---------------------------------------------------------------------------------------
+(InteractiveConsole)
+>>> from EMS.models import Customer
+>>> cu=Customer.objects.get(id=3) 
+>>> cu.name
+'Ashish'
+>>> cu.age
+20  
+>>> cu.address
+'Dilshan Garden'
+>>> cu.salary
+25000
+>>> cu.mobileno
+'776034343'
+>>> cus=Customer.objects.get(name='ashish') 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\query.py", line 653, in get
+    raise self.model.MultipleObjectsReturned(
+EMS.models.Customer.MultipleObjectsReturned: get() returned more than one Customer -- it returned 2!
+>>> cus=Customer.objects.get(name='Ashish')
+>>> cus.name
+'Ashish'
+>>> cus.age
+20
+>>> cus.mobileno
+'776034343'
+>>> cus.salary
+25000
+>>> cu=Customer.objects.filter(name='ashish')
+>>> cu
+<QuerySet [<Customer: ashish>, <Customer: ashish>]>
+>>> len(cu)  
+2   
+>>> cu=Customer.objects.filter(salary<30000) 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'salary' is not defined
+>>> cus=Customer.objects.filter(lt__salary=30000) 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\query.py", line 1421, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\query.py", line 1439, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\query.py", line 1446, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\sql\query.py", line 1532, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\sql\query.py", line 1562, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\sql\query.py", line 1407, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\sql\query.py", line 1217, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project\venv\Lib\site-packages\django\db\models\sql\query.py", line 1709, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'lt' into field. Choices are: address, age, id, mobileno, name, salary
+>>> cus=Customer.objects.filter(salary__lt=30000) 
+>>> cus
+<QuerySet [<Customer: Ashish>, <Customer: ashish>, <Customer: bhanu>, <Customer: khushi>, <Customer: sagar>]>
+>>> len(cus) 
+5
+>>> cus=Customer.objects.filter(salary__lte=30000) 
+>>> len(cus) 
+6
+>>> cus
+<QuerySet [<Customer: ashish>, <Customer: Ashish>, <Customer: ashish>, <Customer: bhanu>, <Customer: khushi>, <Customer: sagar>]>
+>>> cu=Customer.objects.filter(salary__gt=10000,salary__lt=40000) 
+>>> cu
+<QuerySet [<Customer: ashish>, <Customer: Ashish>, <Customer: ashish>, <Customer: ayush>, <Customer: prateek>, 
+<Customer: khushi>]>
+>>> len(cu) 
+6
+>>> cu=Customer.objects.filter(salary__gte=10000,salary__lte=40000) 
+>>> len(cu) 
+8
+>>> c=Customer.objects.filter(name__contains='a') 
+>>> c
+<QuerySet [<Customer: ashish>, <Customer: amit>, <Customer: Ashish>, <Customer: ashish>, <Customer: ashish maurya>, <Customer: anup>, <Customer: ayush>, <Customer: ritendra>, <Customer: prateek>, <Customer: bhanu>, <Customer: sagar>]>
+>>> len(c) 
+11
+>>> c=Customer.objects.filter(name__contains='i') 
+>>> c
+<QuerySet [<Customer: ashish>, <Customer: amit>, <Customer: Ashish>, <Customer: ashish>, <Customer: ashish maurya>, <Customer: ritendra>, <Customer: khushi>]>
+>>> c=Customer.objects.filter(name__contains='')  
+>>> c
+<QuerySet [<Customer: ashish>, <Customer: amit>, <Customer: Ashish>, <Customer: ashish>, <Customer: ashish maurya>, <Customer: anup>, <Customer: ayush>, <Customer: ritendra>, <Customer: prateek>, <Customer: bhanu>, <Customer: khushi>, <Customer: sagar>]>
+>>> len(c) 
+12
+>>> c=Customer.objects.filter(name__contains='k') 
+>>> c
+<QuerySet [<Customer: prateek>, <Customer: khushi>]>
+>>> c=Customer.objects.filter(name__startswith='t') 
+>>> c
+<QuerySet []>
+>>> len(c) 
+0
+>>> c=Customer.objects.filter(name__startswith='p') 
+>>> c
+<QuerySet [<Customer: prateek>]>
+>>> c=Customer.objects.filter(name__startswith='a') 
+>>> c
+<QuerySet [<Customer: ashish>, <Customer: amit>, <Customer: Ashish>, <Customer: ashish>, <Customer: ashish maurya>, <Customer: anup>, <Customer: ayush>]>
+>>> c=Customer.objects.filter(name__endswith='i') 
+>>> c
+<QuerySet [<Customer: khushi>]>
+>>> len(c) 
+1
+>>> c=Customer.objects.filter(name__endswith='h') 
+>>> c
+<QuerySet [<Customer: ashish>, <Customer: Ashish>, <Customer: ashish>, <Customer: ayush>]>
+>>> len(c) 
+4
+>>> for e in c:
+...     print(e.name,e.age,e.salary,e.mobileno,e.address)
+... 
+ashish 10 30000 779708687 Mayur vihar
+Ashish 20 25000 776034343 Dilshan Garden
+ashish 22 15000 26034343 Mayur Garden
+ayush 14 34000 98034343 Shadra
+>>> cus=Customer.objects.all()
+>>> cus
+<QuerySet [<Customer: ashish>, <Customer: amit>, <Customer: Ashish>, <Customer: ashish>, <Customer: ashish maurya>, <Customer: anup>, <Customer: ayush>, <Customer: ritendra>, <Customer: prateek>, <Customer: bhanu>, <Customer: khushi>, <Customer: sagar>]>
+>>> len(cus) 
+12
+>>> print(type(cus)) 
+<class 'django.db.models.query.QuerySet'>
+>>> for cu in cus:
+...     print(cu.id,cu.name,cu.age,cu.address,cu.salary,cu.mobileno)
+... 
+1 ashish 10 Mayur vihar 30000 779708687
+2 amit 19 Faridabad 40000 886034343
+3 Ashish 20 Dilshan Garden 25000 776034343
+4 ashish 22 Mayur Garden 15000 26034343
+5 ashish maurya 13 Basant Garden 55000 7634343
+6 anup 19 Mayur Vihar 55000 34034343
+7 ayush 14 Shadra 34000 98034343
+8 ritendra 22 Tilak Nagar 43000 76034343
+9 prateek 17 New Ashok Nagar 33000 3034343
+10 bhanu 15 rajendra nagar 10000 87934343
+11 khushi 17 patel nagar 20000 47934343
+12 sagar 24 laxmi nagar 7292 83934343
+>>> cusall=cus[0::2]
+>>> cusall
+[<Customer: ashish>, <Customer: Ashish>, <Customer: ashish maurya>, <Customer: ayush>, <Customer: prateek>, <Customer: khushi>]
+>>> len(cusall) 
+6
+>>> cut=cusall[-3]
+>>> cut
+<Customer: ayush>
+>>> cut=cusall[40]
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+IndexError: list index out of range
+>>> cut=cusall[1:3456:2]
+>>> cut
+[<Customer: Ashish>, <Customer: ayush>, <Customer: khushi>]
+>>> cut[-3]
+<Customer: Ashish>
+>>> cut[-2] 
+<Customer: ayush>
+>>> cu=Customer.objects.exclude(name='ashish')  
+>>> cu
+<QuerySet [<Customer: amit>, <Customer: Ashish>, <Customer: ashish maurya>, <Customer: anup>, <Customer: ayush>, <Customer: ritendra>, <Customer: prateek>, <Customer: bhanu>, <Customer: khushi>, <Customer: sagar>]>        
+>>> cu=Customer.objects.exclude(name='anup')   
+>>> cu
+<QuerySet [<Customer: ashish>, <Customer: amit>, <Customer: Ashish>, <Customer: ashish>, <Customer: ashish maurya>, <Customer: ayush>, <Customer: ritendra>, <Customer: prateek>, <Customer: bhanu>, <Customer: khushi>, <Customer: sagar>]>
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Summarize:-
+-------------------------------------------
+1. create()
+2. get()
+3. filter()
+4. all()
+5. exclude()
+------------------------------------
+lt -> Less than
+lte -> Less than or Equal to.
+gt -> Greater than.
+gte -> Greater than or Equal to.
+----------------------------------------------
+contains()
+startswith()
+endswith()
+-----------------------------------------------------------------------
+How to connect with POSTGRESQL in Django:-
+------------------------------------------------------------------------
+1. First Install POSTGRE in your PC.
+https://www.postgresql.org/download/
+---------------------------------------------------------------
+2. Then Open your PosgreSQL  -> Type 'pgadmin' in your search bar.  ->> create one Database -> 
+3. write connection string in your project for postgreSQL:-
+Project -> Settings.py  -> Comment SqlLite setting -> add postgre sql setting.
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Batch10AM',                      
+        'USER': 'postgres',
+        'PASSWORD': 'joshi',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}   -> Connection String For PostGRES.
+----------------------------------------------------------------------------------------------
+4. Install Package for Postgres:-
+pip install postgres
+5. Now Run Migration Command.
+python manage.py makemigrations
+python manage.py migrate
+-----------------------------------------------------------------------
+Assignment Question:-
+-------------------------------------
+Connectivity with MYSQL in Django:-
+----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

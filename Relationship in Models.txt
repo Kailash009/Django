@@ -1,73 +1,79 @@
-Relationship between Models:-
-----------------------------------------------------------------
+---------------------------------------------------------
+Relationship Between Models:-
+----------------------------------------------------------
+Types of relationship among Models:-
+-------------------------------------------------------
 1. One to One.
 2. One to Many or Many to One.
-3, Many to Many.
------------------------------------------------------------------------------------
-Student   -- 100 Student
-Course  --- 10
-------------------------------------------------------------------
-1 S => Many Course
-1 Course => Many Student
-------------------------------------------------------------------
-Student - PersonalDetails - One to One
-------------------------------------------------------------------
-Student - PaymentDetails -> One to Many.
--------------------------------------------------------------------
-1S -> Many Payment Details.
------------------------------------------------------
-Create a New App -
------------------------------------------------
-1. python manage.py startapp app_name
-2. Register
-3. URL Mapping
---------------------------------------------------------------------
-Database Connectivitiy in Django:-
------------------------------------------------------
->> In Django you can directly connect with any database.
-How to connect with PostGreSql :-
------------------------------------------------------------------------
-1. Install PostGreSql -> https://www.postgresql.org/download/
-2. Go to settings.py and write settings for PostGreSql.
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Batch10AM',                      
-        'USER': 'postgres',
-        'PASSWORD': 'joshi',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-3. pip install postgres
-4. Run Migration Commands.
-------------------------------------------------------
-Assignment Task:-
------------------------------------------------------------------------
-Connnect Django Models with MySql.
------------------------------------------------------------------------
+3. Many to Many.  -> Student - Course
+---------------------------------------------------------------------------------------------------
+Student   ---- 1000
+Course  -> 5      ->>> Many to Many.
+1 S => Many Course.
+1C => Many Student.
+------------------------------------------------------------------------------------
+Student -> PaymentDetails ->> One to Many or Many to One.  (Foreign Key)
+1S=> Multiple payment
+-------------------------------------------------------------------------------------------------
+Student -> PersonalDetail  -> One to One.
+1S -> 1 PD
+--------------------------------------------------------------------------------------------------
+How to Create Model using Relationship:-
+------------------------------------------------------------------------
+1. python manage.py startapp app_Name
+2. Register your App.
+3. URL Mapping.
+-----------------------------------------------------------------------------
+created_date -> 2023-03-23 05:31:50.741637  |   2023-03-23 05:31:50.741637
+last_modified_date ->  2023-03-23 05:31:50.741637  | 2023-03-23 05:45:16.729611
+-------------------------------------------------------------------------------------------------------------------------
+Creating Relationship in Django:-
+---------------------------------------------
+Note: To provide Relationship in Django we have predefine Model Fields to perform relation between Models. They are as follows:-
+1. OnetoOneField.
+2. Foreign Key.
+3. ManytoManyField.
+---------------------------------------------------------------------------------
+Student -> PaymentDetails -> One to Many (ForeignKey)
+-------------------------------------------------------------------------------
+student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)  # Mandatory.
 
+Student
+----------------------------
+amit     19
+-----------------------------
+paymentdetails
+---------------------------
+amount
+3000
+6000  -> on_delete=models.CASCADE -> if you delete any student record its related all paymentdetails automatically deleted from the table.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 from django.db import models
 
 # Create your models here.
 
 class Student(models.Model):
-    name=models.CharField(max_length=50)
+    name=models.CharField(max_length=100,null=False,blank=False)
     age=models.IntegerField()
-    mobileno=models.CharField(max_length=18)
+    mobileno=models.CharField(max_length=20)
     dob=models.DateField(null=True,blank=True)
     pic=models.ImageField(null=True,blank=True)
     created_date=models.DateTimeField(auto_now_add=True)
-    last_modifed_date=models.DateTimeField(auto_now=True)
+    last_modified_date=models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.name
 
+class Course(models.Model):
+    name=models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
 
-
-
-
-
-
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Cash','Cash'),('Debit Card','Debit Card'),('Credit Card','Credit Card'),('UPI','UPI')])
+    payment_date=models.DateTimeField(auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)  # Due to relationship
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

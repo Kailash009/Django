@@ -1,0 +1,294 @@
+One to Many:-
+-----------------------------------
+Student - PaymentDetails
+-----------------------------------------------
+class Student(models.Model):
+    name=models.CharField(max_length=100,null=False,blank=False)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=20)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_modified_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Cash','Cash'),('Debit Card','Debit Card'),('Credit Card','Credit Card'),('UPI','UPI')])
+    payment_date=models.DateTimeField(auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE) 
+---------------------------------------------------------------------------------------------------------------------------------------------
+s1=Student()
+s1.name='anup'
+s1.age=19
+s1.mobileno='879798'
+s1.save()  -> anup added.
+------------------------------------------------------------
+p1=PaymentDetails()
+p1.amount=4000
+p1.payment_ mode='Cash'
+p1.student=s1
+p1.save()  -> anup pay 4000.
+----------------------------------------------------------------
+(InteractiveConsole)
+>>> from SMS.models import *
+>>> s1=Student()
+>>> s1.name='anup' 
+>>> s1.age=19
+>>> s1.mobileno='988979'
+>>> s1.save()
+>>> p1=PaymentDetails()
+>>> p1.amount=4000
+>>> p1.payment_mode='Cash' 
+>>> p1.student=s1
+>>> p1.save()
+>>> s2=Student.objects.get(id=1) 
+>>> s2.name
+'Amit Kumar'
+>>> p2=PaymentDetails()
+>>> p2.amount=2000
+>>> p2.payment_mode='Debit Card' 
+>>> p2.student=s2
+>>> p2.save()
+>>> p3=PaymentDetails() 
+>>> p3.amount=6000 
+>>> p3.payment_mode='Credit Card' 
+>>> p3.student=s2
+>>> p3.save()
+>>> s=Student()
+>>> s.name='ashish' 
+>>> s.age=22
+>>> s.mobileno='7697979'
+>>> s.save()
+>>> PaymentDetails.objects.create(amount=1000,payment_mode='UPI',student=s)
+<PaymentDetails: PaymentDetails object (4)>
+>>> PaymentDetails.objects.create(amount=8000,payment_mode='Cash',student=s)
+<PaymentDetails: PaymentDetails object (5)>
+>>> PaymentDetails.objects.create(amount=3400,payment_mode='Cash',student=s)
+<PaymentDetails: PaymentDetails object (6)>
+>>> Student.objects.create(name='bhanu singh',age=21,mobileno='990089797')
+<Student: bhanu singh>
+>>> s=Student.objects.get(id=4)
+>>> s.name
+'bhanu singh'
+>>> PaymentDetails.objects.create(amount=4400,payment_mode='Debit Card',student=s)
+<PaymentDetails: PaymentDetails object (7)>
+>>> PaymentDetails.objects.create(amount=2300,payment_mode='Credit Card',student=s)
+<PaymentDetails: PaymentDetails object (8)>
+------------------------------------------------------------------------------------------------------------------------------------
+How to access payment Details to Student:-
+--------------------------------------------------------------------------
+waq to find the student name whose payment is 8000.
+p1=PaymentDetails.objects.get(amount=8000)
+p1.amount  -> 8000
+p1.payment_mode -> Cash
+p1.student.name  -> 'ashish'
+----------------------------------------------------------------------------------------------------------------------
+How to access Student to PaymentDetails:-
+-----------------------------------------------------------------
+waq to find the no. of payment of student whose id is 3.
+s=Student.objects.get(id=3)
+s.name -> 'ashish'
+allp=s.paymentdetails_set.all()  -> due to relationship.  -> paymentdetails_set  
+--------------------------------------------------------------------------------------------------------------------------
+s=Student.objects.get(id=2)
+s.name  -> anup
+allp=s.paymentdetails_set.all()
+allp
+--------------------------------------------------------------------------
+>>> p1=PaymentDetails.objects.get(amount=8000) 
+>>> p1.amount
+8000
+>>> p1.payment_mode
+'Cash'
+>>> p1.payment_date
+datetime.datetime(2023, 3, 27, 4, 59, 35, 17230, tzinfo=datetime.timezone.utc)
+>>> p1.student.name
+'ashish'
+>>> p1.student.age
+22
+>>> p1.student.mobileno
+'7697979'
+>>> s1=Student.objects.get(id=3) 
+>>> s1.name
+'ashish'
+>>> s1.age
+22
+>>> s1.mobileno
+'7697979'
+>>> allp=s.paymentdetails_set.all()
+>>> allp
+<QuerySet [<PaymentDetails: PaymentDetails object (7)>, <PaymentDetails: PaymentDetails object (8)>]>
+>>> len(allp) 
+2
+>>> s.name
+'bhanu singh'
+>>> allp=s1.paymentdetails_set.all() 
+>>> allp
+<QuerySet [<PaymentDetails: PaymentDetails object (4)>, <PaymentDetails: PaymentDetails object (5)>, <PaymentDetails: PaymentDetails object (6)>]>
+>>> len(allp) 
+3
+>>> for pay in allp:
+...     print(pay.amount,pay.payment_mode)    
+... 
+1000 UPI
+8000 Cash
+3400 Cash
+>>> s=Student.objects.get(id=2)
+>>> s.name
+'anup'
+>>> allp=s.paymentdetails_set.all()
+>>> allp
+<QuerySet [<PaymentDetails: PaymentDetails object (1)>]>
+>>> len(allp)
+1
+>>> print(type(allp))
+<class 'django.db.models.query.QuerySet'>
+>>>
+------------------------------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from SMS.models import *
+# Create your views here.
+
+def get_payment_details(request):
+    if request.method=='GET':
+        resp=render(request,'SMS/payment.html')
+        return resp
+    elif request.method=='POST':
+        sid=int(request.POST.get('txteid',0))
+        stu=Student.objects.get(id=sid)
+        allp=stu.paymentdetails_set.all()
+        d1={'payments':allp,'stu':stu,'sid':sid}
+        resp=render(request,'SMS/payment.html',context=d1)
+        return resp
+--------------------------------------------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+#Base URL => http://127.0.0.1:8000/sms/
+
+urlpatterns = [
+path('payment/',get_payment_details)    
+]
+------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>**PAYMENT DETAILS**</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1 align="center">***STUDENT WISE PAYMENT DETAILS***</h1>
+    Enter Student ID:  <input type="text" name="txteid">
+    <button>Get Payment Details</button>
+    <br>
+    <br/>
+    <table border="3" bgcolor="pink">
+        <tr>
+            <th>S.NO.</th>
+            <th>NAME</th>
+            <th>AMOUNT</th>
+            <th>MODE</th>
+            <th>DATE</th>
+        </tr>
+        {% for pay in payments %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{stu.name}}</td>
+            <td>{{pay.amount}}</td>
+            <td>{{pay.payment_mode}}</td>
+            <td>{{pay.payment_date}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5"> <h1 style="color:red;background-color:black;"> No Payment Found!! </h1> </td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------------------------------------------
+from django.db import models
+
+# Create your models here.
+
+class Student(models.Model):
+    name=models.CharField(max_length=100,null=False,blank=False)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=20)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_modified_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+
+class Course(models.Model):
+    name=models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Cash','Cash'),('Debit Card','Debit Card'),('Credit Card','Credit Card'),('UPI','UPI')])
+    payment_date=models.DateTimeField(auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)  # Due to relationship
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

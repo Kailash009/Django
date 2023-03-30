@@ -1,7 +1,119 @@
-Many to Many Relationship in Django:-
--------------------------------------------------------------
+Many to Many:-
+-----------------------------------------
 Student - Course
+-----------------------------------------
+1 S -> Many Course
+1C -> Many Student
+-------------------------------------------------------
+class Course(models.Model):
+    name=models.CharField(max_length=100)
+    students=models.ManyToManyField(Student,null=True,blank=True)
+    def __str__(self):
+        return self.name
+------------------------------------------------------------------------------------------------
+Course - Student:-
+------------------------------------
+waq to find total no. student enroll in dot net course.
+cid=Course.objects.get(id=2)
+cid.name -->>  'Dot Net'
+allstu=cid.students.all()
+allstu  --->> QuerySet.
+-----------------------------------------------------------------------------
+>>> from SMS.models import *
+>>> c=Course.objects.get(id=2) 
+>>> c.id
+2   
+>>> c.name
+'Dot Net'
+>>> allstu=c.students.all()
+>>> len(allstu) 
+2
+>>> allstu
+<QuerySet [<Student: anup>, <Student: ashish>]>
+>>> c=Course.objects.get(id=6) 
+>>> c.nam
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Course' object has no attribute 'nam'
+>>> c.name
+'AWS'
+>>> alls=c.students.all()
+>>> alls
+<QuerySet []>
+>>> c=Course.objects.get(id=5) 
+>>> c.name
+'React'
+>>> alls=c.students.all()
+>>> alls
+<QuerySet [<Student: anup>, <Student: bhanu singh>]>
+---------------------------------------------------------------------------------------------------------------------------
+d1={1:'Apple',2:'Mango',3:'Graphes'}  
+
+
+d1['abc']='Java'    ->>> d1={1:'Apple',2:'Mango',3:'Graphes','abc':'Java'}  
+------------------------------------------------------------------------
+Assignment Task:-
+--------------------------------
+wap to post data to the server without submit button using J.S.
+------------------------------------------------------------------------------------------------
+ Java Script  -->> Pending.
+-------------------------------------------------------------
+from django.urls import path
+from .views import *
+#Base URL => http://127.0.0.1:8000/sms/
+
+urlpatterns = [
+path('payment/',get_payment_details),
+path('course/',view_getstudentcoursedetails),
+]
+-----------------------------------------------------------------
+from django.shortcuts import render
+from SMS.models import *
+# Create your views here.
+
+def get_payment_details(request):
+    d1={}
+    if request.method=='GET':
+        resp=render(request,'SMS/payment.html')
+        return resp
+    elif request.method=='POST':
+        try:
+            sid=int(request.POST.get('txteid',0))
+            stu=Student.objects.get(id=sid)
+            allp=stu.paymentdetails_set.all()
+            d1={'payments':allp,'stu':stu,'sid':sid}
+            resp=render(request,'SMS/payment.html',context=d1)
+            return resp
+        except Student.DoesNotExist:
+            d1['msg']="Student Doesn't Exist"
+            resp=render(request,'SMS/payment.html',context=d1)
+            return resp
+
+def view_getstudentcoursedetails(request):
+    allc=Course.objects.all()
+    d1={'courses':allc}    
+    if request.method=='GET':
+        c=Course.objects.get(id=1)
+        d1['cid']=c.id
+        d1['cname']=c.name
+        allstu=c.students.all()
+        d1['students']=allstu
+        resp=render(request,'SMS/course.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        cid=int(request.POST.get('course',0))
+        c=Course.objects.get(id=cid)
+        d1['cid']=c.id
+        d1['cname']=c.name
+        allstu=c.students.all()
+        d1['students']=allstu
+        resp=render(request,'SMS/course.html',context=d1)
+        return resp
 ---------------------------------
+from django.db import models
+
+# Create your models here.
+
 class Student(models.Model):
     name=models.CharField(max_length=100,null=False,blank=False)
     age=models.IntegerField()
@@ -18,119 +130,13 @@ class Course(models.Model):
     students=models.ManyToManyField(Student,null=True,blank=True)
     def __str__(self):
         return self.name
----------------------------------------------------------------------------------------------------
-Student amit and ashish enroll in python
-s1=Student.objects.get(id=1)
-s1.name --> 'Amit Kumar'
-s2=Student.objects.get(id=3)
-s2.name ='ashish'
-c=Course.objects.get(id=1)
-c.name -- 'python'
-c.students.add(s1,s2)  ->> BOTH STUDENT ENROLL IN PYTHON COURSE.
-------------------------------------------------------------------------------------------------------------------
-Type "help", "copyright", "credits" or "license" for more information.
-(InteractiveConsole)
->>> from SMS.models import *   
->>> c=Course()
->>> c.name='Python' 
->>> c.save)
-  File "<console>", line 1
-    c.save)
-          ^
-SyntaxError: unmatched ')'
->>> c.save()
->>> c.name='Dot Net' 
->>> c.save()
->>> c.name='Java'    
->>> c.save()
->>> c.name='Python'
->>> c.save()
->>> c1=Course()
->>> c1.name='Dot Net' 
->>> c1.save()
->>> c2=Course()
->>> c2.name='Java' 
->>> c2.save()
->>> c3.name='Angular' 
-Traceback (most recent call last):
-  File "<console>", line 1, in <module>
-NameError: name 'c3' is not defined
->>> c3=Course()       
->>> c3.name='Angular' 
->>> c3.save()
->>> c5=Course()
->>> c5.name='React' 
->>> c5.save()
->>> s1=Student.objects.get(id=1) 
->>> s1.name
-'Amit Kumar'
->>> s2=Student.objects.get(id=3) 
->>> s2.name
-'ashish'
->>> c=Course.objects.get(id=1) 
->>> c.name
-'Python'
->>> c.students.add(s1,s2) 
->>> s2.name
-'ashish'
->>> s3=Student.objects.get(id=2) 
->>> s3.name
-'anup'
->>> c=Course.objects.get(id=2) 
->>> c.nmae
-Traceback (most recent call last):
-  File "<console>", line 1, in <module>
-AttributeError: 'Course' object has no attribute 'nmae'
->>> c.name
-'Dot Net'
->>> c.students.add(s2,s3) 
->>> s1.name
-'Amit Kumar'
->>> s2.name
-'ashish'
->>> s3.name
-'anup'
->>> s4=Student.objects.get(id=4) 
->>> s4.name
-'bhanu singh'
->>> c=Course.objects.get(id=3) 
->>> c.name
-'Java'
->>> c.students.add(s1,s2,s3,s4) 
->>> s1.name
-'Amit Kumar'
->>> s5=Student.objects.get(id=5) 
->>> s5.name
-'kartik'
->>> c=Course.objects.get(id=4) 
->>> c.name
-'Angular'
->>> c.students.add(s1,s5) 
->>> s2.name
-'ashish'
->>> s1.name
-'Amit Kumar'
->>> s3.name
-'anup'
->>> s4.name
-'bhanu singh'
->>> c=Course.objects.get(id=5) 
->>> c.name
-'React'
->>> c.students.add(s3,s4) 
--------------------------------------------------------------------------------------------------
-select * from course  -> MYSQL
-course.objects.all()-----------------------
------------------------------------------------------
-def view_getstudentcoursedetails(request):
-    if request.method=='GET':
-        allc=Course.objects.all()
-        d1={'courses':allc}
-        resp=render(request,'SMS/course.html',context=d1)
-        return resp
-    elif request.method=='POST':
-        pass
-----------------------------------------------------------------
+
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Cash','Cash'),('Debit Card','Debit Card'),('Credit Card','Credit Card'),('UPI','UPI')])
+    payment_date=models.DateTimeField(auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)  # Due to relationship
+-------------------------------------------------
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -140,15 +146,22 @@ def view_getstudentcoursedetails(request):
     <title>COURSE</title>
 </head>
 <body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
     <h1>***COURSE WISE STUDENT DETAILS***</h1>
     Select Course:
-    <select>
+    <select name="course">
         {% for course in courses %}
+        {% if cid == course.id %}
+        <option value="{{course.id}}" selected>{{course.name}}</option>
+        {% else %}
         <option value="{{course.id}}">{{course.name}}</option>
+        {% endif %}
         {% endfor %}
     </select>
     <button type="submit">Show Student Details</button>
     <br/><br/>
+    <h1>We Have Following Student of {{cname}} Given Below:</h1>
     <table border="3" bgcolor="pink">
         <tr>
         <th>S.NO</th>
@@ -156,31 +169,45 @@ def view_getstudentcoursedetails(request):
         <th>MOBILE NO</th>
         <th>DATE</th>
         </tr>
+        {% for stu in students %}
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{forloop.counter}}</td>
+            <td>{{stu.name}}</td>
+            <td>{{stu.mobileno}}</td>
+            <td>{{stu.created_date}}</td>
         </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4"><h1 style="background-color: red;color:white;">No Student Enrolled!!</h1></td>
+        </tr>
+        {% endfor %}
     </table>
+</form>
 </body>
 </html>
---------------------------------------------------------------------
-from django.urls import path
-from .views import *
-#Base URL => http://127.0.0.1:8000/sms/
+------------------------------------------------------
 
-urlpatterns = [
-path('payment/',get_payment_details),
-path('course/',view_getstudentcoursedetails),
-]
---------------------------------------------------------------------------------------
-class Course(models.Model):
-    name=models.CharField(max_length=100)
-    students=models.ManyToManyField(Student,null=True,blank=True)
-    def __str__(self):
-        return self.name
-------------------------------------------------------------------------------------------------
+
+
+
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

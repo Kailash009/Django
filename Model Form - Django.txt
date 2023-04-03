@@ -1,0 +1,215 @@
+wap to submit form without submit button:-
+--------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COURSE</title>
+    <script>
+        function submit_data_to_server()
+        {
+            var frm_data=document.getElementById("frm");
+            frm_data.submit();
+        }
+    </script>
+</head>
+<body bgcolor="yellow">
+    <form method="post" id="frm">
+        {% csrf_token %}
+    <h1>***COURSE WISE STUDENT DETAILS***</h1>
+    Select Course:
+    <select name="course" onchange="submit_data_to_server()">
+        {% for course in courses %}
+        {% if cid == course.id %}
+        <option value="{{course.id}}" selected>{{course.name}}</option>
+        {% else %}
+        <option value="{{course.id}}">{{course.name}}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
+    {% comment %} <button type="submit">Show Student Details</button> {% endcomment %}
+    <br/><br/>
+    <h1>We Have Following Student of {{cname}} Given Below:</h1>
+    <table border="3" bgcolor="pink">
+        <tr>
+        <th>S.NO</th>
+        <th>NAME</th>
+        <th>MOBILE NO</th>
+        <th>DATE</th>
+        </tr>
+        {% for stu in students %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{stu.name}}</td>
+            <td>{{stu.mobileno}}</td>
+            <td>{{stu.created_date}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4"><h1 style="background-color: red;color:white;">No Student Enrolled!!</h1></td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------------------
+Model -->> Relationship between Models  ->>  Model Form
+-----------------------------------------------------------------------------------------------------
+Model Form ==>>>> 
+------------------------------------------
+20 Fields -> 
+--------------------------
+>> In Model form no need to write HTML Code.
+-------------------------------------------------------------------------
+>> Model Form automatically generate html code for you.
+>> In model form you create dynamic HTML Controls.
+---------------------------------------------------------------------------
+Model  ->> Model Form
+-------------------------------------------------------------
+Steps for creating Model Form:-
+--------------------------------------------------------------
+1. Create one python file in your app with any name  -> "forms.py"
+2.  from django import forms
+from SMS.models import Student
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields=['name','age','mobileno']
+----------------------------------------------------------------------------------------------------
+
+def view_student(request):
+    if request.method=='GET':
+        frm_unbound=StudentForm()
+        d1={'forms':frm_unbound}
+        resp=render(request,'SMS/student.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        frm_bound=StudentForm(request.POST)
+        if frm_bound.is_valid():  # Server Side Validation
+            frm_bound.save()
+            return HttpResponse("<h1>Student Registered SuccessFully!!</h1>")
+        else:
+            d1={'forms':frm_bound}
+            resp=render(request,'SMS/student.html',context=d1)
+            return resp
+
+def view_paymentDetails(request):
+    if request.method=='GET':
+        frm_unbound=PaymentDetailsForm()
+        d1={'payments':frm_unbound}
+        resp=render(request,'SMS/paymentdetail.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        frm_bound=PaymentDetailsForm(request.POST)
+        if frm_bound.is_valid():
+            frm_bound.save()
+            return HttpResponse("<h1>Payement Done SuccessFully!!</h1>")
+        else:
+            d1={'payments':frm_bound}
+            resp=render(request,'SMS/paymentdetail.html',context=d1)
+            return resp
+-----------------------------------------------------------------------------------------------
+from django import forms
+from SMS.models import Student,PaymentDetails
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields='__all__'    #['name','age','mobileno']
+
+
+class PaymentDetailsForm(forms.ModelForm):
+    class Meta:
+        model=PaymentDetails
+        fields='__all__'
+----------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDENT</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1 align="center">**Student Registration Form**</h1>
+    <table align="center" border="3" bgcolor="pink">
+    {{forms}}
+    <tr>
+        <td> <button type="submit">Register</button>   </td>
+    </tr>
+</table>
+</form>
+</body>
+</html>
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Details</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1 align="center">**PAYMENT DETAILS**</h1>
+    <table border="3" align="center" bgcolor="pink">
+{{payments}}
+<tr>
+    <td> <button type="submit">Get Payment</button> </td>
+</tr>
+</table>
+</form>
+</body>
+</html>
+----------------------------------
+from django.urls import path
+from .views import *
+#Base URL => http://127.0.0.1:8000/sms/
+
+urlpatterns = [
+path('payment/',get_payment_details),
+path('course/',view_getstudentcoursedetails),
+path('student/',view_student),
+path('payments/',view_paymentDetails),
+]
+-----------------------------------------------
+VALIDATION -> PENDING
+----------------------------------------------
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

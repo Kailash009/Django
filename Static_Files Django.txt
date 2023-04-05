@@ -1,0 +1,89 @@
+Static Files in Django:-
+---------------------------------------
+Static Files :-
+------------------------
+>> It is a collection of css,js,images and fonts.
+----------------------------------------------------------------------
+Connectivity using External Css in Django:-
+----------------------------------------------------------------------
+step-1:  create static folder inside your app.
+step-2: create another folder name as your appname inside static folder.
+step-3: create another folder name as css inside your appname. -> Inside it Now you can create N Number of Css Files.
+step-4: create another folder name as js inside your appname -> Inside it Now you can create N number of js Files.
+step-5: create another folder name as images inside your appname -> Inside it Now you can create N number of Images.
+----------------------------------------------------------------------------------------------------------------
+Note:-
+----------------
+>> Django Provide static url settings in settings.py :-
+STATIC_URL = 'static/'   ->>> 
+STATIC_URL = 'static/'   #http://127.0.0.1:8000/static/
+http://127.0.0.1:8000/static/SMS/images/ganesh.jpg
+-------------------------------------------------------------------------------------------------------
+Syntax to Load Images:-
+--------------------------------------
+{% static 'imgpath' %}
+------------------------------------------
+Invalid block tag on line 15: 'static'. Did you forget to register or load this tag? 
+TO solve this error you have to write this line  -->>>>>   {% load static %}  -> on the top of html page.
+-----------------------------------------------------------------------------------------------------------------------------------------
+Link ->>> href,rel,type
+----------------------------------------------------
+Collect Static:-
+-------------------------------------
+Before Run collectstatic command in your terminal you have to create STATIC_ROOT in your project settings.py, otherwise you will get this Error which is given Below:-
+"django.core.exceptions.ImproperlyConfigured: You're using the staticfiles app without having set the STATIC_ROOT setting to a filesystem path."
+
+Project Path ->   H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project   -> Base_DIR 
+                      ->    H:\Batch10AMDjango\MyAllProjects\CetpaLive_Project
+
+STATIC_URL = 'static/'   #http://127.0.0.1:8000/static/
+STATIC_ROOT =BASE_DIR / 'static/'    ->> Here we set the STATIC_ROOT   Path. -> Now you can run your collectstatic command.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+def view_staticfiles(request):
+    resp=render(request,'SMS/staticex.html')
+    return resp
+-------------------------------------------------------------------
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STATIC FILES</title>
+    <!-- <link href="http://127.0.0.1:8000/static/SMS/css/anup.css" rel="stylesheet"/> -->
+    <link href="{% static 'SMS/css/anup.css' %}" rel="stylesheet"/>
+    <!-- <script src="http://127.0.0.1:8000/static/SMS/js/amit.js"></script> -->
+    <script src="{% static 'SMS/js/amit.js' %}"></script>
+</head>
+<body>
+    <h1>Example of Static Files - DJANGO </h1>
+    <h3> Static files is a collection of css,js,images and fonts </h3>
+<button onclick="display()">SHOW</button>
+<!-- <img src="http://127.0.0.1:8000/static/SMS/images/ganesh.jpg" alt="Ganesh"/> -->
+
+<img src="{% static 'SMS/images/ganesh.jpg' %}" alt="Ganesh"/>
+
+<img src="{% static 'SMS/images/hanuman.jpg' %}" alt="HANUMAN" height="300px" width="300px"/>
+
+<img src="{% static 'SMS/images/shiv.jpg' %}" alt="SHIV" height="300px" width="300px"/>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+#Base URL => http://127.0.0.1:8000/sms/
+
+urlpatterns = [
+path('payment/',get_payment_details),
+path('course/',view_getstudentcoursedetails),
+path('student/',view_student),
+path('payments/',view_paymentDetails),
+path('staticex/',view_staticfiles),
+]
+----------------------------------------------------------------------------------------------------------------------------
+STATIC_URL = 'static/'   #http://127.0.0.1:8000/static/
+STATIC_ROOT =BASE_DIR / 'static/'
+------------------------------------------------------------------------------------
+http://127.0.0.1:8000/SMS/static/SMS/images/ganesh.jpg
+------------------------------------------------------------------------------------

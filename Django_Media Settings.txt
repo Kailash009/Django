@@ -1,0 +1,123 @@
+Media File:-
+----------------------------------------------------
+>> It is a very heavy weight in website.
+>> It is a collection of audio,video or images.
+-----------------------------------------------------------------------------------
+How to store images path in database:-
+------------------------------------------------------------
+step-1:    go to html file and add this line:-
+<form method="post" enctype="multipart/form-data">
+--------------------------------------------------------------------------------
+step-2:-
+---------------------
+ elif request.method=='POST':
+        frm_bound=StudentForm(request.POST,files=request.FILES)  // add this line.
+        if frm_bound.is_valid():  # 
+----------------------------------------------------------------------------------------------------------------------------------
+Wap to enter student ID and show Student Record with Image:-
+---------------------------------------------------------------------------------------
+Media File Settings:-
+----------------------------------
+Steps to configure Media File Settings:-
+----------------------------------------------------------
+step-1:- Go to settings.py (Project) -
+ STATIC_URL = 'static/'   #http://127.0.0.1:8000/static/
+STATIC_ROOT =BASE_DIR / 'static/'
+MEDIA_URL = 'media/'   #http://127.0.0.1:8000/media/   --->> Add these Lines for Media Settings.
+MEDIA_ROOT =BASE_DIR / 'media/'
+-----------------------------------------------------------------------------------------------------------------------------------
+step:-2   Go to urls.py (Project)
+---------------------------------------------------------------
+from django.conf.urls.static import static
+from .import settings
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/',view_sum),  #http://127.0.0.1:8000/sum/
+    path('sub/',view_sub),
+    path('mult/',view_mult),
+    path('div/',view_div),
+    path('calc/',view_calculator),
+    path('simplecalc/',view_simpleCalc),
+    path('ems/',include('EMS.urls')),  #http://127.0.0.1:8000/ems/
+    path('sms/',include('SMS.urls')),  #http://127.0.0.1:8000/sms/
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)    // Add this Line.
+------------------------------------------------------------------------------------------------------------------------------------------
+def view_showStudentwithimg(request,sid):
+    stu=Student.objects.get(id=sid)
+    d1={'stu':stu}
+    resp=render(request,'SMS/show.html',context=d1)
+    return resp
+-------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOW STUDENT</title>
+</head>
+<body bgcolor="yellow">
+    <h1 align="center">SHOW STUDENT RECORD WITH IMAGES</h1>
+    <table border="3" align="center" bgcolor="pink">
+        <tr>
+            <th>NAME</th>
+            <th>{{stu.name}}</th>
+        </tr>
+        <tr>
+            <th>AGE</th>
+            <th>{{stu.age}}</th>
+        </tr>
+        <tr>
+            <th>MOBILE NO</th>
+            <th>{{stu.mobileno}}</th>
+        </tr>
+        <tr>
+            <th>DOB</th>
+            <th>{{stu.dob}}</th>
+        </tr>
+        <tr>
+            <th>PIC</th>
+            <th><img src="{{stu.pic.url}}" alt="PIC"></th>
+        </tr>
+        <tr>
+            <th>REGISTRATION DATE</th>
+            <th>{{stu.created_date}}</th>
+        </tr>
+    </table>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

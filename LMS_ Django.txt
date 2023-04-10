@@ -1,0 +1,260 @@
+WEB SECURITY -- LOGIN MANAGEMENT:-
+------------------------------------------------------------------------------------------
+>> In every website some pages are secure and some pages are unsecure. 
+There are two types of pages in every website-
+1. Secure Pages. -> It can be accessible when you provide Authentication. you can't access these pages directly.
+2. Unsecure Pages. -> These pages you can access Directly, NO need of Authentication.
+-----------------------------------------------------------------------------------------------------------------------------
+Authentication: -> To identify the identity of a user  whether the user is valid or not.  (Who the User is?)
+Authorization -> To give access or priviledges to the user.
+=======================================================================================
+Login Management -- LMS
+--------------------------------------------------------------------------
+Home  -> http:127.0.0.1:8000/lms/home/
+Register -> http:127.0.0.1:8000/lms/register/
+Login -> http:127.0.0.1:8000/lms/login/
+Secure1 -> http:127.0.0.1:8000/lms/secure1/
+Secure2 -> http:127.0.0.1:8000/lms/secure2/
+Unsecure1 -> http:127.0.0.1:8000/lms/unsecure1/
+Unsecure2 -> http:127.0.0.1:8000/lms/unsecure2/
+---------------------------------------------------------------------------------------------------------------
+Create New App:-
+----------------------------------
+1. python manage.py startapp appName
+2. Register your app.
+3. URL Mapping.
+-------------------------------------------------------------------
+URL Tag in Django:-
+--------------------------------------
+>> it is used to hold the address of view.
+>> name keyword is used to hold the address of view.
+======================================================================================
+Syntax ->>> {% url 'name' %}
+==========================================
+Syntax:-
+-------------------
+<a href ="{% url 'name' %}"> Home </a>
+urlpatterns = [
+    path('home/',view_home,name='ashish'),   ->>>>> ashish hold the address of view_home.
+	ashish="http://127.0.0.1:8000/lms/home"
+-----------------------------------------------------------------------------------------------------------------------------
+    path('register/',view_register,name='jeevan'),  # jeevan = "http://127.0.0.1:8000/lms/register"
+    path('login/',view_login),
+    path('secure1/',view_secure1),
+    path('secure2/',view_secure2),
+    path('unsecure1/',view_unsecure1),
+    path('unsecure2/',view_unsecure2),
+]
+==============================================================================
+from django.shortcuts import render
+
+# Create your views here.
+def view_home(request):
+    resp=render(request,'LMS/home.html')
+    return resp
+
+def view_register(request):
+    resp=render(request,'LMS/register.html')
+    return resp
+
+def view_login(request):
+    resp=render(request,'LMS/login.html')
+    return resp
+
+def view_secure1(request):
+    resp=render(request,'LMS/secure1.html')
+    return resp
+
+def view_secure2(request):
+    resp=render(request,'LMS/secure2.html')
+    return resp
+
+def view_unsecure1(request):
+    resp=render(request,'LMS/unsecure1.html')
+    return resp
+
+def view_unsecure2(request):
+    resp=render(request,'LMS/unsecure2.html')
+    return resp
+------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN MANAGEMENT</title>
+</head>
+<body bgcolor="yellow">
+    <h1 align="center">****WELCOME TO MY WEB SECURITY -  LMS ****</h1>
+    <table border="3" bgcolor="pink" align="center" width="40%" height="40%">
+        <tr>
+            <th>Pages</th>
+            <th>Link</th>
+        </tr>
+        <tr>
+            <th>HOME</th>
+            <!-- <th> <a href="http://127.0.0.1:8000/lms/home/">HOME</a>  </th> -->
+            <th> <a href="{% url 'home' %}">HOME</a>  </th>
+        </tr>
+        <tr>
+            <th>REGISTER</th>
+            <th><a href="{% url 'register' %}" target="_blank">REGISTER</a> </th>
+        </tr>
+        <tr>
+            <th>LOGIN</th>
+            <th><a href="{% url 'login' %}" target="_blank">LOGIN</a> </th>
+        </tr>
+        <tr>
+            <th>SECURE1</th>
+            <th><a href="{% url 'secure1' %}" target="_blank">SECURE1</a> </th>
+        </tr>
+        <tr>
+            <th>SECURE2</th>
+            <th><a href="{% url 'secure2' %}" target="_blank">SECURE2</a> </th>
+        </tr>
+        <tr>
+            <th>UNSECURE1</th>
+            <th><a href="{% url 'unsecure1' %}" target="_blank">UNSECURE1</a> </th>
+        </tr>
+        <tr>
+            <th>UNSECURE2</th>
+            <th><a href="{% url 'unsecure2' %}" target="_blank">UNSECURE2</a> </th>
+        </tr>
+
+    </table>
+</body>
+</html>
+----------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN PAGE</title>
+</head>
+<body>
+    <h1>**WELCOME TO MY LOGIN PAGE**</h1>
+    <a href="{% url 'home' %}"> Back to Home Page </a>
+</body>
+</html>
+------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTER PAGE</title>
+</head>
+<body>
+    <h1>**WELCOME TO MY REGISTRATION PAGE**</h1>
+    <a href="{% url 'home' %}"> Back to Home Page </a>
+</body>
+</html>
+----------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECURE1 PAGE</title>
+</head>
+<body>
+    <h1>**WELCOME TO MY SECURE1 PAGE**</h1>
+    <h2> This page can access only when you provide Authentication. </h2>
+    
+    <a href="{% url 'home' %}"> Back to Home Page </a>
+
+</body>
+</html>
+----------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECURE2 PAGE</title>
+</head>
+<body>
+    <h1>**WELCOME TO MY SECURE2 PAGE**</h1>
+    <h2> This page can access only when you provide Authentication. </h2>
+    <a href="{% url 'home' %}"> Back to Home Page </a>
+</body>
+</html>
+--------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNSECURE1 PAGE</title>
+</head>
+<body>
+    <h1>**WELCOME TO MY UNSECURE1 PAGE**</h1>
+    <h2> This page can access Directly. No Need of Authentication. </h2>
+    <a href="{% url 'home' %}"> Back to Home Page </a>
+</body>
+</html>
+-------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNSECURE2 PAGE</title>
+</head>
+<body>
+    <h1>**WELCOME TO MY UNSECURE2 PAGE**</h1>
+    <h2> This page can access Directly. No Need of Authentication. </h2>
+    <a href="{% url 'home' %}"> Back to Home Page </a>
+</body>
+</html>
+---------------------
+from django.urls import path
+from .views import *
+#BASE URL => http://127.0.0.1:8000/lms/
+
+urlpatterns = [
+    path('home/',view_home,name='home'),
+    path('register/',view_register,name='register'),
+    path('login/',view_login,name='login'),
+    path('secure1/',view_secure1,name='secure1'),
+    path('secure2/',view_secure2,name='secure2'),
+    path('unsecure1/',view_unsecure1,name='unsecure1'),
+    path('unsecure2/',view_unsecure2,name='unsecure2'),
+]
+---------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

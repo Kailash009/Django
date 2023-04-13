@@ -1,0 +1,99 @@
+How to control access of Login page and Registration Page After Login:-
+--------------------------------------------------------------------------------------------------------------------
+step-1:  Create a Decorator.
+step-2:- Check if user is login then can't open login and registration page, else open Home page.
+step-3:- if user is not login then Open login and registration page.
+-------------------------------------------------------------------------------------------------------------------------------
+Syntax:-
+-------------------
+def function_name(func):
+    def inner(request):
+             //logic of code.
+    return inner
+------------------------------------------------------------------
+from django.shortcuts import render
+def check_authenticated(myfunc):
+    def inner(request):
+        if request.user.is_authenticated:
+            return render(request,'LMS/home.html')
+        else:
+            return myfunc(request)
+    return inner
+----------------------------------------------------------------------------------
+WebSecurity:-
+-------------------------------
+from django.shortcuts import render
+from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse
+from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.decorators import login_required
+from LMS.decorator import check_authenticated
+# Create your views here.
+def view_home(request):
+    resp=render(request,'LMS/home.html')
+    return resp
+
+@check_authenticated
+def view_register(request):
+    if request.method=='GET':
+        frm_unbound=UserCreationForm()
+        d1={'forms':frm_unbound}
+        resp=render(request,'LMS/register.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        frm_bound=UserCreationForm(request.POST)
+        if frm_bound.is_valid():
+            frm_bound.save()
+            resp=HttpResponse("<h1>User Created SuccessFully!!</h1>")
+            return resp
+        else:
+            d1={'forms':frm_bound}
+            resp=render(request,'LMS/register.html',context=d1)
+            return resp
+        
+@check_authenticated
+def view_login(request):
+    if request.method=='GET':
+        resp=render(request,'LMS/login.html')
+        return resp
+    elif request.method=='POST':
+        u_name=request.POST.get('txtuname','NA')
+        u_passwd=request.POST.get('txtupaswd','NA')
+        user=authenticate(username=u_name,password=u_passwd)
+        if user is not None:
+            login(request,user)
+            resp=render(request,'LMS/home.html')
+            #resp=HttpResponse("<h1>Login SuccessFully!!</h1>")
+            return resp
+        else:
+            resp=render(request,'LMS/login.html')
+            #resp=HttpResponse("<h1>Login Failed!!</h1>")
+            return resp
+
+def view_logout(request):
+    logout(request=request)
+    resp=render(request,'LMS/logout.html')
+    return resp
+
+@login_required(login_url='login')
+def view_secure1(request):
+    resp=render(request,'LMS/secure1.html')
+    return resp
+
+@login_required(login_url='login')
+def view_secure2(request):
+    resp=render(request,'LMS/secure2.html')
+    return resp
+
+def view_unsecure1(request):
+    resp=render(request,'LMS/unsecure1.html')
+    return resp
+
+def view_unsecure2(request):
+    resp=render(request,'LMS/unsecure2.html')
+    return resp
+-----------------------------------------------------------------------------------------------
+
+
+
+

@@ -1,0 +1,145 @@
+How to consume your API:-
+-------------------------------------------
+import requests
+resp=requests.get(url="http://127.0.0.1:8000/api/first/")
+resp
+<Response [200]>
+print(resp.json())
+This is my First API
+print(resp.text)
+"This is my First API"
+print(resp.content)
+b'"This is my First API"'
+---------------------------------------------------------------------------------------------------------------
+wap to create an api that fetch student records with id.
+-------------------------------------------------------------------------------
+Note:-
+--------------
+In Response constructor when we pass normal data type like - int,float,tuple,list,string,dictionary etc it will directly converted into JSON format.
+Whenever you are try to pass any complex data type or Model Class Object into Response() constructor then it will not directly converted your Model Class Objects into JSON Format. It will show an Error , the error is given Below- 
+		"Object of type Student is not JSON serializable".
+To resolve this error we can create 'SERIALIZER'.  Instead of directly model class object into Reponse() we can pass serializer.
+------------------------------------------------
+Steps for creating Serializer:-
+-----------------------------------------------
+1. Right click on your app create new file name as 'serializer.py'
+2. Write this line of code -
+from rest_framework import serializers
+from SMS.models import Student
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Student
+        fields=['name','age','mobileno']
+--------------------------------------------------------------------------------------------------------------
+Consume API of Student ID:-
+------------------------------------------
+import requests
+while(True):
+    try:
+        sid=int(input("Enter Student ID="))
+        resp=requests.get(url="http://127.0.0.1:8000/api/second/{0}/".format(sid))
+        dict_res=resp.json().items()
+        for stu in dict_res:
+            print(stu[0],'=',stu[1])
+    except:
+        print('Student ID Not Found!!')
+--------------------------------------------------------------------------------------------------------------------------------
+https://www.w3schools.com/js/js_ajax_intro.asp  ->> Query Ajax:-
+--------------------------------------------------------------------------------------------------------------
+@api_view(['GET'])
+def view_getstudent_api(request,sid):
+    stu=Student.objects.get(id=sid)
+    stu_serializer=StudentSerializer(stu)
+    resp=Response(data=stu_serializer.data)
+    return resp
+-----------------------------------------------------------------------
+from django.urls import path
+from .views import *
+
+#BASE URL  =>>> http://127.0.0.1:8000/api/
+
+urlpatterns = [
+    path('first/',view_first_api),
+    path('second/<int:sid>/',view_getstudent_api),
+]
+--------------------------------------------------------------------
+from rest_framework import serializers
+from SMS.models import Student
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Student
+        fields=['name','age','mobileno']
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,98 @@
+Ajax:-
+--------------
+>> It stands for Asynchronous Java Script and XML.
+>> Ajax is used to perform partial post back.
+>> you can send the request to the webserver without reloading the whole page again and again.
+>> It increases the response time.
+-------------------------------------------------------------------------------------------------------------------------------
+The keystone of AJAX is the XMLHttpRequest object.
+a) Create an XMLHttpRequest object.
+b) Define a callback function.
+c) Open the XMLHttpRequest object.
+open(method, url, async, user, psw)	Specifies the request
+method: the request type GET or POST
+url: the file location
+async: true (asynchronous) or false (synchronous)
+user: optional user name
+psw: optional password
+d) Send a Request to a server.
+-------------------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS-AJAX</title>
+    <script>
+        function getStudentById()
+        {
+            var sid=document.getElementById("txtid").value;
+            alert('Hello Java Script='+sid);
+            callstudentapi("http://127.0.0.1:8000/api/second/"+sid+"/");
+            //callstudentapi("https://dummyjson.com/products");
+        }
+        function callstudentapi(url)   // Function Defination
+        {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+            alert(this.responseText);
+            //console.log(this.responseText);
+        }
+        };
+            xmlhttp.open("GET",url,true);
+            xmlhttp.send();      
+        }
+    </script>
+</head>
+<body>
+    <h1 align="center">Calling API using JAVASCRIPT - AJAX</h1>
+    Enter Student ID:
+    <input type="text" id="txtid">
+    <button onclick="getStudentById()">Get Student</button>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------
+def view_studentusingajax(request):
+    resp=render(request,'SMS/ajax.html')
+    return resp
+--------------------------------------------------------------------------------------
+Assignment Task:- (24 - Monday - Ayush)
+-----------------------------------------------------------------
+Perform CRUD Operation using API
+---------------------------------------------------------------
+1. Add Student API.
+2. Search Student API using ID.
+3. Update Student API.
+4. Delete Student API using ID.
+5. Show All Student.
+------------------------------------------------------------------------------
+@api_view(['GET'])
+def view_showstudent_api(request):
+    students=Student.objects.all()
+    stu_serializer=StudentSerializer(students,many=True)
+    resp=Response(data=stu_serializer.data)
+    return resp
+----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

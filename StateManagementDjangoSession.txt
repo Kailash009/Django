@@ -1,0 +1,115 @@
+State Management in Django:-
+---------------------------------------------------------------------------------
+>> In every web application we use the concept of State Management.
+------------------------------------------------------------------------------------------
+Need of State Management:-
+------------------------------------------------------
+>> Every web application can be access by Http (Hyper Text Transfer) Protocol.
+>> Http protocol is a stateless protocol.
+>> stateless means it doesn't Maintain the information between client and server.
+https://www.amazon.in/
+>> To maintain the previous communication between client and server we use the concept of State Management.
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+Types of State Mangement Techqniue:-
+----------------------------------------------------------
+There are two types of State Mangement technique which are as follows -
+1. Client Side State Management.
+	a) Cookies.
+2. Server Side State Management.
+	b) Session.
+-------------------------------------------------------------------------------------------------------------------
+2. Server Side State Management.
+Session:-
+----------------------
+>> It is a Global Management Protocol.
+>> We can maintain session value throughout the whole application.
+>> Session is a heavy weight.
+>> In Session we can store any type of value.
+>> The Default time of session is 20 Min.
+------------------------------------------------------------------------------------------------------------
+Note:- 
+------------
+>> Whenever we implement session in our application then session generate session_id and session_key, session_key work as a Cookies at client side.
+----------------------------------------------------------------------------------------------------------------------------------
+wap to count total no. of visitor.
+-------------------------------------------------------
+1. Create an app.
+2. Register your app.
+3. URL Mapping.
+-----------------------------------------------------
+Syntax:-
+---------------------
+request.session.get('key','value')
+-------------------------------------------------------------
+from django.shortcuts import render
+
+# Create your views here.
+
+def view_total_visitor_count(request):
+    count=request.session.get('count','NA')   # GET
+    if count=='NA':
+        count=1
+    else:
+        count=count+1
+    request.session['count']=count   # SET
+    d1={'count':count}
+    resp=render(request,'demosession/count.html',context=d1)
+    return resp
+---------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOTAL VISITOR COUNT</title>
+</head>
+<body bgcolor="yellow">
+    <h1> Total Visitor Count  = {{count}} </h1>
+</body>
+</html>
+----------------------------------------------------------------------
+from django.urls import path
+from .views import *
+#Base URL => http://127.0.0.1:8000/demostate/
+
+urlpatterns = [
+    path('count/',view_total_visitor_count),
+]
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

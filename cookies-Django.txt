@@ -1,0 +1,136 @@
+Client Side State Management:-
+-------------------------------------------------------------
+Cookies:-
+======================
+>> It is used to hold small amount of information at client machine.
+>> It can store only string data.
+>> you can store only limited amount of data it depends upon browser.
+>> The Default time of cokkies is 30 Min.
+------------------------------------------------------------------------------------------------
+There are two types of Cookies which are as follows:-
+1. Non-Persistent Cookies.
+>> It hold client information at temporarlily basis.
+>> As soon as when user close browser or turn off computer your cookies information automatically gets deleted from the Browser.
+2. Persistent Cookies.
+>> It hold client information at Permanent basis.
+>> In it, you have to set the time of Cookie.
+>> As soon as when user close browser or turn off computer your cookies information doesn't deleted from the Browser.
+-------------------------------------------------------------------
+In cookies you need to perform two Operations -
+1. How to Write Cookies.
+	set_cookie()
+2. How to Read Cookies.
+	request.COOKIES.get()
+--------------------------------------------------------------------------
+from django.shortcuts import render
+
+# Create your views here.
+
+def view_total_visitor_count(request):
+    count=request.session.get('count','NA')   # GET
+    if count=='NA':
+        count=1
+    else:
+        count=count+1
+    request.session['count']=count   # SET
+    d1={'count':count}
+    resp=render(request,'demosession/count.html',context=d1)
+    return resp
+
+
+def view_write_cookies(request):
+    if request.method=='GET':
+        resp=render(request,'demosession/writecookie.html')
+        return resp
+    elif request.method=='POST':
+        uname=request.POST.get('txtname','NA')
+        resp=render(request,'demosession/writecookie.html')
+        resp.set_cookie(key='name',value=uname,max_age=60*60*24*365) #Persistent Cookie
+        return resp
+
+def view_read_cookies(request):
+    if request.method=='GET':
+        resp=render(request,'demosession/readcookie.html')
+        return resp
+    elif request.method=='POST':
+        u_name=request.COOKIES.get('name','NA')
+        if(u_name=='NA'):
+            d1={"name":"Cookies Not Found!!"}
+        else:
+            d1={"name":u_name}
+        resp=render(request,'demosession/readcookie.html',context=d1)
+        return resp
+----------------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WRITE COOKIE</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1>**Write Cookies**</h1>
+    Enter your Name:
+    <input type="text" name="txtname">
+    <button type="submit"> Write Cookie </button>
+</form>
+</body>
+</html>
+-------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>READ COOKIE</title>
+</head>
+<body bgcolor="pink">
+    <form method="post">
+        {% csrf_token %}
+    <h1>**READ Cookies**</h1>
+    Read your Name:
+    <input type="text" name="txtname" value="{{name}}">
+    <button type="submit"> Read from Cookie </button>
+</form>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+#Base URL => http://127.0.0.1:8000/demostate/
+
+urlpatterns = [
+    path('count/',view_total_visitor_count),
+    path('write/',view_write_cookies),
+    path('read/',view_read_cookies),
+]
+---------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+

@@ -1,0 +1,214 @@
+Django Admin Customization:-
+----------------------------------------------------
+1. User.
+2. Group. -> Many to Many.
+3. Permission.
+----------------------------------------------
+Note:- > User can't login through admin panel if is_staff is False(0).
+----------------------------------------------------------------------------------------------------------------
+p1 - 34  -> change
+p2 - 36 -> view
+------------------------------
+>>> from django.contrib.auth.models import User
+>>> u=User.objects.get(id=3) 
+>>> u.usernmae
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'User' object has no attribute 'usernmae'
+>>> u.usernme
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'User' object has no attribute 'usernme'
+>>> u.username
+'anup'
+>>> u.is_staff
+True
+>>> g1=Group.objects.get(id=1) 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'Group' is not defined
+>>> from django.contrib.auth.models import User,Group
+>>> g1=Group.objects.get(id=1) 
+>>> g1.name
+'StudentGroup'
+>>> u.usernmae
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'User' object has no attribute 'usernmae'
+>>> u.username
+'anup'
+>>> u.groups.add(g1)
+>>> u=User.objects.get(id=2)
+>>> u.username
+'ashish'
+>>> u.groups.add(g1)
+-------------------------------------------------------------------------------------
+@check_authenticated
+def view_register(request):
+    if request.method=='GET':
+        frm_unbound=UserCreationForm()
+        d1={'forms':frm_unbound}
+        resp=render(request,'LMS/register.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        frm_bound=UserCreationForm(request.POST)
+        if frm_bound.is_valid():
+            u=frm_bound.save()
+            u.is_staff=True
+            u.save()
+            g1=Group.objects.get(id=1)
+            u.groups.add(g1)
+            resp=HttpResponse("<h1>User Created SuccessFully!!</h1>")
+            return resp
+        else:
+            d1={'forms':frm_bound}
+            resp=render(request,'LMS/register.html',context=d1)
+            return resp
+------------------------------------------------------------------------------------------------------------
+Django Signals:-
+-------------------------------------------
+>> It works at Model.
+>> Signal/Trigger is an database objects that automatically fired when an event has occured.
+Database Events ->  create,insert,update,delete,drop and so on.
+----------------------------------------------------------------------------------------------------
+Student -> if we insert a record into student model then in paymentdetail automatically executed.
+PaymentDetails -> 
+-------------------------------------------------------------------------------------------------
+pre_save,post_save,pre_delete,post_delete
+------------------------------------------------------------------------
+from django.db import models
+# Create your models here.
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=15)
+    def __str__(self):
+        return self.name
+
+class PersonalDetail(models.Model):
+    address=models.CharField(max_length=100)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    student=models.OneToOneField(Student,on_delete=models.CASCADE,null=True,blank=True)
+----------------------------------------    
+Traditional Approach:-
+-----------------------------------------
+s=Student()
+s.name='ashish'
+s.age=19
+s.mobileno='7987979'
+s.save()
+pd=PersonalDetail()
+pd.address='DILSAN GARDEN'
+pd.student=s   ->> I want to avoid this Line.
+pd.save()
+--------------------------------------------------------------------------
+@receiver(signal=post_save,sender=Student)
+def after_student_record_inserted(sender,instance,created,**kwargs):
+    print('Post Save Signal Received')
+    print('Sender=',sender)
+    print('Instance=',instance)
+    print('Created=',created)
+-----------------------------------------------------
+Sender  -> Model Class -> <class 'demosignal.models.Student'>
+Instance -> Model Class Object. -> ashish
+Created -> True/False ->   
+True -> when new student record inserted.
+False -> when you update student record.
+------------------------------------------------------------------------
+>>> from demosignal.models import *
+>>> s=Student()
+>>> s.name='anup'
+>>> s.age=19
+>>> s.mobileno='7979033' 
+>>> s.save()
+>>> s.name='anup singh' 
+>>> s.save()
+>>> s1=Student()
+>>> s1.name='amit' 
+>>> s1.age=10
+>>> s1.mobileno='7303333' 
+>>> s1.save()
+--------------------------------------------------------------------------------------
+from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+# Create your models here.
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=15)
+    def __str__(self):
+        return self.name
+
+class PersonalDetail(models.Model):
+    address=models.CharField(max_length=100)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    student=models.OneToOneField(Student,on_delete=models.CASCADE,null=True,blank=True)
+
+
+@receiver(signal=post_save,sender=Student)
+def after_student_record_inserted(sender,instance,created,**kwargs):
+    if created:
+        pd=PersonalDetail()
+        pd.student=instance
+        pd.save()
+    # print('Post Save Signal Received')
+    # print('Sender=',sender)
+    # print('Instance=',instance)
+    # print('Created=',created)
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

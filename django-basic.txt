@@ -1,0 +1,164 @@
+Command to check python version -
+python --version
+-------------------------------------------------------
+Command to check pip version-
+pip --version
+-------------------------------------------------------
+Command to check Django version-
+django-admin --version
+--------------------------------------------------------
+Command to install Django-
+pip install django
+------------------------------------------------------------
+How to work with Django Projects:-
+------------------------------------------------------------
+Python 8.0.1
+python 9.0.1
+python 10.0.2 -> at a time we work only one python version.
+----------------------------------------------------------------------------------------
+1. Project1  -> 
+	python 
+	django
+	numpy
+	pillow.
+
+2. Project2 -> 
+	python
+	django
+	scipy.
+	panda.  + numpy + pillow
+3. Project3 ->
+	python
+	django
+	djangorestframework
+	ananconda    + numpy + pillow + scipy+panda.
+
+4. Project4 
+	venv  -> Any Folder Name -> VE is nothing it is just like a folder.
+ 	>> python , pip  ---->> (EMPTY) (Pip is Empty,it has nothing.)
+==================================================================================
+Steps to Create VE(Virtual Enviornment):-
+--------------------------------------------------------------------------------
+1. Create a Project Folder.  -> Batch10AMwkd -> MyAllProjects -> Project1
+2. Install Virtual Enviornment.
+pip install virtualenv
+3. Now Check VE Version-
+virtualenv --version
+4. Command to Create VE :-  -> Open you Project path with CMD.
+and then type this command  -->> 
+virtualenv anyFolderName
+virtualenv venv
+5. How to check your project is connected locally or Globally.
+	pip freeze
+6. Activate Virtual Enviornment -
+	VEFolderName\scripts\activate
+	venv\scripts\activate
+7. Command to deactivate your VE -   deactivate
+=========================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

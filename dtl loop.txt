@@ -1,0 +1,364 @@
+DTL:-
+-------------------------
+>> It stands for Django Template Language.
+>> DTL works at server side.
+>> DTL is used to make dynamic html.
+----------------------------------------------------------------------------------------------------------------------
+Comparision between DTL and Python:-
+-------------------------------------------------------------------------------------------------------------------
+Python                                                                           DTL
+--------------------------------------------------------------------------------------------------------------------
+1. Variable concept				1. DTL also uses variable concept.
+used in python.
+2. Data concept is used in                                             2. DTL doesn't support data type concept.
+python.
+3.Operator support in python.                                       3. DTL also support operator concept. -- Boolean Operator.
+					   in not in, is is not, and ,or ,not,==,!=,< <= > >=
+4. Conditional Statements used                                   4. DTL also support Conditional Statement concepts.
+in python.
+5. Loop support in python.                                            5. DTL only support for element loop.
+a) while.                                                                                while and for-range it will not support in DTL.
+b) for-range.                                                                            
+c) for-element.
+6. Functions support in python.                                   6. There is no Function concept.
+					Instead of function here we use the concept of 'Tags' and 'Filter'.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Template Tag:-
+---------------------------------
+Outputs one of the syntax characters used to compose template tags.
+The template system has no concept of “escaping” individual characters. However, you can use the {% templatetag %} tag to display one of the template tag character combinations.
+The argument tells which template bit to output:
+Argument	Outputs
+openblock		{%
+closeblock		%}
+openvariable	{{
+closevariable	}}
+openbrace		{
+closebrace	}
+opencomment	{#
+closecomment	#}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Conditional Statement in DTL:-
+---------------------------------------------------------
+Syntax : - if-else
+----------------------------------
+{% if condition %}
+statement1
+{% else %}
+statement2
+{% endif %} 
+----------------------------------
+wap to check no. is equal to 100 or not.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTL</title>
+</head>
+<body bgcolor="yellow">
+    <h1 align="center">Example of DTL - Django Template Language </h1>
+    {% if a == 100 %}
+    <h2> Number is equal to 100 </h2>
+    {% else %}
+    <h2>Number is Not Equal to 100</h2>
+    {% endif %}
+</body>
+</html>
+-----------------------------------------------------------------
+wap to find the greatest in two no. using DTL.
+---------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTL</title>
+</head>
+<body bgcolor="yellow">
+    <h1 align="center">Example of DTL - Django Template Language </h1>
+    {% if a > b %}
+    <h2> {{a}} is Greater than {{b}} </h2>
+    {% else %}
+    <h2> {{b}} is Greater than {{a}} </h2>
+    {% endif %}
+</body>
+</html>
+------------------------------------------------------
+if-elif  [Syntax]:-
+--------------------------------------
+{% if condition1 %}
+statement1
+{% elif condition2 %}
+statement2
+{% elif condition3 %}
+statement3
+{% elif condition4 %}
+statement4
+{% else %}
+statement5
+{% endif %}
+-------------------------------------------------------
+wap to find the greatest in three no. 
+-------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTL</title>
+</head>
+<body bgcolor="yellow">
+    <h1 align="center">Example of DTL - Django Template Language </h1>
+    {% if a > b and a > c %}
+    <h2> {{a}} is Greater than {{b}} and {{c}} </h2>
+    {% elif b > a and b > c %}
+    <h2> {{b}} is Greater than {{a}} and {{c}} </h2>
+    {% else %}
+    <h2>{{c}} is Greater than {{a}} and {{b}} </h2>
+    {% endif %}
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------------------------
+Assignment Task:-
+wap to check character is vowel or consonant.
+-------------------------------------------------------------------------------
+Loop in DTL:-
+-------------------------
+>> In DTL support only for-element loop.
+Syntax:-
+------------------------------------------------------------------------------
+{% for element/variablename in Collection %}
+statements
+{% endfor %}
+------------------------------------------------------------------------------------------------
+for s in "HELLO":
+      print(s)
+H
+E
+L
+L
+O
+---------------------------------------------------------------------------
+wap to print 10 Record of Dummy Customer.
+---------------------------------------------------------------------------
+The for loop sets a number of variables available within the loop:
+Variable	Description
+forloop.counter	The current iteration of the loop (1-indexed)
+forloop.counter0	The current iteration of the loop (0-indexed)
+forloop.revcounter	The number of iterations from the end of the loop (1-indexed)
+forloop.revcounter0	The number of iterations from the end of the loop (0-indexed)
+forloop.first	True if this is the first time through the loop
+forloop.last	True if this is the last time through the loop
+forloop.parentloop	For nested loops, this is the loop surrounding the current one
+-----------------------------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from django.http import HttpResponse
+# Create your views here.
+
+def view_home(request):  # VIEW / FUNCTION
+    resp=render(request,'EMS/home.html')
+    #resp=HttpResponse("<h1>WELCOME TO MY HOME PAGE</h1>")
+    return resp
+
+def view_about(request):
+    resp=HttpResponse("<h1>WELCOME TO MY ABOUT PAGE</h1>")
+    return resp
+
+def view_services(request):
+    resp=HttpResponse("<h1>WELCOME TO MY SERVICES PAGE</h1>") 
+    return resp
+
+def view_show(request):
+    resp=HttpResponse("<h1>SHOW ALL MY EMPLOYEE</h1>")
+    return resp
+
+def view_sum(request,a,b):
+    resp=HttpResponse("<h1>Hello I am Calling Sum="+str(a+b)+"</h1>")
+    return resp
+
+def view_contact(request):
+    resp=HttpResponse("<h1>Hello Contact US</h1>")
+    return resp
+
+class Customer:
+    def __init__(self):
+        self.name=""   #Variable Initialization.
+        self.age=""
+        self.address=""
+        self.mobileno=""
+        self.salary=""
+def get_N_Customer(n): # Function Defination
+    cus_list=[]  # Empty List
+    for i in range(1,n+1):
+        cus=Customer()
+        cus.name="Himanshu"+str(i)
+        cus.age=19+i
+        cus.address="New Ashok Nagar"+str(i)
+        cus.mobileno="9098783812"+str(i)
+        cus.salary=45000+i
+        cus_list.append(cus)
+    return cus_list
+
+def view_dtl(request):
+    customers=get_N_Customer(10) # Function Calling
+    d1={'a':200,'b':500,'c':100,'allcus':customers}
+    resp=render(request,'EMS/dtl.html',context=d1)
+    return resp
+-----------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTL</title>
+</head>
+<body bgcolor="yellow">
+    <h1 align="center">Example of DTL - Django Template Language </h1>
+    {% if a > b and a > c %}
+    <h2> {{a}} is Greater than {{b}} and {{c}} </h2>
+    {% elif b > a and b > c %}
+    <h2> {{b}} is Greater than {{a}} and {{c}} </h2>
+    {% else %}
+    <h2>{{c}} is Greater than {{a}} and {{b}} </h2>
+    {% endif %}
+<br/><br/>
+    <h1 align="center"> Show ALL Dummy Customers Records </h1>
+
+<table align="center" border="3" bgcolor="pink">
+    <tr>
+        <th>S.NO.</th>
+        <th>NAME</th>
+        <th>AGE</th>
+        <th>ADDRESS</th>
+        <th>MOBILE NO</th>
+        <th>SALARY</th> 
+    </tr>
+    {% for cus in allcus %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{cus.name}} </td>
+        <td>{{cus.age}}</td>
+        <td>{{cus.address}}</td>
+        <td>{{cus.mobileno}}</td>
+        <td>{{cus.salary}}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <th colspan="6" style="font-size:30px;color:red;"> No Customer FOUND!!! </th>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+
+#BASE URL => http://127.0.0.1:8000/ems/
+
+urlpatterns = [
+path('home/',view_home), #http://127.0.0.1:8000/ems/home/
+path('about/',view_about), #http://127.0.0.1:8000/ems/about/
+path('services/',view_services),
+path('show/',view_show),
+path('sum/<int:a>/<int:b>/',view_sum),
+path('contact/',view_contact),
+path('dtl/',view_dtl),
+]
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

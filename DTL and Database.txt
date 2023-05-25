@@ -1,0 +1,231 @@
+Find table using DTL:-
+-------------------------------------------
+def find_table(n):
+    list_table=[]
+    for i in range(1,11):
+        t=n*i
+        list_table.append(t)
+    return list_table    
+
+def view_table(request):
+    if request.method=='GET':
+        resp=render(request,'EMS/table.html')
+        return resp   
+    elif request.method=='POST':
+        number=int(request.POST.get('t1',0))
+        gettable=find_table(number)
+        d1={'tables':gettable,'no':number}
+        resp=render(request,'EMS/table.html',context=d1)
+        return resp
+-------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABLE</title>
+</head>
+<body bgcolor="lime">
+    <form method="post">
+        {% csrf_token %}
+    <h1>SHOW TABLE</h1>
+    Enter a number which you want Table:
+    <input type="text" name="t1">
+    <button>SHOW TABLE </button>
+    <br/><br/>
+    <table border="3" bgcolor="pink">
+        <tr>
+            <th>S.NO.</th>
+            <th>EXPRESSION</th>
+            <th>RESULT</th>
+        </tr>
+        {% for res in tables %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{no}} X {{forloop.counter}}</td>
+            <td>{{res}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+</body>
+</html>
+----------------------------------------------------------------------------------------
+path('table/',view_table),
+]
+---------------------------------------------------------------------------------------
+Database Connectivity in Django:-
+--------------------------------------------------------------------------------------
+Database -> it is collection of table / interrelated data.
+-------------------------------------------------------------------------------------
+>> We have following database management tool which are as follows -
+ MYSQL,SQLSERVER, ORACLE, MONGODB,POSTGRESQL,SQLITE, DB2, SYBASE AND MANY MORE.........
+----------------------------------------------------------------------------------------------------
+>> In django we can directly connect with any database.
+>> In django default database support is SQLITE.
+>> No need to write SQL queries.
+>> In Django we write ORM (Object Relational Mapping) Queries.
+-----------------------------------------------------------------------------------------------------------------
+1. How to create Table in MYSQL -
+create a table having following fields - id,name,age,address,salary ,post.
+---------------------------------------------------------------------------------------------------------------
+create table tbl_Employee
+(
+id int,
+name varchar(50),
+age int,
+address varchar(100),
+salary int,
+post varchar(50)
+);  -> you can create table in MYSQL.  -> we don't use in django this method.
+-------------------------------------------------------------------------------------------------------------------------------------------------
+M -> Model -> database related operation.
+V -> View -> functions -> Done
+T -> Template -> html. -> Done.
+----------------------------------------------------------------------------------------------
+Model ->
+-----------------------------
+>> Models are the special classes that is used to create Table and perform database related Operations.
+>> In model we create model classes.
+>> Model class has one parent class that class name is 'Fields'.
+>> all model classes are defined into Fields Class.
+create a table having following fields - id,name,age,address,salary ,post.  -> Make this using ORM.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+class Employee(models.Model):  // MODEL CLASS
+    #id=models.IntegerField() # Id is created automatically no need to write this line.
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    address=models.CharField(max_length=100)
+    salary=models.BigIntegerField()
+    post=models.CharField(max_length=50)         
+    def __str__(self):
+        return self.name	
+----------------------------------------------------------------------------------------------------------------------------------------
+class Course:
+    def __init__(self):
+        self.name=""
+    def __str__(self):
+        return self.name
+
+
+c=Course()
+c.name='PYTHON'
+print(c) # PYTHON 
+---------------------------------------------------------------------------------------------------------------------------------------------
+How to install SQLITE:-
+-----------------------------------------
+https://sqlitebrowser.org/dl/   -> DB Browser for SQLite - Standard installer for 64-bit Windows
+After completly install sqlite in your pc then you will get two icons in desktop -
+a) DBBrowser(SQLite)   -> Work on this.
+b) DBBrowser (SQLCipher) -> delete this shortcut icon.
+------------------------------------------------------------------------------------------------------------------------------------------------
+Procedure to Mapping your Model with Sqlite Database:-
+--------------------------------------------------------------------------------------------
+You need to follow two commands -
+1. python manage.py makemigrations  -> This command see your model classes and generate ORM Query.
+2. python manage.py migrate -> This command see your ORM Query and create table and their fields in Database (SqLite).
+It creates initially -> 12 tables.
+11 -> Default Register App. (Predefined Apps) -> admin,auth,contenttypes,sessions,messages,staticfiles.
+1  -> User Defined App -> EMS.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+from django.db import models
+
+# Create your models here.
+
+class Employee(models.Model):  # Table Name = AppName_ClassName => EMS_Employee
+    #id=models.IntegerField() # ID is created automatically no need to write this line.
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    address=models.CharField(max_length=100)
+    salary=models.BigIntegerField()
+    post=models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

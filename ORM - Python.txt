@@ -1,0 +1,390 @@
+MYSQL vs ORM Queries:-
+------------------------------------------------------------------------
+My SQL -> Insert a record of an Employee.
+insert into tbl_Employee values('ravi',12,'mayur vihar',3433,'SE')
+---------------------------------------------------------------------------------------------------------
+ORM : How to insert a record of an Employee.
+------------------------------------------------------------------------------------------
+Note: -> All model classes are handled by using ManagerObject.
+if you have Employee model then its manager object is -> "ModelName.Objects" -> ManagerObject
+Employee -> Employee.objects
+Customer -> Customer.objects.
+Department -> Department.objects.
+Course -> Course.objects.
+-------------------------------------------------------------------------------------------------------------------------------------
+Insert :-
+emp=Employee()
+emp.name='sweta'
+emp.age=12
+emp.address='rajiv chawk'
+emp.salary=12000
+emp.post='Mrkt'
+emp.save()  -> In this way we can insert a record in ORM.
+or 
+Manager Object
+Employee.objects.  we can get predefined methods.
+Employee.objects.create()  -> Insert Record.
+>>> from EMS.models import Employee
+>>> emp=Employee()
+>>> emp.name='Deleep'
+>>> emp.age=13
+>>> emp.address='rajiv chawk'
+>>> emp.salary=2300
+>>> emp.post='TL'
+>>> emp.save()
+>>> Employee.objects.create(name='shiva',age=19,address='subhas nagar',salary=34000,post='SE')     
+<Employee: shiva>
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+MYSQL :-
+--------------------
+waq to get the employee details whose id is 4.
+select * from tbl_Employee where id=4.
+----------------------------------------------------------------------------------
+ORM :-
+-----------------
+waq to get the employee details whose id is 4.
+Employee.objects.get(id=4)
+---------------------------------------------------------------------------------
+get():-
+--------------------
+>> It returns only unique record from the table.
+>> It doesn't return duplicate record if found, then it shows an error.
+------------------------------------------------------------------------------------------------------
+waq to get all the employee details whose name is rajesh.
+>>> em=Employee.objects.get(name='rajesh') 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "H:\Batch10AMWKD\MyAllProjects\CetpaDemoProject\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch10AMWKD\MyAllProjects\CetpaDemoProject\venv\Lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+EMS.models.Employee.MultipleObjectsReturned: get() returned more than one Employee -- it returned 2!
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+MYSQL -> waq to get all employees whose salary is less than 20000.
+select * from tbl_Employee where salary<20000
+----------------------------------------------------------------------------------
+waq to get all employee whose name is rajesh.
+emp=Employee.objects.filter(name='rajesh') 
+ORM :- waq to get all employees whose salary is less than 20000.
+---------------------------------------------------------------------------------------------------
+filter(comma separated keyword argument)  -> Its return type is QuerySet.
+Employee.objects.filter(salary<20000)  -> Wrong.
+lt -> Less than.
+lte -> Less than or Equal to.
+gt -> Greater than.
+gte -> Greater than or Equal to.
+-------------------------------------------------------------------------------------------------------------
+>>> emp=Employee.objects.filter(salary__lt=20000) 
+>>> emp
+<QuerySet [<Employee: rajesh>, <Employee: sushant>, <Employee: Deleep>]>
+-----------------------------------------------------------------------------------------------------------------------
+MYSQL -> waq to get all the employee whose salary is less than 40000 and greater than 20000.
+select * from tablename where salary>20000 and salary<40000.
+--------------------------------------------------------------------------------------------------------
+ORM :-
+-----------------
+>>> emp=Employee.objects.filter(salary__gt=20000,salary__lt=40000) 
+>>> emp
+<QuerySet [<Employee: subhajit>, <Employee: aditiya>, <Employee: rajesh>, <Employee: shiva>]>
+>>> len(emp) 
+4
+--------------------------------------------------------------------------------------------------------------------------------------------------
+MySQL :-
+---------------------
+waq to get all the employee whose name contains a.
+select * from tbl_employee where name like '%a%' .
+---------------------------------------------------------------------------------------
+ORM :-
+--------------------
+contains() -> It is not a case sensitive.
+Employee.objects.filter(name__contains='a')
+>>> emp=Employee.objects.filter(name__contains='a')  
+>>> emp
+<QuerySet [<Employee: Himanshu Singh>, <Employee: subhajit>, <Employee: varun kumar singh>, <Employee: rajesh>, <Employee: aditiya>, <Employee: rajesh>, <Employee: sushant>, <Employee: shiva>]>
+>>> len(emp) 
+8
+--------------------------------------------------------------------------------------------------------------------------------------
+MYSQL :-
+-------------------
+waq to get all the employee whose name start from e.
+select * from tbl_Employee where name like 'e%'
+--------------------
+startswith -> It is not case sensitive.
+ORM :-
+Employee.objects.filter(name__startswith='e')
+-------------------------------------------------------------------------------------------
+>>> emp=Employee.objects.filter(name__startswith='e') 
+>>> emp
+<QuerySet []>
+>>> len(emp) 
+0
+>>> emp=Employee.objects.filter(name__startswith='s') 
+>>> emp
+<QuerySet [<Employee: subhajit>, <Employee: sushant>, <Employee: shiva>]>
+-----------------------------------------------------------------------------------------------------------------------------------
+MYSQL :-
+------------------------------------------------
+waq to get all the employee whose name ends with i.
+select * from tbl_Employee where name like '%i'.
+--------------------------------------------------------------------------------------------------------------
+ORM :-
+----------------------
+endswith() -> it is not a case-senstive.
+<QuerySet [<Employee: subhajit>, <Employee: sushant>, <Employee: shiva>]>
+>>> emp=Employee.objects.filter(name__endswith='i') 
+>>> emp
+<QuerySet []>
+>>> emp=Employee.objects.filter(name__endswith='h') 
+>>> emp
+<QuerySet [<Employee: Himanshu Singh>, <Employee: varun kumar singh>, <Employee: rajesh>, <Employee: rajesh>, <Employee: Rajesh>]>
+>>> len(emp) 
+5
+----------------------------------------------------------------------------------------------------------------------------
+waq to get all the employee whose name is not rajesh.
+MYSQL -> select * from tbl_Employee where not name='rajesh'
+exclude() -> It is a case sensitive.
+emp=Employee.objects.exclude(name='rajesh') 
+>>> emp
+<QuerySet [<Employee: Himanshu Singh>, <Employee: subhajit>, <Employee: varun kumar singh>, <Employee: aditiya>, <Employee: sushant>, <Employee: Deleep>, <Employee: shiva>, <Employee: Rajesh>]>
+-------------------------------------------------------------
+MYSQL -> waq to get show all the employee
+------------------------------------------------------------------------
+select * from tbl_Employee
+ORM:-
+-------------------
+all() -> with the help of all() we can retrieve all the records of employee.
+ emp=Employee.objects.all()
+>>> emp
+<QuerySet [<Employee: Himanshu Singh>, <Employee: subhajit>, <Employee: varun kumar singh>, <Employee: rajesh>, <Employee: aditiya>, <Employee: rajesh>, <Employee: sushant>, <Employee: Deleep>, <Employee: shiva>, <Employee: Rajesh>]>
+>>> len(emp) 
+10
+>>> print(type(emp)) 
+<class 'django.db.models.query.QuerySet'>
+>>> em=emp[0::2]    
+>>> em
+[<Employee: Himanshu Singh>, <Employee: varun kumar singh>, <Employee: aditiya>, <Employee: sushant>, <Employee: shiva>]
+>>> em[-2]
+<Employee: sushant>
+>>> em[4] 
+<Employee: shiva>
+---------------------------------------------------------------------------
+Summarize:-
+-----------------------------
+>> To perform ORM Query we have MangerObject by which we can write ORM Query.
+ModelClass.objects  -> Manager Object
+Employee.objects.
+Customer.objects.
+Course.objects.
+Department.objects.
+	a) create()
+	b) get()
+	c) filter(comma separated keyword argument) -> It is used to fetch more than one record from the table based on the condition.
+		>> it is also case-sensitive.
+	d) exclude()
+	e) all()
+-------------------------------------------------------------------------------------------------------
+lt -> Less than
+lte -> Less than or Equal to
+gt -> Greater than
+gte -> Greater than or Equal to.
+-----------------------------------------------------------------
+contains() -> it is not a case-sensitive.
+startswith() -> it is not a case-sensitive.
+endswith() -> it is not a case-sensitive.
+--------------------------------------------------------------------
+>>> emp=Employee.objects.all()
+>>> for em in emp:
+...     print(em.id,em.name,em.address,em.salary,em.post)
+... 
+1 Himanshu Singh rajiv chawk 45000 SE
+2 subhajit mayur vihar 34000 Mrkt
+3 varun kumar singh vasant kunj b 111222 PO
+4 rajesh patel nagar 3200 Mrkt
+6 aditiya kirti nagar 20394 Accountant
+7 rajesh pratap nagar 34894 Mrkt
+8 sushant preet vihar 8939 SE
+9 Deleep rajiv chawk 2300 TL
+10 shiva subhas nagar 34000 SE
+11 Rajesh tilak nagar 89000 PO
+>>> em=Employee.objects.all()
+>>> for e in em:
+...     print(e.id,e.name,e.age,e.address,e.salary,e.post)
+... 
+1 Himanshu Singh 19 rajiv chawk 45000 SE
+2 subhajit 18 mayur vihar 34000 Mrkt
+3 varun kumar singh 23 vasant kunj b 111222 PO
+4 rajesh 18 patel nagar 3200 Mrkt
+6 aditiya 25 kirti nagar 20394 Accountant
+7 rajesh 19 pratap nagar 34894 Mrkt
+8 sushant 34 preet vihar 8939 SE
+9 Deleep 13 rajiv chawk 2300 TL
+10 shiva 19 subhas nagar 34000 SE
+11 Rajesh 34 tilak nagar 89000 PO
+>>> emc=em[0::2] 
+>>> emc
+[<Employee: Himanshu Singh>, <Employee: varun kumar singh>, <Employee: aditiya>, <Employee: sushant>, <Employee: shiva>]
+>>> for e in emc:
+...     print(e.id,e.name,e.age,e.address,e.post,e.salary)
+... 
+1 Himanshu Singh 19 rajiv chawk SE 45000
+3 varun kumar singh 23 vasant kunj b PO 111222
+6 aditiya 25 kirti nagar Accountant 20394
+8 sushant 34 preet vihar SE 8939
+10 shiva 19 subhas nagar SE 34000
+-----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

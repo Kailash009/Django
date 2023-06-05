@@ -1,0 +1,281 @@
+Relationship between Models:-
+----------------------------------------------------
+1. One to One.
+2. One to Many or Many to One.
+3. Many to Many.
+------------------------------------------------------------------------
+2. One to Many or Many to One.
+---------------------------------------------------------------------------------------
+Student - PaymentDetails:-
+---------------------------------------------------------------------------
+1 S -> Many Payment.
+Many Payment -> 1 S
+--------------------------------------------------------------------------
+class Student(models.Model):
+    name=models.CharField(max_length=50,null=False,blank=False)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=25)
+    dob=models.DateField(null=True,blank=True)
+    address=models.CharField(max_length=300)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_updated_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+-------------------------------------
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=200,choices=[('Cash','Cash'),('Debit Card','Debit Card'),('Credit Card','Credit Card'),('UPI','UPI')])
+    payment_date=models.DateTimeField(auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE,default="")
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+s1=Student()
+s1.name='subham'
+s1.age=19
+s1.mobileno='89898'
+s1.save()  -> subham added successFully
+p1=PaymentDetails()
+p1.amount=5000
+p1.payment_mode='Debit Card'
+p1.student=s1  -> subham payment done 5000.
+p1.save()
+-----------------------------------------------------------------------------------------------
+(InteractiveConsole)
+>>> from SMS.models import *   
+>>> s1=Student()
+>>> s1.name='subham' 
+>>> s1.age=19
+>>> s1.mobileno='988989'
+>>> s1.save()
+>>> p1=PaymentDetails()
+>>> p1.amount=5000
+>>> p1.payment_mode='Debit Card' 
+>>> p1.student=s1
+>>> p1.save()
+>>> p2=PaymentDetails()
+>>> p2.amount=3500
+>>> p2.payment_mode='Cash' 
+>>> p2.student=s1
+>>> p2.save()
+>>> s1=Student.objects.get(id=1) 
+>>> s1.name
+'subhajit saha'
+>>> s1.age
+19
+>>> s1.mobileno
+'9808983'
+>>> s1.dob
+>>> p1=PaymentDetails()
+>>> p1.amount=7000
+>>> p1.payment_mode='Credit Card' 
+>>> p1.student=s1
+>>> p1.save()
+>>> p1.amount=2000 
+>>> p2=PaymentDetails()
+>>> p2.amount=2000
+>>> p2.payment_mode='UPI' 
+>>> p2.student=s1
+>>> p2.save()
+>>> p3=PaymentDetails()
+>>> p3.amount=3700
+>>> p3.payment_mode='Cash' 
+>>> p3.student=s1
+>>> p3.save(0
+...  
+KeyboardInterrupt
+>>> p3.save()
+>>> Student.objects.create(name='raj',age=12,mobileno='87787878') 
+<Student: raj>
+>>> Student.objects.create(name='ravi pratap',age=42,mobileno='90887878') 
+<Student: ravi pratap>
+>>> Student.objects.create(name='kamlesh',age=22,mobileno='703887878')     
+<Student: kamlesh>
+>>> Student.objects.create(name='Amit',age=25,mobileno='503887878')    
+<Student: Amit>
+>>> Student.objects.create(name='piyush',age=35,mobileno='303887878') 
+<Student: piyush>
+>>> s1=Student.objects.get(id=3)           
+>>> s1.name
+'raj'
+>>> PaymentDetails.objects.create(amount=3300,payment_mode='Credit Card',student=s1) 
+<PaymentDetails: PaymentDetails object (6)>
+>>> s1=Student.objects.get(id=4) 
+>>> s1.name
+'ravi pratap'
+>>> PaymentDetails.objects.create(amount=5300,payment_mode='Debit Card',student=s1)  
+<PaymentDetails: PaymentDetails object (7)>
+>>> s1=Student.objects.get(id=5) 
+>>> s1.name
+'kamlesh'
+>>> PaymentDetails.objects.create(amount=6300,payment_mode='Cash',student=s1)       
+<PaymentDetails: PaymentDetails object (8)>
+>>> s1=Student.objects.get(id=6) 
+>>> s1.name
+'Amit'
+>>> PaymentDetails.objects.create(amount=12300,payment_mode='Debit Card',student=s1) 
+<PaymentDetails: PaymentDetails object (9)>
+>>> s1=Student.objects.get(id=7) 
+>>> s1.name
+'piyush'
+>>> PaymentDetails.objects.create(amount=32300,payment_mode='UPI',student=s1)        
+<PaymentDetails: PaymentDetails object (10)>
+>>> PaymentDetails.objects.create(amount=12300,payment_mode='Cash',student=s1) 
+<PaymentDetails: PaymentDetails object (11)>
+>>> s1=Student.objects.get(id=4) 
+>>> s1.name
+'ravi pratap'
+>>> PaymentDetails.objects.create(amount=10300,payment_mode='Cash',student=s1) 
+<PaymentDetails: PaymentDetails object (12)>
+>>> s1=Student.objects.get(id=3) 
+>>> s1.name
+'raj'
+>>> PaymentDetails.objects.create(amount=45300,payment_mode='UPI',student=s1)  
+<PaymentDetails: PaymentDetails object (13)>
+========================================================================================
+Student - PaymentDetails:-
+------------------------------------------------------------
+waq to find how many payments done by 'subhajit saha'.
+s1=Student.objects.get(id=1)
+s1.name --'subhajit saha'
+allp=s1.paymentdetails_set.all()                 -> due to Relationship with Payment Details
+allp
+----------------------------------------------------------------------------------------------------------------------------------------
+>>> s1=Student.objects.get(id=4)
+>>> s1.name
+'ravi pratap'
+>>> PaymentDetails.objects.create(amount=10300,payment_mode='Cash',student=s1)
+<PaymentDetails: PaymentDetails object (12)>
+>>> s1=Student.objects.get(id=3)
+>>> s1.name
+'raj'
+>>> PaymentDetails.objects.create(amount=45300,payment_mode='UPI',student=s1)
+<PaymentDetails: PaymentDetails object (13)>
+>>> s1=Studentobjects.get(id=1) 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'Studentobjects' is not defined
+>>> s1=Student.objects.get(id=1) 
+>>> s1.name
+'subhajit saha'
+>>> s1.age
+19
+>>> s1.mobileno
+'9808983'
+>>> s1.dob
+>>> s1.created_date
+datetime.datetime(2023, 6, 1, 5, 23, 43, 749032, tzinfo=datetime.timezone.utc)
+>>> all=s1.paymentdetails_set.all()
+>>> all
+<QuerySet [<PaymentDetails: PaymentDetails object (3)>, <PaymentDetails: PaymentDetails object (4)>, <PaymentDetails: PaymentDetails object (5)>]>
+>>> len(all) 
+3
+>>> s1=Student.objects.get(id=2) 
+>>> s1.name
+'subham'
+>>> allpay=s1.paymentdetails_set.all()
+>>> allpay
+<QuerySet [<PaymentDetails: PaymentDetails object (1)>, <PaymentDetails: PaymentDetails object (2)>]>
+>>> len(allpay) 
+2
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+PaymentDetails  - Student:-
+-------------------------------------------------
+waq to find the student name whose payment is 5000.
+p1=PaymentDetails.objects.get(amount=5000)
+p1.amount ->5000
+p1.payment_mode -Debit Card
+p1.student.name --'subham'
+>>> p1=PaymentDetails.objects.get(amount=5000) 
+>>> p1.amount
+5000
+>>> p1.payment_mode
+'Debit Card'
+>>> p1.payment_date
+datetime.datetime(2023, 6, 5, 4, 52, 58, 879814, tzinfo=datetime.timezone.utc)
+>>> p1.student.name
+'subham'
+>>> p1.student.age
+19
+>>> p1.student.mobileno
+'988989'
+-------------------------------------------------------------------------------------
+from django.shortcuts import render
+from SMS.models import *
+# Create your views here.
+
+def view_payment_details(request):
+    if request.method=='GET':
+        resp=render(request,'SMS/payment.html')
+        return resp
+    elif request.method=='POST':
+        sid=int(request.POST.get('t1',0))
+        stu=Student.objects.get(id=sid)
+        allp=stu.paymentdetails_set.all()
+        d1={'payments':allp,'stu':stu}
+        resp=render(request,'SMS/payment.html',context=d1)
+        return resp
+------------------------------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+
+#BASE URL => http://127.0.0.1:8000/sms/
+
+urlpatterns = [
+    path('payment/',view_payment_details),
+]
+--------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOW PAYMENT DETAILS</title>
+</head>
+<body bgcolor="pink">
+    <form method="post">
+        {% csrf_token %}
+    <h1> **STUDENT WISE PAYMENT DETAILS** </h1>
+    Enter Student ID:     <input type="text" name="t1">
+    <button type="submit">Show Payment Details </button>
+    <br/><br/>
+
+    <table border="3" bgcolor="yellow">
+     <tr>
+        <th>S.No.</th>
+        <th>NAME</th>
+        <th>AMOUNT</th>
+        <th>PAYMENT_MODE</th>
+        <th>PAYMENT_DATE</th>
+     </tr>   
+     {% for pay in payments %}
+     <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{stu.name}}</td>
+        <td>{{pay.amount}}</td>
+        <td>{{pay.payment_mode}}</td>
+        <td>{{pay.payment_date}}</td>
+     </tr>
+     {% endfor %}
+    </table>
+</form>
+</body>
+</html>
+-----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,249 @@
+>>> c=Course.objects.get(id=1) 
+>>> c.name
+'Java'
+>>> c.students.all()
+<QuerySet [<Student: subhajit saha>, <Student: ravi pratap>]>
+>>> allstu=c.students.all() 
+>>> allstu
+<QuerySet [<Student: subhajit saha>, <Student: ravi pratap>]>
+>>> len(allstu) 
+2
+----------------------------------------------------------------------------------------------
+d1={'abc':'apple',2:'Mango',45.67:345}
+
+d1['xyz']='Java'  -> it automatically add in your dict.
+Output:-
+-------------------
+d1={'abc':'apple',2:'Mango',45.67:345,'xyz':'Java' }
+-----------------------------------------------------------------------------------------
+HTML,CSS:-
+----------------------------------------------------------------------------------------
+Model Form:-
+-------------------------------
+MODEL -> MODELFORM
+>> No need to write HTML code.
+>> Model Form is used for creating dynamic HTML.
+----------------------------------------------------------------------------------------------------------------------
+class Student(models.Model):   ====>>>> MODEL
+    name=models.CharField(max_length=50,null=False,blank=False)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=25)
+    dob=models.DateField(null=True,blank=True)
+    address=models.CharField(max_length=300)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_updated_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+-----------------------------------------------------------------------------------------------------------------------------------
+MODEL FORM:-
+=====================
+1. Right click on your app -> and new python file name as 'forms.py'
+from SMS.models import Student
+from django import forms
+
+class StudentForm(forms.ModelForm):   # MODEL FORM
+    class Meta:
+        model=Student
+        fields=['name','age','mobileno']
+---------------------------------------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from SMS.models import *
+from SMS.forms import StudentForm
+# Create your views here.
+
+def view_payment_details(request):
+    if request.method=='GET':
+        resp=render(request,'SMS/payment.html')
+        return resp
+    elif request.method=='POST':
+        sid=int(request.POST.get('t1',0))
+        stu=Student.objects.get(id=sid)
+        allp=stu.paymentdetails_set.all()
+        d1={'payments':allp,'stu':stu}
+        resp=render(request,'SMS/payment.html',context=d1)
+        return resp
+
+def view_course_wise_student_details(request):
+    allc=Course.objects.all()
+    d1={'courses':allc}
+    if request.method=='GET':
+        c=Course.objects.get(id=1)
+        d1['cid']=c.id
+        d1['cname']=c.name
+        allstu=c.students.all()
+        d1['students']=allstu
+        resp=render(request,'SMS/student.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        cid=int(request.POST.get("course",0))
+        c=Course.objects.get(id=cid) 
+        d1['cid']=c.id
+        d1['cname']=c.name
+        allstu=c.students.all()
+        d1['students']=allstu
+        resp=render(request,'SMS/student.html',context=d1)
+        return resp
+
+def view_student(request):
+    if request.method=='GET':
+        frm_unbound=StudentForm()
+        d1={'forms':frm_unbound}
+        resp=render(request,'SMS/stufrm.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        pass
+-----------------------------------------------------------------------------------------------------
+from SMS.models import Student
+from django import forms
+
+class StudentForm(forms.ModelForm):   # MODEL FORM
+    class Meta:
+        model=Student
+        fields='__all__'      #['name','age','mobileno']
+-------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDENT FORM</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1 align="center"> ** STUDENT REGISTRATION FORM ** </h1>
+    <table border="3" align="center" bgcolor="lime" width="30%">
+        {{forms}}
+        <tr>
+            <td> <button type="submit"> REGISTER </button>  </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------
+from django.db import models
+
+# Create your models here.
+
+class Student(models.Model):
+    name=models.CharField(max_length=50,null=False,blank=False)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=25)
+    dob=models.DateField(null=True,blank=True)
+    address=models.CharField(max_length=300)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_updated_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+    
+class Course(models.Model):
+    name=models.CharField(max_length=100)
+    students=models.ManyToManyField(Student,null=True,blank=True)
+    def __str__(self):
+        return self.name
+    
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=200,choices=[('Cash','Cash'),('Debit Card','Debit Card'),('Credit Card','Credit Card'),('UPI','UPI')])
+    payment_date=models.DateTimeField(auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE,default="")
+-------------------------------------------------------------------------------------------------------------------------------------------------------------  
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

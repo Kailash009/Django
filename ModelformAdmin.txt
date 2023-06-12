@@ -1,0 +1,54 @@
+How to add dynamic attributes in Model Form:-
+--------------------------------------------------------------------------------------
+step-1:  Go to forms.py
+step-2 : Add this Line:- 
+	 def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for stu in self.fields.values():
+            stu.widget.attrs['class']='form-control'
+            stu.widget.attrs['placeholder']='Enter ' + stu.label + ' *'
+----------------------------------------------------------------------------------------------------------------
+Django Admin Customization:-
+-----------------------------------------------------------------------------
+1. Create SuperUser.
+	python manage.py createsuperuser
+Note: With the help of admin panel we can automatically perform CRUD Operation, once you add your model in it.
+I am going to add Student Model in my admin panel.
+1. Go to admin.py
+2. Add this Line:-
+from django.contrib import admin
+from SMS.models import Student
+# Register your models here.
+
+# admin.site.register(Student) # Your Student model will be added in Admin Panel.
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display=['name','age','mobileno','created_date']
+--------------------------------------------------------------------------------------------------------------------------------------------
+Static File in Django:- Pending
+------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

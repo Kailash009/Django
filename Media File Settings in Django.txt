@@ -1,0 +1,120 @@
+Settings of Media File:-
+---------------------------------------------------------------
+>> Media files are the heavy weight in our application.
+>> It is collection of audio,video or image.
+---------------------------------------------------------------------------------------------------
+How to store image path into database:-
+---------------------------------------------------------------------------------------
+step-1:    <form method="post" enctype="multipart/form-data">
+step-2:    frm_bound=StudentForm(request.POST,files=request.FILES)
+-------------------------------------------------------------------------------------------------------------------
+wap to enter the student ID and show/display the student details with image.
+------------------------------------------------------------------------------------------------------------------
+Steps for Setting Media File:-
+-------------------------------------------------------------------
+step-1: Go to Settings.py and add these Lines:- 
+STATIC_URL = 'static/'  #http://127.0.0.1:8000/static/
+STATIC_ROOT = BASE_DIR / 'static/'
+MEDIA_URL = 'media/'  #http://127.0.0.1:8000/media/   #Add these Lines for Media Setting.
+MEDIA_ROOT = BASE_DIR / 'media/'   
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+step-2:- Go to urls.py (Project)
+from .import settings
+from django.conf.urls.static import static
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('add/<int:a>/<int:b>/',sum),
+    path('sub/',sub),
+    path('mult/',mult),
+    path('div/',div),
+    path('calc/',calc),
+    path('ems/',include('EMS.urls')),  #http://127.0.0.1:8000/ems/
+    path('sms/',include('SMS.urls')),  #http://127.0.0.1:8000/sms/
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)  # Add This Line.
+---------------------------------------------------------------------------------------------------------------------------------------------
+def view_show_student_details_with_image(request):
+    if request.method=='GET':
+        resp=render(request,'SMS/showstudent.html')
+        return resp
+    elif request.method=='POST':
+        eid=int(request.POST.get('txteid',0))
+        stu=Student.objects.get(id=eid)
+        d1={'stu':stu}
+        resp=render(request,'SMS/showstudent.html',context=d1)
+        return resp
+-----------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Student</title>
+</head>
+<body bgcolor="lime">
+    <form method="post">
+        {% csrf_token %}
+    <h1 align="center">**SHOW STUDENT DETAILS WITH IMAGE**</h1>
+    Enter Student ID:
+    <input type="text" name="txteid">
+    <button>Show Student</button>
+    <br/><br/>
+    <table border="3" width="50%" bgcolor="cyan">
+        <tr>
+            <th>Name</th>
+            <td>{{stu.name}}</td>
+        </tr>
+        <tr>
+            <th>Age</th>
+            <td>{{stu.age}}</td>
+        </tr>
+        <tr>
+            <th>Mobile No</th>
+            <td>{{stu.mobileno}}</td>
+        </tr>
+        <tr>
+            <th>DOB</th>
+            <td>{{stu.dob}}</td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td>{{stu.address}}</td>
+        </tr>
+
+        <tr>
+            <th>Image</th>
+            <td><img src="{{stu.pic.url}}" alt="PIC"/></td>
+        </tr>
+            
+        <tr>
+            <th>Registration Date</th>
+            <td>{{stu.created_date}}</td>
+        </tr>
+    </tr>
+    </table>
+</form>
+</body>
+</html>
+-------------------------------------------------------------------------
+Web Security - Login Management:- Pending.
+=======================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

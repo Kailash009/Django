@@ -1,0 +1,327 @@
+Register- 
+Login -
+--------------------------------------------------------------------------------------------
+Note:-
+--------------------
+'django.contrib.auth',  -> In this app all models and model forms are defined to perform authentication and authorization.
+>> To perform registration in django we have predefined Model and Model Forms. They are as Follows:-
+1. User. -> It is used to perform Authentication.
+2. Group. -> It is used to perform Authorization.
+3. Permission. ->
+---------------------------------------------------------------------------------------------------------
+User   --  Group  -> Many to Many Relationship.
+1 User - Many Group.
+1 Group - Many User.
+----------------------------------------------------------------------------------------------------------
+>> To Perform registration we have predefined User Model. They contains the Following columns which are as given below:-
+auth_User -> Table. In auth_user table some columns are very important to understand.
+------------------------------------
+username -
+password -
+is_superuser - 1
+is_staff ---->> 
+Note: By Default is_staff and is_superuser (Admin) is 0. If is_staff is 1 then user can login through Admin Panel.
+Note:- If is_staff is 0 then user can't login through admin Panel.
+-----------------------------------------------------------------------------------------------------------------
+(InteractiveConsole)
+>>> from django.contrib.auth.models import User
+>>> u=User()
+>>> u=User.objects.get(id=3)
+>>> u.username
+'ashish'
+>>> u.password
+'pbkdf2_sha256$600000$9AhVrLe9QaRUhxjiNpRk4N$t8NFstplltO6sQjmg2DfGfol3oxKMdvwga9LEA+i2a8='
+>>> u.is_superuser
+False
+>>> u.is_staff
+False
+>>> u.is_staff=True
+>>> u.save()
+>>> u.is_staff
+True
+----------------------------------------------------------------------------
+Note:- To perform login we have predined properties i.e . defined into following library - 
+from django.contrib.auth import login,logout,authenticate
+--------------------------------------------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse
+from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.decorators import login_required
+# Create your views here.
+
+def view_home(request):
+    resp=render(request,'LMS/home.html')
+    return resp
+
+def view_register(request):
+    if request.method=='GET':
+        frm_unbound=UserCreationForm()
+        d1={'forms':frm_unbound}
+        resp=render(request,'LMS/register.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        frm_bound=UserCreationForm(request.POST)
+        if frm_bound.is_valid():  # Server Side Validation
+            frm_bound.save()
+            return HttpResponse("<h1>User Registered SuccessFully!!</h1>")
+        else:
+            d1={'forms':frm_bound}
+            resp=render(request,'LMS/register.html',context=d1)
+            return resp
+
+def view_login(request):
+    if request.method=='GET':
+        resp=render(request,'LMS/login.html')
+        return resp
+    elif request.method=='POST':
+        u_name=request.POST.get('txtusername','NA')
+        u_paswd=request.POST.get('txtpassword','NA')
+        user=authenticate(request,username=u_name,password=u_paswd)
+        if user is not None:
+            login(request,user)
+            return render(request,'LMS/home.html')
+            # return HttpResponse("<h1>Login SuccessFully!!</h1>")
+        else:
+            # return HttpResponse("<h1>Login Failed!!</h1>")
+            return render(request,'LMS/login.html')
+
+def view_logout(request):
+    logout(request=request)
+    resp=render(request,'LMS/logout.html')
+    return resp
+
+@login_required(login_url='login')
+def view_secure1(request):
+    resp=render(request,'LMS/secure1.html')
+    return resp
+
+@login_required(login_url='login')
+def view_secure2(request):
+    resp=render(request,'LMS/secure2.html')
+    return resp
+
+def view_unsecure1(request):
+    resp=render(request,'LMS/unsecure1.html')
+    return resp
+
+def view_unsecure2(request):
+    resp=render(request,'LMS/unsecure2.html')
+    return resp
+------------------------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+#Base URL => http://127.0.0.1:8000/lms/
+
+urlpatterns = [
+
+    path('home/',view_home,name='home'),
+    path('register/',view_register,name='register'),
+    path('login/',view_login,name='login'),
+    path('logout/',view_logout,name='logout'),
+    path('secure1/',view_secure1,name='secure1'),
+    path('secure2/',view_secure2,name='secure2'),
+    path('unsecure1/',view_unsecure1,name='unsecure1'),
+    path('unsecure2/',view_unsecure2,name='unsecure2'),
+]
+---------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body bgcolor="lime">
+    <h1 align="center">**WELCOME TO THE HOME PAGE OF LMS** </h1>
+    <table border="3" bgcolor="pink" width="30%" align="center">
+        <tr>
+            <th>Pages</th>
+            <th>References</th>
+        </tr>
+        <tr>
+            <th>UserName</th>
+            <th>{{request.user}}</th>
+        </tr>
+        <tr>
+            <th>HOME</th>
+            <!-- <th><a href="http://127.0.0.1:8000/lms/home/">Home</a> </th> -->
+            <th><a href="{% url 'home' %}">Home</a> </th>
+        </tr>
+        <tr>
+            <th>REGISTER</th>
+            <!-- <th><a href="http://127.0.0.1:8000/lms/register/" target="_blank">Register</a></th> -->
+            <th><a href="{% url 'register' %}" target="_blank">Register</a></th>
+        </tr>
+        <tr>
+            <th>LOGIN</th>
+            <th><a href="{% url 'login' %}" target="_blank">Login</a></th>
+        </tr>
+        <tr>
+            <th>LOGOUT</th>
+            <th><a href="{% url 'logout' %}" target="_blank">Logout</a></th>
+        </tr>
+        <tr>
+            <th>SECURE1</th>
+            <th><a href="{% url 'secure1' %}" target="_blank">Secure1</a> </th>
+        </tr>
+        <tr>
+            <th>SECURE2</th>
+            <th><a href="{% url 'secure2' %}" target="_blank">Secure2</a></th>
+        </tr>
+        <tr>
+            <th>UNSECURE1</th>
+            <th><a href="{% url 'unsecure1' %}" target="_blank">Unsecure1</a></th>
+        </tr>
+        <tr>
+            <th>UNSECURE2</th>
+            <th><a href="{% url 'unsecure2' %}" target="_blank">Unsecure2</a></th>
+        </tr>
+    </table>
+</body>
+</html>
+---------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1 align="center">**WELCOME TO THE Register PAGE OF LMS** </h1>
+    <table align="center" border="3" bgcolor="lime">
+    {{forms}}
+    <tr>
+        <td> <button> Register </button> </td>
+    </tr>
+    </table>
+     <h3><a href="{% url 'home' %}">Back to Home Page</a></h3>
+    </form>
+</body>
+</html>
+------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1 align="center">**WELCOME TO THE Login PAGE OF LMS** </h1>
+    <table align="center" bgcolor="lime" border="3">
+        <tr>
+            <td>UserName:</td>
+            <td><input type="text" name="txtusername">  </td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" name="txtpassword">  </td>
+        </tr>
+        <tr>
+            <td> <button>LOGIN</button>  </td>
+        </tr>
+    </table>
+     <h3><a href="{% url 'home' %}">Back to Home Page</a></h3>
+</form>
+</body>
+</html>
+-----------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout Page</title>
+</head>
+<body bgcolor="yellow">
+    <h1 align="center">**WELCOME TO THE Logout PAGE OF LMS** </h1>
+    <h3>User Logout SuccessFully!!</h3>
+    <h3><a href="{% url 'home' %}">Back to Home Page</a></h3>
+</body>
+</html>
+-----------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure1 Page</title>
+</head>
+<body bgcolor="yellow">
+    <h1 align="center">**WELCOME TO THE Secure1 PAGE OF LMS** </h1>
+    <h2> This is a Secure Page, It will open only When you Provide Authentication. </h2>
+     <h3><a href="{% url 'home' %}">Back to Home Page</a></h3>
+</body>
+</html>
+----------------------------
+Assignment Task:-
+---------------------------------------
+How to control access of Login and Registration Page when user is already Login:-
+---------------------------------------------------------------------------------------------------------------------------------
+1. Create a Decorator.
+2. Check if user is already login,then redirect to the home page (can't open login and registration page).
+3. Check if user is not login, then open login page and registration page.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

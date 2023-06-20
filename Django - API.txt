@@ -1,0 +1,160 @@
+How to control access of Login and Registration Page when user is already Login:-
+---------------------------------------------------------------------------------------------------------------------------------
+1. Create a Decorator.
+2. Check if user is already login,then redirect to the home page (can't open login and registration page).
+3. Check if user is not login, then open login page and registration page.
+----------------------------------------------------------------------------------------------------------------------------------------
+Syntax:-
+-------------------------------
+  def functionname(func):
+          def inner(request):
+                 // code logic
+          return inner
+---------------------------------------------------
+from django.shortcuts import render
+
+def check_authenticated(myfunc):
+    def inner(request):
+        if request.user.is_authenticated:
+            resp=render(request,'LMS/home.html')
+            return resp
+        else:
+            return myfunc(request)
+    return inner
+--------------------------------------------------------------------------------------
+REST - API :-
+-----------------------------------------------------
+API:-
+---------------
+>> It stands for 'Application Programming Interface'.
+>> API is nothing it is just a function.
+>> API is not a technology, it is a concept in which we can provide communication having different devices.
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+REST :-
+-------------------
+>> It stands for 'Representational State Transfer'.
+>> It is communication protocol under which our api will run.
+--------------------------------------------------------------------------------------------------------------
+{
+"pid":101,
+"pname":"Samsung",
+"price":34000,
+"quantity":3
+} -> JSON FORMAT.
+-----------------------------------------------------------------------------------
+{
+"id":1,
+"title":"iPhone 9",
+"description":"An apple mobile which is nothing like apple",
+"price":549,
+"discountPercentage":12.96,
+"rating":4.69,
+"stock":94,
+"brand":"Apple",
+"category":"smartphones","
+thumbnail":"https://i.dummyjson.com/data/products/1/thumbnail.jpg"
+}  -> JSON FORMAT.
+---------------------------------------------------------------------------------------------------------------------
+In Api you need to learn following three things:-
+1. Create an API.
+2. Testing an API.  -> For testing an API we use 'POSTMAN' tool.
+3. Consume an API. we can consume our api with different applications:-
+	a) Desktop App. (Tkinter)
+	b) Web App. (Django)
+	c) Mobile App. (kiwi)
+	d) JavaScript.
+	e) JQuery Ajax.
+----------------------------------------------------------------------------------------------------------------
+How to create api in Django:-
+-----------------------------------------------------------
+Note: To create an api django will provide you one default app by which you can create restful api. These app name as -
+ 	'rest_framework',  -> default app name to make restful api.
+--------------------------------------------------------------------------------------------------------------------------------
+1. Create New App.  ---  demoapi
+2. Register you app. 
+	settings.py  ->> Here you have to register two apps.
+	 'demoapi',
+	 'rest_framework',
+3. URL Mapping.
+4. pip install djangorestframework
+-------------------------------------------------------------------------------------------------------------------------------
+C -> Create  -> api ->   POST
+R -> Read   ->  api ->   GET
+U -> Update  -> api ->  PUT
+D -> Delete   -> api ->  DELETE
+-------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+# Create your views here.
+
+# @api_view(http_method_names=['GET','POST'])
+@api_view(['GET'])
+def view_first_api(request):
+    resp=Response(data='This is My First API')
+    return resp
+--------------------------------------------------------------------------------------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'EMS',
+    'SMS',
+    'LMS',
+    'demoapi',  // Regiser your api aap.
+    'rest_framework', // Register by default app.
+]
+-----------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+#BASE URL => #http://127.0.0.1:8000/demapi/
+
+urlpatterns = [
+    
+    path('first/',view_first_api),
+]
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

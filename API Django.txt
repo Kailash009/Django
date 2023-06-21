@@ -1,0 +1,129 @@
+API:-
+-------------
+1. How to create an API.
+2. Testing an API.  -->>> POSTMAN.  -> https://www.postman.com/downloads/  -> url to download postman.
+3. Consume an API.
+------------------------------------------------------------------------
+Note:-
+-------------------
+>> When you want to consume your api then you have to install one package -
+pip install requests
+-----------------------------------------------------
+Consume API:-
+-----------------------------
+import requests
+resp=requests.get(url="http://127.0.0.1:8000/demapi/first/")
+resp
+<Response [200]>
+print(resp.json())
+This is My First API
+print(resp.text)
+"This is My First API"
+print(resp.content)
+b'"This is My First API"'
+----------------------------------------------------------------------------------------
+Note:-
+------------
+>> In response() constructor when you pass any  data type(string,int,bool,list,tuple,dictionary,float) then it directly converted into JSON,but if you pass any Model class or complex data type then it is unable to convert into JSON Format. you will get the following error -
+"Object of type Student is not JSON serializable".
+Note:- To solve this error we need to create Serializer.
+-----------------------------------------------------------------------------------------------------
+How to create Serializer:-
+--------------------------------------------------------
+1. Create a one file serializer.py
+2. 
+from rest_framework import serializers
+from SMS.models import Student
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Student
+        fields=['name','age','mobileno']
+--------------------------------------------------------------------------------------------
+wap to create an api that find the student on the basis of id.
+-----------------------------------------------------------------------------------------------
+import requests
+while(True):
+    try:
+        sid=int(input('Enter Student ID='))
+        resp=requests.get(url="http://127.0.0.1:8000/demapi/student/{0}".format(sid)+"/")
+        stu=resp.json().items()
+        for st in stu:
+            print(st[0],'=',st[1])
+    except:
+        print('Student ID Not Found!!')
+------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from SMS.models import Student
+from .serializer import StudentSerializer
+
+# Create your views here.
+
+# @api_view(http_method_names=['GET','POST'])
+@api_view(['GET','POST'])
+def view_first_api(request):
+    value=344.89
+    resp=Response(data=value)
+    return resp
+
+@api_view(['GET'])
+def view_student_api(request,sid):
+    stu=Student.objects.get(id=sid)
+    stu_serializer=StudentSerializer(stu)
+    resp=Response(data=stu_serializer.data)
+    return resp
+--------------------------------------------------------------------------
+from rest_framework import serializers
+from SMS.models import Student
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Student
+        fields=['name','age','mobileno']
+----------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+#BASE URL => #http://127.0.0.1:8000/demapi/
+
+urlpatterns = [
+    
+    path('first/',view_first_api),
+    path('student/<int:sid>/',view_student_api),
+]
+---------------------------------------------------------------------------------
+Assignment:-
+-----------------------------
+Perform CRUD operation in api. (Monday 26 June)
+---------------------------------------------------------------------------------
+How to call api using AJAX - H.W.
+-------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

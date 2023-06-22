@@ -1,0 +1,200 @@
+AJAX - Calling Api
+-----------------------------------------------------------
+>> Ajax stands for Asynchrounous java script and XML.
+>> Ajax is a technique by which we can send the request to the server and fetch the data from the server without reloading the whole page again and again.
+>> It increases the response time of an application.
+------------------------------------------------------------------------------------------------------------------------------------
+The keystone of AJAX is the XMLHttpRequest object.
+1. Create an XMLHttpRequest object
+2. Define a callback function
+3. Open the XMLHttpRequest object
+4. Send a Request to a server
+--------------------------------------------------------------------------------------------------
+open(method, url, async, user, psw)	
+method: the request type GET or POST
+url: the file location
+async: true (asynchronous) or false (synchronous)
+user: optional user name
+psw: optional password
+-------------------------------------------------------------------------------------
+readyState => Holds the status of the XMLHttpRequest.
+0: request not initialized
+1: server connection established
+2: request received
+3: processing request
+4: request finished and response is ready
+-------------------------------------------------------------------------------------------
+status => Returns the status-number of a request
+200: "OK"
+403: "Forbidden"
+404: "Not Found"
+-------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX - API CALLING </title>
+</head>
+<body bgcolor="lime">
+    Enter the Student ID:
+    <input type="text" id="sid">
+    <button onclick="getstudentid()">Get Student</button>
+    
+    <script>
+        function getstudentid()
+        {
+        let sid=document.getElementById("sid").value;
+        alert(sid);
+        call_api("http://127.0.0.1:8000/demapi/student/"+sid+"/");
+        }
+        function call_api(url)  // Function Defination
+        {
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+            alert(this.responseText);
+        }
+    };
+    xmlhttp.open("GET",url,true);
+    xmlhttp.send(); 
+        }
+
+    </script>
+</body>
+</html>
+---------------------------------------------------------------------------------------
+def view_student_api_ajax(request):
+    resp=render(request,'SMS/ajaxdemo.html')
+    return resp
+---------------------------------------------------------------------------------------
+State Management in Django:-
+--------------------------------------------------------------------
+>> https://www.amazon.in/
+http -> hyper text transfer protocol.
+-----------------------------------------------------------------
+>> Every web application can be access by using http protocol.
+>> http is a stateless protocol.
+>> it doesn't maintain the information between client and server.
+>> Then how to maintain the communication or state between client and server then we use the concept of State Mangement technique.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Types of State Management:-
+----------------------------------------------------
+1. Client Side State Management.
+	>> Cookies.
+2. Server Side State Management.
+	>> Session.
+------------------------------------------------------------------------
+2. Server Side State Management.
+Session:-
+---------------------
+>> It is a Global Management Protocol.
+>> Session value can be access throughout the whole web application.
+>> It is a heavy weight.
+>> The default time of session is 20 Min.
+>> Session is used to store information at server side.
+>> Session generate session_id and session_key, session_id stored at server side and session_key store at client side in the form of cookies.
+Syntax:-
+----------------------
+request.session.get("key","value")
+------------------------------------------------------------------------------------------------------------------------------
+wap to count the total no. of visitor.
+------------------------------------------------------------
+1. Create new app.
+2. Register your app.
+3. URL MAPPING.
+---------------------------------------------------
+from django.shortcuts import render
+
+# Create your views here.
+def view_visitor_count(request):
+    count=request.session.get('count','NA') # Get Session Value.
+    if count=='NA':
+        count=1
+    else:
+        count=count+1
+    request.session['count']=count  # Set Session value
+    d1={'count':count}
+    resp=render(request,'demosession/count.html',context=d1)
+    return resp
+------------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISITOR COUNT</title>
+</head>
+<body bgcolor="lime">
+    <h2>Total Visitor Count= {{count}} </h2>
+</body>
+</html>
+------------------------------------------------------------------------------------------------------------
+Cookies -
+Django Signal -
+-------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

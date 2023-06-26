@@ -1,0 +1,199 @@
+Client Side Validation:-
+----------------------------------------------
+Cookies:-
+---------------------
+>> Cookies is used to store small amount of information at client side.
+>> It store only string data. upto 4k (Depend upon browser to browser).
+>> The default time of cookies is 30 Min.
+-------------------------------------------------------------------------------------------------------------
+Types of Cookies:-
+---------------------------------
+There are two types of cookies:-
+1. Non-Persistent.
+>> It store cookie information on a temporarily basis.
+>> When you close your browser or turn off your computer cookie information automatically gets deleted from the browser.
+2. Persistent.
+>> It store cookie information on a permanent basis.
+>> when you close browser or turn off your computer cookies information remain persistent in your browser.
+>> you have to set the cookie time.
+------------------------------------------------------------------------------------------------------------------------
+In cookie you need to perform two main operations-
+1. How to write cookie.
+Syntax:-
+---------------------------
+set_cookie()
+--------------------------
+2. How to read cookie.
+Syntax:-
+-----------------
+request.COOKIES.get("key","value")
+----------------------------------------------------------
+from django.shortcuts import render
+
+# Create your views here.
+def view_visitor_count(request):
+    count=request.session.get('count','NA') # Get Session Value.
+    if count=='NA':
+        count=1
+    else:
+        count=count+1
+    request.session['count']=count  # Set Session value
+    d1={'count':count}
+    resp=render(request,'demosession/count.html',context=d1)
+    return resp
+
+
+def view_write_cookie(request):
+    if request.method=='GET':
+        resp=render(request,'demosession/write.html')
+        return resp
+    elif request.method=='POST':
+        name=request.POST.get('txtname','NA')
+        resp=render(request,'demosession/write.html')
+        resp.set_cookie(key="abc",value=name,max_age=60*60*24*365)
+        return resp
+
+def view_read_cookie(request):
+    if request.method=='GET':
+        resp=render(request,'demosession/read.html')
+        return resp
+    elif request.method=='POST':
+        name=request.COOKIES.get('abc','NA')
+        if name=='NA':
+            data={'name':'Cookies Not Found!!'}
+        else:
+            data={'name':name}
+        resp=render(request,'demosession/read.html',context=data)
+        return resp
+-------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write Cookie</title>
+</head>
+<body bgcolor="lime">
+    <form method="post">
+        {% csrf_token %}
+    <h1>**Write Cookie**</h1>
+    Enter your Name:
+    <input type="text" name="txtname"/>
+    <button>Write Data in Cookie</button>
+</form>
+</body>
+</html>
+----------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Cookie</title>
+</head>
+<body bgcolor="cyan">
+    <form method="post">
+        {% csrf_token %}
+    <h1>**Read Cookie**</h1>
+    Read your Name:
+    <input type="text" name="txtname" value="{{name}}"/>
+    <button>Read Data from Cookie</button>
+</form>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------
+from django.urls import path
+from .views import *
+#Base URL =>>>> http://127.0.0.1:8000/demostate/
+
+urlpatterns = [
+    
+    path('count/',view_visitor_count),
+    path('write/',view_write_cookie),
+    path('read/',view_read_cookie),
+]
+--------------------------------------------------------------------------------------------------
+Django Admin Customization:-
+--------------------------------------------------
+  [ 'django.contrib.admin' ]
+1. User.
+2. Group.    --------->>> Many to Many.
+1 User => many group
+1 Group => many user
+-------------------------------------------------------------------
+3. Permission.
+id grupid  pid
+1    1         32
+2    1         30
+-----------------------------------------
+>>> from django.contrib.auth.models import User,Group
+>>> u=User.objects.get(id=2) 
+>>> u.username
+'tarun'
+>>> u.password
+'pbkdf2_sha256$600000$1NW4HlPiVB34ohk6jmdjx1$govIs97VAlqDbjcahzLerAsvBvPkmaNciLxy0lIe1MY='
+>>> u.is_staff
+True
+>>> g1=Group.objects.get(id=1) 
+>>> g1.name    
+'StudentGroup'
+>>> g1.id
+1
+>>> u.username
+'tarun'
+>>> u.groups.add(g1) -> add tarun in student group.
+---------------------------------------------------------------------------------------------
+@check_authenticated
+def view_register(request):
+    if request.method=='GET':
+        frm_unbound=UserCreationForm()
+        d1={'forms':frm_unbound}
+        resp=render(request,'LMS/register.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        frm_bound=UserCreationForm(request.POST)
+        if frm_bound.is_valid():  # Server Side Validation
+            u=frm_bound.save()
+            u.is_staff=True
+            u.save()
+            g1=Group.objects.get(id=1)
+            u.groups.add(g1)
+            return HttpResponse("<h1>User Registered SuccessFully!!</h1>")
+        else:
+            d1={'forms':frm_bound}
+            resp=render(request,'LMS/register.html',context=d1)
+            return resp
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

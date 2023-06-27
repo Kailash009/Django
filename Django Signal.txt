@@ -1,0 +1,177 @@
+Django Signals:-
+----------------------------------------
+>> It works on Model.
+>> It is related with database.
+>> It is a special type of database object that automatically gets fired or executed when an event has occured.
+-----------------------------------
+Event in Database:-
+------------------------------------
+>> create,insert,update,delete,alter,drop,rename and many more.
+------------------------------------------------------------------------------------------------------
+For Example:-
+--------------------------
+Student  -------------------
+PersonalDetail ------------------------   One to One Relationship.  -> When we insert a record in student model just after in personaldetail model automatically added one entry.
+-----------------------------------------------------------------------------------------------------------------------
+1. Create a new app.
+2. Register your app.
+3. URL Mapping.
+--------------------------------------------------------------------------------------------
+from django.db import models
+
+# Create your models here.
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=18)
+    def __str__(self):
+        return self.name
+    
+class PersonalDetail(models.Model):
+    address=models.CharField(max_length=100)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    student=models.OneToOneField(Student,null=True,blank=True,on_delete=models.CASCADE)
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+stu=Student()
+stu.name='abhi'
+stu.age=19
+stu.mobileno='979790343'
+stu.save()  ->>> abhi has saved in Student Model.
+
+pd=PersonalDetail()
+pd.address='ashok nagar'
+pd.student=stu  ->> abhi -- ashok nagar
+pd.save()  -> I don't want to insert personal detail Manually.
+-----------------------------------------------------------------------------------------------------------------------------------------
+Signal Timing:-
+------------------------------
+pre_save() ,post_save()
+pre_delete(),post_delete()
+-----------------------------------------------------------------
+@receiver(sender=Student,signal=post_save)
+def after_save_student(sender,instance,created,**kwargs):
+    print('Post Save Signal Recieved')
+    print('Sender=',sender)
+    print('Instance=',instance)
+    print('Create=',created)
+
+sender  -> Model Class.  -> Student   ->> <class 'demosignal.models.Student'>
+instance  -> Object of Model Class.  -> stu  ->  ravi
+created  -> True/False  -> 
+True -> When you insert a new record.
+False -> When you update existing record.
+-----------------------------------------------------------------------------------------------------------------------
+>>> from demosignal.models import *
+>>> s=Student()
+>>> s.name='ravi' 
+>>> s.age=19
+>>> s.mobileno='97780334'
+>>> s.save()
+Post Save Signal Recieved
+Sender= <class 'demosignal.models.Student'>
+Instance= ravi
+Create= True
+>>> s.name='ravi singh' 
+>>> s.save()
+Post Save Signal Recieved
+Sender= <class 'demosignal.models.Student'>
+Instance= ravi singh
+Create= False
+-----------------------------------------------------------------------------------------------------------------
+from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
+# Create your models here.
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=18)
+    def __str__(self):
+        return self.name
+    
+class PersonalDetail(models.Model):
+    address=models.CharField(max_length=100)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    student=models.OneToOneField(Student,null=True,blank=True,on_delete=models.CASCADE)
+
+@receiver(sender=Student,signal=post_save)
+def after_save_student(sender,instance,created,**kwargs):
+    if created:
+        pd=PersonalDetail()
+        pd.student=instance
+        pd.save()
+    # print('Post Save Signal Recieved')
+    # print('Sender=',sender)
+    # print('Instance=',instance)
+    # print('Create=',created)
+-------------------------------------------------------------------------------------------------------------------------
+(InteractiveConsole)
+>>> from demosignal.models import *
+>>> s=Student()
+>>> s.name='ashish'
+>>> s.age=18
+>>> s.mobileno='89089834' 
+>>> s.save()
+>>> s1=Student()
+>>> s1.name='taran' 
+>>> s1.age=17
+>>> s1.mobileno='89893004' 
+>>> s1.save()
+>>> s2=Student()
+>>> s2.name='himanshu' 
+>>> s2.age=21
+>>> s2.mobileno='7787303' 
+>>> s2.save()
+----------------------------------------------------------------------------------------------------------------------------
+Project Development:-
+-------------------------------------------------
+Template Inheritance  ->> DTL (Django Template Language)
+----------------------------------------------------------------------------------------------
+Download any template -> https://www.free-css.com/free-css-templates/page283/medinova
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,171 @@
+Tag Helper:-
+------------------------
+asp-controller
+asp-action
+asp-for
+--------------------------------
+appsettings.json:-
+---------------------------------
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+ "DefaultConnection": "Data Source=MAHADEV\\MSSQLSERVERJOSHI;Initial Catalog=Batch12PMShiva;Integrated Security=True;TrustServerCertificate=True;Encrypt=True;" 
+ },
+  "AllowedHosts": "*"
+}
+------------------------------------------------------------------------------------------------------------------------
+Types of DI:-
+-------------------------
+1. what is dependency injection?
+Types of DI ->  
+1. Singleton.
+2. Scoped.
+3. Transient.
+--------------------------------------
+program.cs:-
+----------------------
+// Add services to the container.
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(50);  // To increase session time
+});
+builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddTransient<EmployeeDbOperation>();
+------------------------------------------------------------------------------------------------------------------
+Employee DB Operation:-
+------------------------------------------
+using Microsoft.Data.SqlClient;
+using Batch12PMMohit.Models;
+using Microsoft.Extensions.Configuration;
+
+namespace Batch12PMMohit.EmployeeOperation
+{
+    public class EmployeeDbOperation
+    {
+        private IConfiguration _configuration;
+        public EmployeeDbOperation(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        public bool addEmployee(Employee empObj)
+        {
+            string connString = _configuration.GetConnectionString("DefaultConnection");
+            SqlConnection con = new SqlConnection(connString);
+            string sql = "Insert into tbl_Employee(ename,eage,eaddress,salary)values(@name,@age,@address,@salary)";
+            SqlCommand cmd = new SqlCommand(sql,con);
+            cmd.Parameters.AddWithValue("@name", empObj.Name);
+            cmd.Parameters.AddWithValue("@age", empObj.Age);
+            cmd.Parameters.AddWithValue("@address", empObj.Address);
+            cmd.Parameters.AddWithValue("@salary", empObj.Salary);
+            con.Open();
+            int n=cmd.ExecuteNonQuery(); // No. of Rows affected. if success then return 1 else 0.
+            con.Close();
+            if (n!=0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+-------------------------------------------------------------------------
+Controller:-
+-----------------------
+using Batch12PMMohit.Models;
+using Microsoft.AspNetCore.Mvc;
+using Batch12PMMohit.EmployeeOperation;
+
+namespace Batch12PMMohit.Controllers
+{
+    public class HelperExController : Controller
+    {
+        private EmployeeDbOperation _empOperation;
+        public HelperExController(EmployeeDbOperation empOperation)
+        {
+            _empOperation = empOperation;
+        }
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(Employee empObj)
+        {
+           bool b=_empOperation.addEmployee(empObj);
+            if (b == true)
+            {
+                TempData["insert"] = "<script>alert('Employee Added SuccessFully!!');</script>";
+            }
+            else
+            {
+                TempData["insert"] = "<script>alert('Employee Failed!!');</script>";
+            }
+            return View();
+        }
+    }
+}
+----------------------------------------------------------
+index.cshtml:-
+-------------------------
+@model Employee
+
+
+@Html.Raw(TempData["insert"])
+
+<style>
+    .abc {
+        background-color: aqua;
+    }
+</style>
+<form asp-action="Index" asp-controller="HelperEx" method="post">
+
+<label asp-for="Name"></label>
+<input type="text" asp-for="Name" />
+
+<label asp-for="Age"></label>
+<input type="text" asp-for="Age" />
+
+<label asp-for="Address"></label>
+<input type="text" asp-for="Address" />
+
+<label asp-for="Salary"></label>
+<input type="text" asp-for="Salary" />
+
+<button type="submit">Add Employee</button>
+
+</form>
+-----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

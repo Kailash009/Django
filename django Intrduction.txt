@@ -1,0 +1,113 @@
+Python -- Done
+Django -- Introduction  - Done.
+--------------------------------------------------------
+Win+ R => cmd => Open Command Prompt
+----------------------------------------------------------------
+Command to check python version -
+python --version
+------------------------------------------------------------------
+Command to check pip version -
+-------------------------------------------------------
+pip --version
+-----------------------------
+Command to check Django Version -
+---------------------------------------------------------------------
+django-admin --version
+--------------------------------------------------------------------
+How to work with Django Projects -
+-------------------------------------------------------------------
+>> In your PC you can install different python version.
+>> But  you can work only one python version at a time.
+-------------------------------------------------------------------------------------------
+Note: When you install any package of your project,every package has installed in Global Python Folder(Globally).
+1. Project1 -> Every project has different requirement.
+	>> django
+	>> numpy
+	>> tensorflow
+	>> python
+-------------------------------------------------------------------------------------------
+2. Project2 ->
+	>> django
+	>> pandas
+	>> pillow
+	>> python  + numpy + tensorflow
+--------------------------------------------------------------------------------------------
+3. Project3 ->
+	>> django
+	>> djangorestframework
+	>> scipy
+	>> python  + pandas+pillow+numpy+tensorflow
+--------------------------------------------------------------------------------------------------
+4. Project 4  -> (BEST Approach)
+-----------------------------------------------------------
+	>> Create VE (Virtual Enviornment) -> It provide Islolation for your project.
+>> VE is nothing, it is just like a Folder.
+>> you can provide any folder name but recommendation is folder name as 'venv'.
+		venv  -> FolderName
+When you run virtualenv command then inside venv folder you will get two files -
+"Both python and pip file is getting from Global Python Folder".
+		a) Python
+		b) pip  --->> EMPTY. -> acc. to your req. install the packages for your project.
+------------------------------------------------------------------------------------------------------------------------------------------
+Note: When you create any django project don't install any package Globally for your project.
+>> After creating project in Django install every package Locally by Creating VE (Virtual Enviornment).
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Creating Virtual Enviornment:-
+--------------------------------------------------
+1. Create a Project Folder in any drive.
+2. Create Folder name as Batch5PMDjango -> MyAllProjects -> Project1
+3. Create Virtual Enviornment -	
+	a) First Install VE -> pip install virtualenv (Type this command in cmd.)
+	b) Check virtualenv version.  -> virtualenv --version
+	c) Command to create VE  -->>>     virtualenv anyFolderName  -> virtualenv venv
+4. Activate VE:- 
+	Command to activate VE ---->>>>   virtualenvFoldername\scripts\activate
+				        venv\scripts\activate
+5. Command to check your project has connected locally or Globally ----
+		pip freeze
+6. Command to deactivate VE:-      deactivate
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

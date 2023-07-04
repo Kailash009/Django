@@ -1,0 +1,96 @@
+OTP send to Gmail:-
+-------------------------------------
+1. Go to settings.py -
+-------------------------------------
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_HOST_USER="kailashjoshi786@gmail.com"
+EMAIL_HOST_PASSWORD="rkdmmnvkmxupjfjf"
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+-----------------------------------------
+2. Template File:-
+-------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <tr>
+                <td>Subject:</td>
+                <td><input type="text" name="txtsubject"> </td>
+            </tr>
+            <tr>
+                <td>Message:</td>
+                <td><textarea rows="4" cols="20" name="txtmessage"></textarea> </td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="email" name="txtemail"> </td>
+            </tr>
+            <tr>
+                <td><button type="submit" class="btn btn-success">Send Mail</button> </td>
+            </tr>
+        </table>
+
+    </form>
+</body>
+</html>
+------------------------------------------------------------------
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+def view_sendmail(request):
+    if request.method=='GET':
+        return render(request,'novapp/sendmail.html')
+    elif request.method=='POST':
+        subject = request.POST.get("txtsubject", "NA")
+        message = request.POST.get("txtmessage", "NA")
+        from_email = request.POST.get("txtemail", "NA")
+        if subject and message and from_email:
+            email_message=EmailMessage(subject, message, from_email, [from_email])
+            email_message.send()
+            return HttpResponse("Email Sent SuccessFully!!")
+        else:
+            return HttpResponse("Make sure all fields are entered and valid.")
+----------------------------------------------------------------------------------------------------------------------------
+Task:- E-Commerce
+--------------------------------------------------------
+Category - id cname
+Product  -> id , pname , price, quantity, pimage,cid (F.K)
+--------------------------------------------------------------------------------------------------
+cat -> Fruit 
+          Tshirt -> yellow
+---------------------
+1  apple ,180, 2,ap.jpg,1
+-----------------------------------------
+2. Add this model in admin panel.
+3. Show all product in Userpanel with AddtoCart Button.
+---------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

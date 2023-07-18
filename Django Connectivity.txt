@@ -1,0 +1,152 @@
+Database Connectivity in Django:-
+------------------------------------------------------------------
+Database -
+----------------------
+>> It is a collection of table.
+>> We have various kind of database Mangement tool which are as follows -
+MYSQL,SQL SERVER, ORACLE, POSTGRESQL, MONGODB , SQLITE, ETC .
+-----------------------------------------------------------------------------------------------------------------------------
+Here In django we have one default database => SQLite,postgresql,mysql.
+-------------------------------------------------------------------------------------------------------------
+Django Database Connectivity:-
+-----------------------------------------------------
+>> Django support ORM Model.
+>> ORM (Object Relational Mapping) is a software tool in which we don't write sql Query.
+>> ORM is an approach in which we can directly bind our model classes with our database.
+>> In ORM no need to write sql boaring queries.
+>> Here we write ORM Query.
+--------------------------------------------------------------------------------------------------------------------------------------------
+Create a table Employee having following fields => id,name,age,city,mobileno,salary.
+create table Employee
+(
+id int,
+name varchar(50),
+age int,
+city varchar(60),
+mobileno varchar(20),
+salary int
+) =>  This is the way we can create Table in MY SQL. (ORM doesn't support it.)
+--------------------------------------------------------------------------------------------------------------------------------------
+Model:-
+----------------
+>> It is s special classes that is used to create table and perform all database related operations.
+-----------------------------------------------------------------------------------------------------------------------------------------
+Note: In ORM we can create Model Classes for creating the table.
+--------------------------------------------------------------------------------------------------------------------
+Note:- In Django all model classes are derived from Field. Field is the parent class that is used to handle all model classes.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+class Employee(models.Model): // Model Class
+        #id=models.IntegerField()
+        name=models.CharField(max_length=50) 
+        age=models.IntegerField()
+        city=models.CharField(max_length=50)
+        mobileno=models.CharField(max_length=20)
+        salary=models.IntegerField() => In ORM we can create Model Class Like this Manner.
+---------------------------------------------------------------------------------------------------------------------------------------------
+class Employee:
+    def __init__(self):
+        self.name=""
+    def __str__(self):
+        return self.name
+
+e=Employee()
+e.name='Rahul'
+print(e)
+---------------------------------------------------------------------
+from django.db import models
+
+# Create your models here.
+
+class Employee(models.Model):
+    #id=models.IntegerField() ID automatically created, you don't need to provide id field here.
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    city=models.CharField(max_length=50)
+    mobileno=models.CharField(max_length=20)
+    salary=models.IntegerField()
+    def __str__(self):
+        return self.name   => MODEL CLASS
+-------------------------------------------------------------------------------------------------------------------
+Download and Install SQLite in your PC:-
+--------------------------------------------------------------------
+1. Link for Download => https://sqlitebrowser.org/dl/
+"DB Browser for SQLite - Standard installer for 64-bit Windows"
+------------------------------------------------------------------------------------------------------
+a) DbBrowser (SqlLite) -> work  only this file.
+b) DbBrowser (SqlCipher) -> Don't work in this file.
+-------------------------------------------------------------------------------------
+Mapping your Model classes with Database:-
+----------------------------------------------------------------------------
+>> To perform mapping your models with database we have the following two commands which is given below:-
+1. python manage.py makemigrations 
+>> This command see your model classes and generate ORM Queries.
+2. python manage.py migrate.
+>> This command see your ORM Queries and create tables in your database.
+>> After running this migrate command at first time it will create default 12 Tables.
+11 Table -> Default Table.
+   'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+-------------------------------------------------------------------------
+1 Table -> User Defined Table.
+'EMS',  
+---------------------------------------------------------------------------------
+class EMS_Employee => appName_ClassName
+--------------------------------------------------------------------------------
+How to Insert Record in Table:- Pending.
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

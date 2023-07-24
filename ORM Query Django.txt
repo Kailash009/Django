@@ -1,0 +1,146 @@
+ORM Vs MYSQL:-
+------------------------------------
+Note: -
+--------------------
+>> In Django we have Manager object to perform any operations.
+>> Manager Object we can manage all the query operation.
+ManagerObject:-
+------------------------------
+Employee.objects
+Customer.objects
+Department.objects
+Course.objects
+--------------------------------
+>> Inside manager object we have some predefined function i.e. used to perform database related operation.
+Manager.objects.
+a) create()
+b) get()
+c) filter()
+d) all()
+e) exclude().
+------------------------------------------------------------------------------------------------------
+a) create()
+>> It is used to insert record into table.
+--------------------------------------------------------------------------------
+e1=Employee.objects.create(name='shivam',age=34,city='Banglore',mobileno='8387844',salary=11223)  
+e2=Employee.objects.create(name='Rahul',age=26,city='Bihar',mobileno='90387844',salary=22343)  
+----------------------------------------------------------------------------------------------------------------------------------------------------
+b) get()
+---------------------
+>> It doesn't return duplicate value.
+>> it returns unique value from the table.
+>> Doesn't show multiple record.
+>> It is a case-sensitive.
+-----------------------------------------------------------------------
+MY SQL:-
+------------------
+waq to get the employee whose id is 8.
+select * from tablename where id=8
+ORM:-
+Employee.objects.get(id=8)
+-------------------------------------------------------
+c) filter():-
+--------------------
+>> It returns multiple record from the table.
+>> filter(comma separated keyword argument).
+>> It return type is QuerySet.
+--------------------------------------------------------------------------
+waq to get all the employee details whose salary is less than 30000.
+MYSQL -> select * from tablename where colname<30000.
+ORM ->  em=Employee.objects.filter(salary__lt=30000)
+-------------------------------------------------------------------------------------------
+ lt => Less than
+ lte => Less than or equal to 
+ gt => Greater than 
+ gte => Greater than or Equal to
+--------------------------------------------------------
+waq to get all the employee details whose salary is less than 40000 and greater than 10000.
+MYSQL -> select * from tablename where colname>10000 and colname<40000
+ORM -> e=Employee.objects.filter(salary__gt=10000,salary__lt=40000)
+------------------------------------------------------------------------------------------------------------------------------------
+waq to get all the employee whose name contains i.
+MYSQL -> select * from tablename where colname like '%i%'
+ORM ->  e2=Employee.objects.filter(name__contains='i') 
+contains -> it is not case sensitive.
+----------------------------------------------------------------------------------------------
+waq to get all the employee whose name start from r.
+MYSQL -> select * from tablename where colname like 'r%'
+ORM -> startswith()  -> it is not a case sensitive.
+ e=Employee.objects.filter(name__startswith='r')
+waq to get all the employee whose name ends from h.
+MYSQL -> select * from tablename where colname like '%h'
+ORM -> endswith() -> it is not a case sensitive.
+e3=Employee.objects.filter(name__endswith='h')
+------------------------------------------------------------------------------------------------
+d) all()
+waq to get all the employee records.
+MYSQL -> select * from tablename.
+ORM -> Employee.objects.all()
+-----------------------------------------------------------------------------------
+e) exclude(). -> It is case sensitive.
+--------------------------------------------------------------------
+waq to get all the employee whose name is not rahul.
+emp=Employee.objects.exclude(name='Rahul') 
+-----------------------------------------------------------------------------
+1. create()
+2. get()
+3. filter()
+4. all()
+5. exclude().
+--------------------------
+lt -> Less than
+lte -> less then or equal to
+gt -> greater then
+gte -> greater then or equal to.
+-----------------------------------------------
+contains()
+startswith()
+endswith()
+-------------------------------------------------
+Relationship Between Models:-
+-------------------------------------------------
+Types of Relationship:-
+-------------------------------------------
+1. One to One.
+Student - PersonalDetail
+--------------------------------------------------------------------------
+2. One to  Many or Many to One.
+Student - PaymentDetails
+1 S => Many Payment.
+----------------------------------------------------------------
+3. Many to Many.
+Course - Student
+1 C => Many Student
+1 S => Many Course
+------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,269 @@
+Model Form:-
+----------------------------
+>> It is used for creating dynamic html.
+----------------------------------------------------------------
+class Employee(models.Model):
+    #id=models.IntegerField() ID automatically created, you don't need to provide id field here.
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    city=models.CharField(max_length=50)
+    mobileno=models.CharField(max_length=20)
+    salary=models.IntegerField()
+    def __str__(self):
+        return self.name
+-----------------------------------------------------------
+Steps for Creating Model Form:-
+-----------------------------------------------------------
+1. Create one python file in your app name as forms.py
+2. Import Model in your forms.py
+3. from EMS.models import Employee
+from django import forms
+
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model=Employee
+        fields=['name','age']
+-----------------------------------------------------------------------------------------------------------
+def view_employeeForm(request):
+    if request.method=='GET':
+        frm_unbound=EmployeeForm()
+        d1={'forms':frm_unbound}
+        resp=render(request,'EMS/employeefrm.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        frm_bound=EmployeeForm(request.POST)
+        if frm_bound.is_valid():
+            frm_bound.save()
+            return HttpResponse("<h1>Employee Added SuccessFully!!</h1>")
+        else:
+            d1={'forms':frm_bound}
+            resp=render(request,'EMS/employeefrm.html',context=d1)
+            return resp
+----------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMPLOYEE FORMS</title>
+</head>
+<body bgcolor="pink">
+    <form method="post">
+        {% csrf_token %}
+    <h1 align="center">Employee Form</h1>
+    <table align="center" bgcolor="cyan" border="3">
+    {{forms}}
+    <tr>
+        <td> <button type="submit">Register</button> </td>
+    </tr>
+</table>
+</form>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------------------
+Relationship Between Models:-
+------------------------------------------------------------------------------------------------------------------
+>> To perform relationship in django it provide predefined classes by which we can make relationship among Models -
+a) OnetoOne.
+b) Foreign Key.
+c) ManytoMany
+----------------------------------------
+One to Many Relationship in Django:-
+-----------------------------------------------------------------
+Student -- PaymentDetails
+-----------------------------------------------------
+student=models.ForeignKey(Student,null=False,blank=False,on_delete=models.CASCADE)
+---------------------------------------
+on_delete=models.CASCADE  -> when you delete one student record then its all payment details automatically deleted from paymentdetails table.
+sid    sname
+1       ajay -> once i delete ajay record its all payment information automatically deleted.
+---------------------
+pid    amount     sid
+1       2000         1
+2       5000         1
+3       4000         1
+-------------------------------------
+class Student(models.Model):
+    name=models.CharField(max_length=100,null=False,blank=False)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=20)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_updated_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+----------------------------------------
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Cash','Cash'),('Debit Card','Debit Card'),('Credit Card','Credit Card'),('UPI','UPI')])
+    payment_date=models.DateTimeField(auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,default='',on_delete=models.CASCADE)
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Student
+-------------------
+stu=Student()
+stu.name='vishal'
+stu.age=12
+stu.mobileno='87778034'
+stu.save()
+---------------------------------------------------    
+p1=PaymentDetails()
+p1.amount=2000
+p1.payment_mode='Cash'
+p1.student=stu  -> vishal pay 2000.
+p1.save()
+------------------------------------------------------
+from django.db import models
+
+# Create your models here.
+class Student(models.Model):
+    name=models.CharField(max_length=100,null=False,blank=False)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=20)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    created_date=models.DateTimeField(auto_now_add=True)
+    last_updated_date=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+
+class Course(models.Model):
+    name=models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+
+class PaymentDetails(models.Model):
+    amount=models.IntegerField()
+    payment_mode=models.CharField(max_length=100,choices=[('Cash','Cash'),('Debit Card','Debit Card'),('Credit Card','Credit Card'),('UPI','UPI')])
+    payment_date=models.DateTimeField(auto_now=True)
+    student=models.ForeignKey(Student,null=False,blank=False,default='',on_delete=models.CASCADE)
+----------------------------------
+(InteractiveConsole)
+>>> from SMS.models import *
+>>> stu=Student(
+... 
+KeyboardInterrupt
+>>> stu=Student()
+>>> stu.name='vishal' 
+>>> stu.age=18
+>>> stu.mobileno='343434' 
+>>> stu.save()
+>>> p1=PaymentDetails()
+>>> p1.amount=2000
+>>> p1.payment_mode='Cash' 
+>>> p1.student=stu
+>>> p1.save()
+>>> s1=Student.objects.get(id=1
+...    
+KeyboardInterrupt
+>>> s1=Student.objects.get(id=1)
+>>> s1.name
+'rohit singh'
+>>> s1.age
+18
+>>> p2=PaymentDetails()
+>>> p2.amount=5000
+>>> p2.payment_mode='Debit Card' 
+>>> p2.student=s1
+>>> p2.save()
+>>> stu.name
+'vishal'
+>>> p1=PaymentDetails()
+>>> p1.amount=7000
+>>> p1.payment_mode='Credit Card' 
+>>> p1.student=stu
+>>> p1.save()
+>>> stu.name
+'vishal'
+>>> s1.name
+'rohit singh'
+>>> p1=PaymentDetails.objects.create(amount=3400,payment_mode='UPI',student=s1) 
+>>> p1
+<PaymentDetails: PaymentDetails object (4)>
+>>> s3=Student.objects.create(name='shivam',age=12,mobileno=343434) 
+>>> s4=Student.objects.create(name='kunal',age=23,mobilneo=9898983) 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "H:\Batch5PMDjango\MyAllProjects\CetpaLiveProject\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch5PMDjango\MyAllProjects\CetpaLiveProject\venv\Lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch5PMDjango\MyAllProjects\CetpaLiveProject\venv\Lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Student() got unexpected keyword arguments: 'mobilneo'
+>>> s4=Student.objects.create(name='kunal',age=23,mobileno=9898983) 
+>>> s5=Student.objects.create(name='Ravi',age=18,mobilneo=7898983)  
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "H:\Batch5PMDjango\MyAllProjects\CetpaLiveProject\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch5PMDjango\MyAllProjects\CetpaLiveProject\venv\Lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "H:\Batch5PMDjango\MyAllProjects\CetpaLiveProject\venv\Lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Student() got unexpected keyword arguments: 'mobilneo'
+>>> s5=Student.objects.create(name='Ravi',age=18,mobileno=7898983)  
+>>> s3.name
+'shivam'
+>>> s4.name
+'kunal'
+>>> s5.name
+'Ravi'
+>>> p1=PaymentDetails.objects.create(amount=6700,payment_mode='Debit Card',student=s3) 
+>>> p1=PaymentDetails.objects.create(amount=5700,payment_mode='Credit  Card',student=s4) 
+>>> p1=PaymentDetails.objects.create(amount4700,payment_mode='Cash',student=s5)          
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'amount4700' is not defined
+>>> p1=PaymentDetails.objects.create(amount=4700,payment_mode='Cash',student=s5) 
+>>> p1=PaymentDetails.objects.create(amount=1700,payment_mode='Cash',student=s3) 
+>>> p1=PaymentDetails.objects.create(amount=3210,payment_mode='Cash',student=s4) 
+>>> stu.name
+'vishal'
+>>> p1=PaymentDetails.objects.create(amount=1700,payment_mode='Cash',student=stu) 
+>>> p1=PaymentDetails.objects.create(amount=3120,payment_mode='Debit Card',student=stu)     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

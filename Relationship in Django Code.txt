@@ -1,0 +1,126 @@
+d1={1:'apple',2:'mango',3:'graphes'}
+
+d1['raj']='Harish' ->  d1={1:'apple',2:'mango',3:'graphes','raj','Harish'}
+---------------------------------------------------------------------------------------------------------
+from django.shortcuts import render
+from SMS.models import *
+
+# Create your views here.
+def view_getpaymentDetails(request):
+    if request.method=='GET':
+        resp=render(request,'SMS/payment.html')
+        return resp
+    elif request.method=='POST':
+        try:
+            sid=int(request.POST.get('txtid',0))
+            stu=Student.objects.get(id=sid)
+            allp=stu.paymentdetails_set.all()
+            d1={'payments':allp,'stu':stu,'sid':sid}
+        except Student.DoesNotExist:
+            d1={'msg':'Student ID Not Found!!'}
+        resp=render(request,'SMS/payment.html',context=d1)
+        return resp
+
+def view_course_wise_student_details(request):
+    allc=Course.objects.all()
+    d1={'courses':allc}
+    if request.method=='GET':
+        course=Course.objects.get(id=1)
+        d1['cid']=course.id
+        d1['cname']=course.name
+        allstu=course.students.all()
+        d1['students']=allstu
+        resp=render(request,'SMS/course.html',context=d1)
+        return resp
+    elif request.method=='POST':
+        cid=int(request.POST.get('course',0))
+        course=Course.objects.get(id=cid)
+        d1['cid']=course.id
+        d1['cname']=course.name
+        allstu=course.students.all()
+        d1['students']=allstu
+        resp=render(request,'SMS/course.html',context=d1)
+        return resp
+-----------------------------------------------
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1>***Course Wise Student Details***</h1>
+    Select Courses:
+    <select name="course">
+        {% for course in courses %}
+        <option value="{{course.id}}" {% if cid == course.id %}  selected {% endif %}>{{course.name}}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Show Student</button>
+    <br/> <br/>
+    <h1>We Have Following Student of {{cname}} Course </h1>
+    <table bgcolor="cyan" border="3">
+        <tr>
+            <th>S.NO.</th>
+            <th>NAME</th>
+        </tr>
+        {% for stu in students %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{stu.name}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2"> <h1 style="color:red;">NO STUDENT ENROLLED!!</h1> </td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+</body>
+</html>
+-----------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaymentDetails</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {% csrf_token %}
+    <h1>***Student Wise Payment Details**</h1>
+    Enter Student ID:
+    <input type="text" name="txtid"/>
+    <button>Get PaymentDetails</button>
+    <br/> <br/>
+    <table border="3" bgcolor="pink" align="center">
+        <tr>
+            <th>S.No.</th>
+            <th>NAME</th>
+            <th>AMOUNT</th>
+            <th>PAYMENT_MODE</th>
+            <th>PAYMENT_DATE</th>
+        </tr>
+        {% for pay in payments %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{stu.name}}</td>
+            <td>{{pay.amount}}</td>
+            <td>{{pay.payment_mode}}</td>
+            <td>{{pay.payment_date}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" align="center" style="color:red;font-size:20px;">{{msg}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </form>
+</body>
+</html>
+------------------------------------------------
+Model Form  -- Pending.
+------------------------------------------------

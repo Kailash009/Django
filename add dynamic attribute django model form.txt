@@ -1,0 +1,55 @@
+PaymentDetails Model Form:-
+--------------------------------
+How to add dynamic attributes in model Form:-
+--------------------------------------------------
+>> While working with model form all html will be generated dynamically if a user want to add some attribtues in your html control then they are not able to add due to dynamic html we are getting some of the attributes while using model form like - id,required,max_length,type,name but some attributes are missing like placeholder,class etc.
+>> Then the problem is we are not able to add this attributed in my html page. To solve this problem we need to add dynamic attributes in our page which is given below - 
+a) Go to forms.py:-
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields='__all__'  #['name','age']
+    
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for val in self.fields.values():
+            val.widget.attrs['class']='form-control'
+            val.widget.attrs['placeholder']='First Name *'
+-----------------------------------------------------------------
+from SMS.models import Student,PaymentDetails
+from django import forms
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields='__all__'  #['name','age']
+    
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'abc'})
+        self.fields['mobileno'].widget.attrs.update({'class': 'abc'})
+        for field in self.fields.values():
+            #field.widget.attrs['class']='form-control'
+            field.widget.attrs['placeholder']='Enter '+field.label+' *'
+
+
+class PaymentDetailsForm(forms.ModelForm):
+    class Meta:
+        model=PaymentDetails
+        fields='__all__'
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields='_all_'  #['name','age']
+    
+    def _init_(self,args,*kwargs):
+        super()._init_(args,*kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'abc'})
+        self.fields['mobileno'].widget.attrs.update({'class': 'abc'})
+        for field in self.fields.values():
+            #field.widget.attrs['class']='form-control'
+            field.widget.attrs['placeholder']='Enter '+field.label+' *'
+
+
+
+

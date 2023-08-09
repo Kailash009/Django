@@ -1,92 +1,93 @@
+Static and Media File in Django:-
+---------------------------------------
 Static Files in Django:-
+------------------------------
+>> It is collection of css,js,images and fonts.
+----------------------------------------------------
+Connectivity in External Css:-
 ------------------------------------------
->> It is a collection of css,js,images and fonts.
-------------------------------------------------------------------------------------------
-1. How to connect External css,js and images.
-----------------------------------------------------------------------------------------
-step-1:  Create a Folder name as static inside your app.
-step-2: Create another Folder name as your appName inside static Folder.
-step-3: Create another Folder name as css inside your AppName.  -> Inside it you can create N number of Css File.
-step-4: Create another Folder name as js inside your AppName.  -> Inside it you can create N number of js File.
-step-5: Create another Folder name as images inside your AppName.  -> Inside it you can create N number of images.
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Note:-> TO run static file django provide predefine setting.
->> Go to settings.py  
- STATIC_URL = 'static/'   -> When you run django server, django provide you one default base address i.e. (http://127.0.0.1:8000/).
->> http://127.0.0.1:8000/static/
-<link href="http://127.0.0.1:8000/static/SMS/css/tarun.css" rel="stylesheet" type="text/css" />
-Syntax to provide relative url :- {% static 'path' %}
-
-Invalid block tag on line 8: 'static'. Did you forget to register or load this tag? -> To solve this error write above in template(htmlfile) ->
-{% load static %}
-----------------------------------------------------------------------------------------------------------
-How to collect all static files in one folder in your Root Project:-
------------------------------------------------------------------------------------------------------
-python manage.py collectstatic.
-static -> SMS -> images,js,css
-              EMS -> images,js,css	
-              admin -> images,js,css,fonts.
-----------------------------------------------------------------------------------------
-Note:-> if you run this command python manage.py collectstatic then you will get the following error - 
-" raise ImproperlyConfigured(
-django.core.exceptions.ImproperlyConfigured: You're using the staticfiles app without having set the STATIC_ROOT setting to a filesystem path."  
---------------------
-To solve this error you can go to settings. py and set static root where you want to collect all static files.
-Before going to run this command ("python manage.py collectstatic") add these following Lines in your settings.py which is given below:-
+Steps of External Css Connectivity:-
+-----------------------------------------
+1. Create a Folder name as static inside your app.
+2. Create another folder name as your AppName inside static folder.
+3. Create another folder name as css inside your AppName. -> Now You can Create N number css file.
+4. Create another folder name as js inside your AppName. -> Now You can Create N number js file.
+5. Create another folder name as images inside your AppName. -> Now You can Create N number images.
+-------------------------------------------------------------------------------------------------------
+>> To connect static file in django we have predefined path for static files which is in settings.py like as -
+STATIC_URL = 'static/' ->> all static files will be defined in static_url.
+--------------------------------
+http://127.0.0.1:8000/static/SMS/css/pankaj.css
+------------------------------------------------------------
+<link href="http://127.0.0.1:8000/static/SMS/css/pankaj.css" rel="stylesheet"/>
+Note: if you write this url all your pages it is very tedious Task. To overcome this we write this url into
+special tags which is ---  
+{% static 'path' %}
+or 
+{% static 'SMS/css/pankaj.css' %}
+-----------------------------------------
+Error :- TemplateSyntaxError at /smsapp/staticex/
+Invalid block tag on line 7: 'static'. Did you forget to register or load this tag?
+>> To overcome this problem we write {% load static %} in the above of your html pages.
+{% load static %} -> This tag indicates that now you are going to use css (Static Files) in your template.
+-----------------------------------------------------------------------------------------------------------
+How to render Images in your Template:-
+-------------------------------------------
+<img src="{% static 'SMS/images/goodbye.gif'%}" alt="img3"/>
+-----------------------------------------------------------------
+How to add External JS:-
+----------------------------------
+Static File Concept:-
+------------------------
+>> In your project we have large no. of apps.
+>> Every app contain different layout/design.
+>> To manage each app css,images,fonts,js diffently we use this static file concept.
+>> When you live your project then how can your upload all diffrent app css,images,fonts,and js into server.
+>> Before going to run this command "python manage.py collectstatic" you need to defined STATIC_ROOT.
+Go to settings.py and add to defined static root -
 STATIC_URL = 'static/'  #http://127.0.0.1:8000/static/
-STATIC_ROOT = BASE_DIR / 'static/'   ->>> Must write this line to set your STATIC_ROOT.
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def view_staticfiledemo(request):
-    resp=render(request,'SMS/staticfile.html')
-    return resp
----------------------------------------------------------------
+STATIC_ROOT = BASE_DIR / 'static' #http://127.0.0.1:8000/static/
+Now Run Command -> python manage.py collectstatic.
+-------------------------------------------------------------------------------
 {% load static %}
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATIC FILE</title>
-    <!-- <link href="http://127.0.0.1:8000/static/SMS/css/tarun.css" rel="stylesheet" type="text/css" /> -->
-    <link href="{% static 'SMS/css/tarun.css' %}" rel="stylesheet" type="text/css" />
+    <title>STATIC FILES IN DJANGO</title>
+    <!-- <link href="http://127.0.0.1:8000/static/SMS/css/pankaj.css" rel="stylesheet"/> -->
+    <link href="{% static 'SMS/css/pankaj.css' %}" rel="stylesheet"/>
 </head>
 <body>
-    <marquee scrollamount="50" behavior="alternate" onmouseover="stop();" onmouseout="start();">
-    <h1>Example of Static Files --- CSS, Images  and Java Script  </h1>
-
-<!-- <img src="http://127.0.0.1:8000/static/SMS/images/hanu.jpg" alt="PIC"/> -->
-
-<img src="{% static 'SMS/images/hanu.jpg' %}" alt="PIC" width="300px" height="300px"/>
-<img src="{% static 'SMS/images/krish.jpg' %}" alt="PIC" width="300px" height="300px"/>
-<img src="{% static 'SMS/images/shiv.jpg' %}" alt="PIC" width="300px" height="300px"/>
-</marquee>
-<button onclick="showMsg()">SHOW</button>
-<!-- <script src="http://127.0.0.1:8000/static/SMS/js/shiva.js"></script> -->
-<script src="{% static 'SMS/js/shiva.js' %}"></script>
+    <h1>EXAMPLE OF STATIC FILES IN DJANGO - CSS,JS,IMAGES AND FONTS</h1>
+    <!-- <img src="http://127.0.0.1:8000/static/SMS/images/a.png" alt="PIC"/> -->
+    <img src="{% static 'SMS/images/a.png'%}" alt="img1"/>
+    <img src="{% static 'SMS/images/d.png'%}" alt="img2"/>
+    <img src="{% static 'SMS/images/goodbye.gif'%}" alt="img3"/>
+    <button onclick="welcome()">Click Here...</button>
+    <script src="http://127.0.0.1:8000/static/SMS/js/ritesh.js"></script>
 </body>
 </html>
-----------------------------
-css
-body
-{
-    background-color: blueviolet;
-}
-h1
-{
-    text-align: center;
-    background-color: cyan;
-    color:darkred;
-}
-js
-function showMsg()
-{
-alert('Welcome to JS');
-}
-STATIC_URL = 'static/'  #http://127.0.0.1:8000/static/
-STATIC_ROOT = BASE_DIR / 'static/'
--------------------------------------------------------------------------
-Settings of Media File:- PENDING.
----------------------------------------------------------------------
+----------------------------------------------
+def view_static(request):
+    resp=render(request,'SMS/staticex.html')
+    return resp
+--------------------------------------------------------------------------------
+Media File in Django:- Pending
+-------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

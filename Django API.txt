@@ -1,0 +1,94 @@
+Django have predefined models by which we can perform permission-
+------------------
+1. User.
+2. Group.
+Many to Many relationship - User - Group
+-------------------------------------------
+3. Permission.
+-------------------------------
+elif request.method=='POST':
+        frm_bound=UserCreationForm(request.POST)
+        if frm_bound.is_valid():
+            u=frm_bound.save()
+            u.is_staff=True
+            u.save()
+            g1=Group.objects.get(id=1)
+            u.groups.add(g1)
+            return HttpResponse("<h1>User Created SuccessFully!!</h1>")
+        else:
+            d1={'forms':frm_bound}    
+            resp=render(request,'LMS/register.html',context=d1)
+            return resp
+-----------------------------------------------------------------------
+API:- [Normal Function]
+------------
+>> It stands for Application programming Interface.
+>> Api is not a technology, it is a concept to perform communication between two or more different devices.
+---------------------------------------------------------
+REST 
+--------
+>> It stands for Representational State Transfer.
+>> it is communication protocol under which our api will run.
+------------------------------------------------------------------
+API:-
+----------
+1. How to create API.
+2. How to test your API.
+NOTE: To test an API we use POSTMAN.
+3. How to Consume/use API.
+----------------------------------
+1. create new App.
+2. In api Django will provide automatically an app by which you can create RestAPI.
+	'rest_framework' -> Register is app also.
+ModuleNotFoundError: No module named 'rest_framework' -> Install this for this given command -
+pip install djangorestframework
+----------------------------------------------------------
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+# Create your views here.
+
+@api_view(http_method_names=['GET','POST'])
+def view_first_api(request):
+    resp=Response(data="Welcome to My First API")
+    return resp
+-------------------------
+from django.urls import path
+from .views import *
+#BASE URL => http://127.0.0.1:8000/apidemo/
+
+urlpatterns = [
+    path('first/',view_first_api),
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

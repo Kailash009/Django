@@ -1,0 +1,106 @@
+How to consume your API:-
+---------------------------------
+Note: To Consume an api you have to install one package i.e. requests.
+------------------------------
+pip install requests
+-----------------------------
+import requests
+resp=requests.get(url='http://127.0.0.1:8000/apidemo/first/')
+resp
+<Response [200]>
+print(resp.json())
+Welcome to My First API
+print(resp.text)
+"Welcome to My First API"
+print(resp.content)
+b'"Welcome to My First API"'
+--------------------------------------------
+Note:-
+-----------
+>> Response Constructor return JSON.
+>> In reponse Constructor if you pass any value it directly converted into JSON Format.
+>> In reponse Constructor if you pass any Primitive data type Like(int,double,list,tuple,dictionary)  then all these types are directly converted into JSON.But if you pass object of Model Class in Response() constructor then it can't directly converted it into JSON, you will get the following Error:-
+     "Object of type Student is not JSON serializable".
+-------------------------------------------------------------
+>> To Solve this error we create Serializers.
+----------------------------------------------------------
+write an api that get student record on the basis of ID.
+----------------------------------------------------------
+from SMS.models import Student
+from rest_framework import serializers
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Student
+        fields=['name','age','mobileno']
+----------------------------------------------------------------
+import requests
+while(True):
+    try:
+        sid=int(input('Enter Student ID='))
+        resp=requests.get(url='http://127.0.0.1:8000/apidemo/stud/{0}'.format(sid))
+        stu_dict=resp.json().items()
+        for e in stu_dict:
+            print(e[0],'=',e[1])
+    except:
+        print('Student ID Not FOUND!!!')
+
+----------------------------------------------------------------
+How to call your api using JS:-
+--------------------------------------
+1. fetch.
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calling API using JS</title>
+</head>
+<script>
+function callapi()
+{
+let sid=document.getElementById("txtstuid").value;
+alert(sid);
+getstu(sid);
+}
+function getstu(sid)
+{
+ fetch('http://127.0.0.1:8000/apidemo/stud/'+sid+'/')
+.then(res => res.json())
+.then(console.log);
+}
+</script>
+<body>
+    <h1>Calling API USING JS</h1>
+    Enter Student ID:
+    <input type="number" id="txtstuid"/>
+    <button onclick="callapi();">Get Student</button>
+</body>
+</html>
+---------------
+def view_callingapiusingjs(request):
+    resp=render(request,'SMS/callingapi.html')
+    return resp
+----------------------------------------------
+2. XMLHttpRequest. --->> PENDING.
+---------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

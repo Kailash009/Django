@@ -1,0 +1,200 @@
+Cookies:-
+-------------
+>> It works at client machine.
+>> Cookies is used to store small amount of data at client machine.
+>> it hold only string data.
+>> The default time of cookies is 30 Min.
+---------------------------------------------
+Types of Cookies-
+---------------------
+There are two types of cookies-
+1. Non-Persistent.
+>> It store cookie information at client machine on temporarily basis.
+>> As soon as when your close your browser window or turn off your computer your cookies information automatically gets deleted from the web browser.
+2. Persistent.
+>> It store cookie information at client machine on permanent basis.
+>> As soon as when your close your browser window or turn off your computer your cookies information doesn't gets deleted from the web browser.
+>> In Persistent you have to set the time.
+----------------------------------------------
+In Cookies we need to learn only two things:-
+1. How to write Cookie.
+2. How to read Cookie.
+-------------------------------
+from django.shortcuts import render
+
+# Create your views here.
+
+def view_visitor_count(request):
+    count=request.session.get('count','NA')
+    if count=='NA':
+        count=1
+    else:
+        count=count+1
+    request.session['count']=count
+    d1={'count':count}
+    resp=render(request,'demosession/visitor.html',context=d1)
+    return resp
+
+def view_writeCookie(request):
+    if request.method=='GET':
+        resp=render(request,'demosession/writecookie.html')
+        return resp
+    elif request.method=='POST':
+        name=request.POST.get('txtname','NA')
+        resp=render(request,'demosession/writecookie.html')
+        resp.set_cookie(key='abc',value=name,max_age=60*60*365*24)  # Persistent Cookie
+        return resp
+
+def view_readCookie(request):
+    if request.method=='GET':
+        resp=render(request,'demosession/readcookie.html')
+        return resp
+    elif request.method=='POST':
+        name=request.COOKIES.get('abc','NA')
+        if name=='NA':
+            d1={"data":"Cookies Not Found!!"}
+        else:
+            d1={"data":name}
+        resp=render(request,'demosession/readcookie.html',context=d1)
+        return resp
+---------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WRITE COOKIE</title>
+</head>
+<body bgcolor="yellow">
+    <h1>**WRITE COOKIE**</h1>
+    <form method="post">
+        {% csrf_token %}
+    <label>Enter your Name: </label>
+    <input type="text" name="txtname"/>
+    <button type="submit">Write Cookie</button>
+    </form>
+</body>
+</html>
+-------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>READ COOKIE</title>
+</head>
+<body bgcolor="yellow">
+    <h1>**READ COOKIE**</h1>
+    <form method="post">
+        {% csrf_token %}
+    <label>Read your Name: </label>
+    <input type="text" name="txtname" value="{{data}}"/>
+    <button type="submit">Read Cookie</button>
+    </form>
+</body>
+</html>
+--------------------------------------
+OTP send to Gmail in Django:-
+-------------------------------------
+1. Go to settings.py -
+-------------------------------------
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_HOST_USER="kailashjoshi786@gmail.com"
+EMAIL_HOST_PASSWORD="rkdmmnvkmxupjfjf"
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+-----------------------------------------
+2. Template File:-
+-------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <tr>
+                <td>Subject:</td>
+                <td><input type="text" name="txtsubject"> </td>
+            </tr>
+            <tr>
+                <td>Message:</td>
+                <td><textarea rows="4" cols="20" name="txtmessage"></textarea> </td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="email" name="txtemail"> </td>
+            </tr>
+            <tr>
+                <td><button type="submit" class="btn btn-success">Send Mail</button> </td>
+            </tr>
+        </table>
+
+    </form>
+</body>
+</html>
+------------------------------------------------------------------
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+def view_sendmail(request):
+    if request.method=='GET':
+        return render(request,'novapp/sendmail.html')
+    elif request.method=='POST':
+        subject = request.POST.get("txtsubject", "NA")
+        message = request.POST.get("txtmessage", "NA")
+        from_email = request.POST.get("txtemail", "NA")
+        if subject and message and from_email:
+            email_message=EmailMessage(subject, message, from_email, [from_email])
+            email_message.send()
+            return HttpResponse("Email Sent SuccessFully!!")
+        else:
+            return HttpResponse("Make sure all fields are entered and valid.")
+-------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

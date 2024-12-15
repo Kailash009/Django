@@ -1,0 +1,150 @@
+How to consume an API:-
+-----------------------------
+>> To Consume an api we use requests.
+pip install requests.
+-----------------------------
+import requests
+resp=requests.get(url='http://127.0.0.1:8000/api/first/')
+resp
+<Response [200]>
+print(resp.json())
+WELCOME TO MY FIRST REST API..
+print(resp.content)
+b'"WELCOME TO MY FIRST REST API.."'
+print(resp.text)
+"WELCOME TO MY FIRST REST API.."
+====================================================================
+Note:- Response() constructor whatever we pass it internally converted into json format.
+-----------------------------------
+Note:-
+In Response() When we pass Primitive data type like(int,string,float,tuple,dict,list etc) are directly converted into JSON format.
+But Non-Primitive data type like complex (2+3j) and Model Type doesn't directly converted into JSON Format.
+When you pass any model class inside Response then you will get this below error:-
+TypeError at /api/stu/2/
+Object of type Student is not JSON serializable =>> It doesn't directly converted into JSON Format.
+Note: To solve this error we need to create Serializer.
+Steps to create Serialzer:-
+-------------------------------------
+from SMS.models import Student
+from rest_framework import serializers
+
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Student
+        fields=['name','age','mobileno']
+        
+----------------------------------------------------------------------------------------------------
+wap to get the student data by id.
+import requests
+while(True):
+    try:
+        sid=int(input('Enter Student ID='))
+        resp=requests.get(url='http://127.0.0.1:8000/api/stu/{0}/'.format(sid))
+        stu_dict=resp.json().items()
+        for e in stu_dict:
+            print(e[0],'=',e[1])
+    except:
+        print('Student ID Does not Exist')
+---------------------------------------------------------------
+JS - AJAX:- Consume Api using AJAX in Django
+---------------------------------------------------------
+AJAX is a developer's dream, because you can:
+Read data from a web server - after the page has loaded
+Update a web page without reloading the page
+Send data to a web server - in the background
+The keystone of AJAX is the XMLHttpRequest object.
+1. Create an XMLHttpRequest object
+2. Define a callback function
+3. Open the XMLHttpRequest object
+4. Send a Request to a server
+----------------------------------------------------------
+open(method, url, async)	Specifies the type of request
+method: the type of request: GET or POST
+url: the server (file) location
+async: true (asynchronous) or false (synchronous)
+---------------------------------------------------------------
+readyState	Holds the status of the XMLHttpRequest.
+0: request not initialized
+1: server connection established
+2: request received
+3: processing request
+4: request finished and response is ready
+status	200: "OK"
+403: "Forbidden"
+404: "Page not found"
+===================================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS - Consume API AJAX </title>
+<script>
+function call_student_api()
+{
+    var sid=document.getElementById('txtSid').value;
+    var url="http://127.0.0.1:8000/api/stu/"+sid+"/";
+    getAPI(url);
+}
+function getAPI(url) {
+  const xhttpRequest = new XMLHttpRequest();
+  xhttpRequest.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    alert(this.responseText);
+    }
+  };
+  xhttpRequest.open("GET",url,true);
+  xhttpRequest.send();
+}
+</script>
+</head>
+<body>
+    <h1>JS - Consume API AJAX</h1>
+    Enter Student ID:
+    <input type="text" id="txtSid"/>
+    <button onclick="call_student_api()">Get Student</button>
+</body>
+</html>
+-------------------------
+import requests
+while(True):
+    try:
+        sid=int(input('Enter Student ID='))
+        resp=requests.get(url='http://127.0.0.1:8000/api/stu/{0}/'.format(sid))
+        stu_dict=resp.json().items()
+        for e in stu_dict:
+            print(e[0],'=',e[1])
+    except:
+        print('Student ID Does not Exist')
+
+------------
+def view_consume_api_student(request):
+    return render(request,'SMS/stuconsume.html')
+-----------------
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from SMS.models import Student
+from .serializer import StudentSerializer
+# Create your views here.
+
+#@api_view(['GET','POST'])
+@api_view(http_method_names=['GET','POST'])
+def view_first_Api(request):
+    msg="WELCOME TO MY FIRST REST API.."
+    msg=123
+    msg=34.45
+    msg={1:'apple','abc':34.45}
+    msg=[34,56,78,"uhjk"]
+    msg=True
+    msg=2+3j
+    resp=Response(data=msg)
+    return resp
+
+@api_view(['GET'])
+def view_student_api(request,sid):
+    stu=Student.objects.get(id=sid)
+    stu_serialize=StudentSerializer(stu)
+    resp=Response(data=stu_serialize.data)
+    return resp
+------------------------------------------

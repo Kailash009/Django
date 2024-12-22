@@ -1,0 +1,263 @@
+Django Signal:-
+-----------------------
+>> Signal work at Database Layer [Model].
+>> Other programming language signal is known as Trigger.
+>> It is very powerful concept in Django.
+------------------------------------------------
+Student => When we insert record in student model just after in personal detail model automatically insert record.
+-------------------------------------------------------------------
+Personal Detail =>>
+from django.db import models
+
+# Create your models here.
+
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=20)
+    def __str__(self):
+        return self.name
+    
+class PersonalDetail(models.Model):
+    address=models.CharField(max_length=50,null=True,blank=True)
+    dob=models.DateTimeField(null=True,blank=True)
+    pic=models.ImageField()
+    student=models.OneToOneField(Student,null=True,blank=True,on_delete=models.CASCADE)
+
+Traditional Approach:-
+--------------------------
+stu=Student()
+stu.name='ravi'
+stu.age=23
+stu.mobileno='89789791'
+stu.save()
+p1=PersonalDetail()  =>> I don't want to write Manually this line again and again.
+p1.address='xyz'
+p1.student=stu
+p1.save()
+--------------------------------
+pre_save() , post_save(),pre_delete(),post_delete()
+---------------------------------------------------------------
+@receiver(sender=Student,signal=post_save)  # Signals
+def post_save_student_record(sender,instance,created,**kwargs):
+    print('Post Save Signal Received')
+    print('Sender=',sender)
+    print('Instance=',instance)
+    print('Created=',created)
+==========================================
+Sender =>> Model Class.  [<class 'demosignal.models.Student'>]
+Instance => Object of Model Class  [anuj]
+Created => True/False  
+True => When we insert new Record.
+False => When we update Existing Record.
+---------------------------------------------------
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+# Create your models here.
+
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=20)
+    def __str__(self):
+        return self.name
+    
+class PersonalDetail(models.Model):
+    address=models.CharField(max_length=50,null=True,blank=True)
+    dob=models.DateTimeField(null=True,blank=True)
+    pic=models.ImageField()
+    student=models.OneToOneField(Student,null=True,blank=True,on_delete=models.CASCADE)
+
+@receiver(sender=Student,signal=post_save)  # Signals
+def post_save_student_record(sender,instance,created,**kwargs):
+    if created:
+        pd=PersonalDetail()
+        pd.student=instance
+        pd.save()
+    # print('Post Save Signal Received')
+    # print('Sender=',sender)
+    # print('Instance=',instance)
+    # print('Created=',created)
+------------------------------------------------------------------------------
+Rest API Authentication and Authorization:-
+---------------------------------------------------
+There are several ways to Authenticate your API:-
+1. Basic Authentication.
+2. Token Authentication.
+3. Session Authentication.
+4. Remote User Authentication.
+5. Custom Authentication.
+------------------------------------------------
+https://www.django-rest-framework.org/api-guide/authentication/
+----------------------------------------------------------------------------
+2. Django Token Authentication in API:-
+----------------------------------------------
+1. Register API.
+2. Login API.
+3. Secure Page API. =>> It access when you Provide Token.
+=====================================================================
+python manage.py startapp demotokenauth 
+Register Two app's:-
+'demotokenauth',
+'rest_framework.authtoken'
+=================================================
+In Settings.py :-
+---------------------
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+-----------------------------------------------------
+User =>> Serializer.
+PersonalDetail
+Token
+==========
+key
+created
+user=Models.OnetoOneField(User)
+-----------------------------------------------
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
+# Create your models here.
+class PersonalDetail(models.Model):
+    address=models.CharField(max_length=50,null=True,blank=True)
+    dob=models.DateTimeField(null=True,blank=True)
+    pic=models.ImageField()
+    user=models.OneToOneField(User,null=True,blank=True,on_delete=models.CASCADE)
+
+@receiver(sender=User,signal=post_save)
+def after_Save_User(sender,instance,created,**kwargs):
+    if created:
+        instance.is_superuser=True
+        instance.is_staff=True
+        instance.save()
+        pd=PersonalDetail()
+        pd.user=instance
+        pd.save()
+        t=Token()
+        t.user=instance
+        t.save()
+====================================================
+from django.urls import path
+from .views import *
+from rest_framework.authtoken.views import obtain_auth_token
+
+#Base URL =>>  http://127.0.0.1:8000/demotoken/
+
+urlpatterns=[
+    path('register/',view_api_registration),
+    path('login/',obtain_auth_token),
+    path('secure/',view_secure_page),
+]
+================
+from django.shortcuts import render
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.response import Response
+from .serializer import UserSerializer
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
+
+# Create your views here.
+
+@api_view(['POST'])
+def view_api_registration(request):
+    data={}
+    if request.method=='POST':
+        user_serializer=UserSerializer(request.data)
+        if user_serializer.is_valid():
+            u=user_serializer.save()
+            data['response']='User Created SuccessFully!!'
+            data['username']=u.username
+            t=Token.objects.get(user=u)
+            data['token']=t.key
+        else:
+            data=data.error
+        return Response(data=data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def view_secure_page(request):
+    return Response(data="This is my Secure Page only Access when you Provide Token!!!")
+=============================
+from django.contrib.auth.models import User
+from rest_framework import serializers
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        fields=['username','password']
+        
+===============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
